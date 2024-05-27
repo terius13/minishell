@@ -6,7 +6,7 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/16 17:33:51 by ting              #+#    #+#              #
-#    Updated: 2024/05/27 19:15:11 by ting             ###   ########.fr        #
+#    Updated: 2024/05/27 21:52:25 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,11 +47,13 @@ HEADER = libft.h
 
 OBJ = $(SRC:.c=.o)
 
+%.o: %.c $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		$(CC) $(FLAGS) -c $(SRC)
-		@ar rc $(NAME) $(OBJ)
+		ar rcs $(NAME) $(OBJ)
 
 clean:
 	@rm -rf $(OBJ)
