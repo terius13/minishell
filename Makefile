@@ -6,13 +6,13 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/05/27 16:43:16 by ting             ###   ########.fr        #
+#    Updated: 2024/05/27 17:06:53 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS = -Wall -Wextra -Werror -g -lreadline
+FLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -rf
 
@@ -26,7 +26,7 @@ OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
 $(NAME): $(OBJS)
 			@$(MAKE) -C libft
-			@cc $(FLAGS) $(LIBFT) $(OBJS) -o $(NAME)
+			@cc $(FLAGS) $(LIBFT) $(OBJS) -lreadline -o $(NAME)
 all: $(NAME)
 
 clean: 
