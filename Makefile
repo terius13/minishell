@@ -6,7 +6,7 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/05/25 21:51:05 by ting             ###   ########.fr        #
+#    Updated: 2024/05/27 16:43:16 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,17 +25,17 @@ SRCS = minishell.c
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
 $(NAME): $(OBJS)
-			$(MAKE) -C libft
-			cc $(FLAGS) $(LIBFT) $(OBJS) -o $(NAME)
+			@$(MAKE) -C libft
+			@cc $(FLAGS) $(LIBFT) $(OBJS) -o $(NAME)
 all: $(NAME)
 
 clean: 
-			$(MAKE) clean -C libft
-			$(RM) $(OBJS)	
+			@$(MAKE) clean -C libft
+			@$(RM) $(OBJS)	
 
 fclean: clean
-			$(MAKE) fclean -C libft
-			$(RM) $(NAME)
+			@$(MAKE) fclean -C libft
+			@$(RM) $(NAME)
 
 re: fclean all
 

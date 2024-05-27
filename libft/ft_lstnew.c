@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ting <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 19:34:14 by ting              #+#    #+#             */
-/*   Updated: 2023/09/25 19:32:00 by ting             ###   ########.fr       */
+/*   Created: 2023/09/21 21:32:23 by ting              #+#    #+#             */
+/*   Updated: 2024/05/27 16:17:45 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+t_list	*ft_lstnew(void *content)
 {
-	int		count;
-	t_list	*current;
+	t_list	*new;
 
-	count = 0;
-	current = lst;
-	while (current)
-	{
-		count++;
-		current = (*current).next;
-	}
-	return (count);
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	(*new).content = content;
+	(*new).next = NULL;
+	return (new);
 }
+/*
+int	main(void)
+{
+	t_list	*sample = ft_lstnew("Hello World");
+
+	if (sample)
+	{
+		printf("%s\n", (char *)sample->content);
+		free(sample);
+	}
+	else
+		printf("Error occured\n");
+	return (1);
+}
+*/

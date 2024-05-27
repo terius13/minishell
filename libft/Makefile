@@ -6,7 +6,7 @@
 #    By: ting <marvin@42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/16 17:33:51 by ting              #+#    #+#              #
-#    Updated: 2024/03/08 14:28:17 by ting             ###   ########.fr        #
+#    Updated: 2024/05/27 16:41:25 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,14 +33,11 @@ SRC = ft_atoi.c ft_isalpha.c \
       ft_prthex_printf.c ft_prtnbr_printf.c \
       ft_prtstr_printf.c ft_prtunnbr_printf.c \
       ft_strcmp.c ft_atol.c \
-      ft_nb_abs.c
-    
-
-BNS_SRC = ft_lstnew_bonus.c ft_lstadd_front_bonus.c \
-	  ft_lstsize_bonus.c ft_lstlast_bonus.c \
-	  ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
-	  ft_lstclear_bonus.c ft_lstiter_bonus.c \
-	  ft_lstmap_bonus.c
+      ft_nb_abs.c ft_lstnew.c \
+      ft_lstadd_front.c ft_lstsize.c \
+      ft_lstlast.c ft_lstadd_back.c \
+      ft_lstdelone.c ft_lstclear.c \
+      ft_lstiter.c ft_lstmap.c \
 
 CC = clang
 
@@ -50,20 +47,13 @@ HEADER = libft.h
 
 OBJ = $(SRC:.c=.o)
 
-BNS_OBJ = $(BNS_SRC:.c=.o)
-
 all: $(NAME)
 
-$(NAME):
-	@$(CC) $(FLAGS) -c $(SRC)
-	@ar rc $(NAME) $(OBJ)
-
-bonus:  @$(NAME)
-	@$(CC) $(FLAGS) -c $(BNS_SRC)
-	@ar rc $(NAME) $(BNS_OBJ)
+$(NAME): $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
 
 clean:
-	@rm -rf $(OBJ) $(BNS_OBJ)
+	@rm -rf $(OBJ)
 
 fclean: clean
 	@rm -f $(NAME)

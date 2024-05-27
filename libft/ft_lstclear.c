@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ting <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/21 21:32:23 by ting              #+#    #+#             */
-/*   Updated: 2023/09/25 19:44:10 by ting             ###   ########.fr       */
+/*   Created: 2023/09/24 16:23:51 by ting              #+#    #+#             */
+/*   Updated: 2024/05/27 16:23:05 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstnew(void *content)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_list	*new;
+	t_list	*head;
 
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	(*new).content = content;
-	(*new).next = NULL;
-	return (new);
-}
-/*
-int	main(void)
-{
-	t_list	*sample = ft_lstnew("Hello World");
-
-	if (sample)
+	while (*lst)
 	{
-		printf("%s\n", (char *)sample->content);
-		free(sample);
+		head = (**lst).next;
+		del((**lst).content);
+		free(*lst);
+		*lst = head;
 	}
-	else
-		printf("Error occured\n");
-	return (1);
+	*lst = NULL;
 }
-*/
