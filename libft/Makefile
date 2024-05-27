@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ting <marvin@42.fr>                        +#+  +:+       +#+         #
+#    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/16 17:33:51 by ting              #+#    #+#              #
-#    Updated: 2024/05/27 16:41:25 by ting             ###   ########.fr        #
+#    Updated: 2024/05/27 19:15:11 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@ar rcs $(NAME) $(OBJ)
+		$(CC) $(FLAGS) -c $(SRC)
+		@ar rc $(NAME) $(OBJ)
 
 clean:
 	@rm -rf $(OBJ)
