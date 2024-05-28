@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
+#    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/05/27 19:25:27 by ting             ###   ########.fr        #
+#    Updated: 2024/05/28 11:41:11 by asyed            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT = libft/libft.a
 
 SRCSPATH = srcs/
 
-SRCS = minishell.c \
+SRCS = minishell.c builtins.c\
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 

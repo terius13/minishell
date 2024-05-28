@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/05/25 21:51:03 by ting             ###   ########.fr       */
+/*   Updated: 2024/05/28 18:59:01 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,19 @@
 # define G "\033[32m"
 # define C "\033[36m"
 # define RST "\033[0m"
+
+void	execute_builtins(char **args, char *input, char **env);
+void	builtin_echo(char **args);
+void	builtin_pwd(void);
+void	builtin_cd(char **args);
+
+// export
+
+// unset
+
+
+void	builtin_env(char **env);
+void	builtin_exit(char **args, char *input);
+void	free_all(char **args, char *input);
 
 #endif
