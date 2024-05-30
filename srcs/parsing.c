@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/05/28 19:10:15 by ting             ###   ########.fr       */
+/*   Updated: 2024/05/30 13:36:05 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,16 @@ void	lexer_add_back(t_lexer **lexer, t_lexer *new)
 
 
 t_lexer **parse_input(char *str) {
-    t_lexer **lexer = (t_lexer **)malloc(sizeof(t_lexer *));
-    *lexer = NULL;
-    int start = 0, i = 0;
-    char quote = '\0';
+    t_lexer **lexer;
+    int start;
+	int	i;
+    char quote;
 
+	start = 0;
+	i = 0;
+	quote = '\0';
+	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
+    *lexer = NULL;
     while (str[i]) {
         // Skip initial spaces
         while (ft_isspace(str[i]))
@@ -92,7 +97,7 @@ t_lexer **parse_input(char *str) {
         if (str[i] == '"' || str[i] == '\'')
 		{
             quote = str[i++];
-            while (str[i] && str[i] != quote)
+            while (str[i] && (str[i] != quote))
                 i++;
             if (str[i] == quote)
                 i++;
@@ -151,9 +156,6 @@ void	rm_quotes(t_lexer *word)
 {
 
 }
-*/
-/*
-*/
 
 //if token == '|' all tokens before becomes **cmd
 //skip '|'
@@ -185,8 +187,7 @@ int	main(int argc, char **argv, char **env)
 		line = readline(C "shell@st42:$ " RST);
 		if (line)
 		{
-		//	lexer = wp_split(line);
-		lexer = parse_input(line);
+			lexer = parse_input(line); //can pass in lexer as a input later on
 			print_lexer(lexer);
 		}
 		free(line);
