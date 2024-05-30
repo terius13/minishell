@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/05/28 19:10:19 by ting             ###   ########.fr       */
+/*   Updated: 2024/05/30 17:21:15 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 typedef struct s_lexer
 {
-	char			*str;
+	char			*str; //have to free
 	int type; // word(2) or token/cmd(1)
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
@@ -49,5 +49,12 @@ typedef struct s_cmd
 	char			*outfile;
 	int				*builtin;
 }					t_cmd;
+
+//lexer.c
+
+
+//lexer_utils.c
+t_lexer	*new_lexer(char *str);
+void	lexer_add_back(t_lexer **lexer, t_lexer *new);
 
 #endif

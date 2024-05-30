@@ -6,7 +6,7 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/16 17:33:51 by ting              #+#    #+#              #
-#    Updated: 2024/05/28 19:02:32 by ting             ###   ########.fr        #
+#    Updated: 2024/05/30 14:28:05 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRC = ft_atoi.c ft_isalpha.c \
       ft_lstlast.c ft_lstadd_back.c \
       ft_lstdelone.c ft_lstclear.c \
       ft_lstiter.c ft_lstmap.c \
-	  ft_isspace.c
+	  ft_isspace.c ft_strndup.c \
 
 CC = clang
 
