@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/05/28 18:58:42 by asyed            ###   ########.fr       */
+/*   Updated: 2024/05/30 13:23:45 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,14 @@ void	builtin_exit(char **args, char *input)
 void	free_all(char **args, char *input)
 
 {
+	int i;
+
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
 	free(args);
 	free(input);
 }
@@ -127,8 +135,6 @@ int		main(int ac, char **av, char **env)
 		input = readline(C "shell@st42:$ " RST);
 		if (input == NULL)
 			break; // exit if EOF or error, can be Ctrl + D
-
-		// SPLIT HAS MEMORY ISSUE
 		args = ft_split(input, ' ');
 		if (args == NULL)
 		{
