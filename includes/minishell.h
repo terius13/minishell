@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/05/30 17:21:15 by ting             ###   ########.fr       */
+/*   Updated: 2024/05/31 17:01:50 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 typedef struct s_lexer
 {
 	char			*str; //have to free
-	int type; // word(2) or token/cmd(1)
+	int type; // token/cmd(1), word(2), ""(3), ''(4)
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
 
@@ -51,10 +51,20 @@ typedef struct s_cmd
 }					t_cmd;
 
 //lexer.c
-
-
-//lexer_utils.c
 t_lexer	*new_lexer(char *str);
 void	lexer_add_back(t_lexer **lexer, t_lexer *new);
+int		quotes_token(char *str, int i);
+void	tokenizer(t_lexer **lexer, char *str);
+void	lexical_analysis(t_lexer **lexer, char *str);
+void	print_lexer(t_lexer **lexer); //to delete later
+
+//expand_env_var.c
+void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value);
+int		cal_var_len(char *str);
+void	expand_env_var(t_lexer *lexer);
+
+//free_for_lexer.c
+void free_lexer(t_lexer **lexer);
+void	free_all(t_lexer **lexer, char *line);
 
 #endif

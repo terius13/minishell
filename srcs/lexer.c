@@ -6,11 +6,59 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/05/30 19:50:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/05/31 16:54:22 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+t_lexer	*new_lexer(char *str)
+{
+	t_lexer	*new;
+
+	new = (t_lexer *)malloc(sizeof(t_lexer));
+	if (!new)
+		return (NULL);
+	new->str = ft_strdup(str);
+	if (!ft_strcmp(str, "|") || !ft_strcmp(str, "<") ||!ft_strcmp(str, ">")
+			|| !ft_strcmp(str, "<<") || !ft_strcmp(str, ">>"))
+		new->type = 1;
+	else if(ft_strchr(str, '"') && (!ft_strchr(str, '\'') || ft_strchr(str, '\'') > ft_strchr(str, '"')))
+		new->type = 3;
+	else if(ft_strchr(str, '\'') && (!ft_strchr(str, '"') || ft_strchr(str, '"') > ft_strchr(str, '\'')))
+		new->type = 4;
+	else
+		new->type = 2;
+	new->next = NULL;
+	new->prev = NULL;
+	free(str);
+	return (new);
+}
+
+//add the splited lexer words to t_lexer
+//set the next and prev
+void	lexer_add_back(t_lexer **lexer, t_lexer *new)
+{
+	t_lexer	*current;
+
+	if (!lexer || !new)
+		return ;
+	if (!*lexer)
+	{
+		*lexer = new;
+		new->prev = NULL;
+		new->next = NULL;
+	}
+	else
+	{
+		current = *lexer;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+		new->prev = current;
+		new->next = NULL;
+	}
+}
 
 int	quotes_token(char *str, int i)
 {
@@ -24,131 +72,59 @@ int	quotes_token(char *str, int i)
         i++;
 	else if (str[i] != quote)
 	{
-		printf("close quote missing");
-		exit(1); //change to error handling
+		printf("close quote missing\n");
+		return(-1); //change to error handling
 	}
 	return (i);
 }
-
-t_lexer **tokenizer(char *str)
+void	tokenizer(t_lexer **lexer, char *str)
 {
-    t_lexer **lexer;
     int		start;
 	int		i;
 	char	*token;
 
 	start = 0;
 	i = 0;
-	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
-	*lexer = NULL;
+
     while (str[i])
 	{
-        // Skip initial spaces
         while (ft_isspace(str[i]))
             i++;
         start = i;
-        // Handle quotes
         if (str[i] == '"' || str[i] == '\'')
 		{
 			i = quotes_token(str, i); //skip the quote's string
-        }
+			if (i == -1)
+			{
+				free_all(lexer, str);
+			}
+		}
 		else
-		{
-            // Non-quoted word
             while (str[i] && !ft_isspace(str[i]) && str[i] != '"' && str[i] != '\'')
                 i++;
-        }
-        // Add the token to the lexer list
         if (i > start)
-		{
-            char *token = ft_strndup(str + start, i - start);
-            lexer_add_back(lexer, new_lexer(token));
-        }
+            lexer_add_back(lexer, new_lexer(ft_strndup(str + start, i - start)));
     }
-    return lexer;
 }
-
-//need to simplify, make neater
-void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value)
-{
-	char	*old_str;
-	char	*new_str;
-	int		str_len;
-	int		i;
-	int		back_len;
-
-
-	str_len = (ft_strlen(lexer->str) - (var_len + 1)) + ft_strlen(value);
-	old_str = ft_strdup(lexer->str);
-	new_str = (char *)malloc(sizeof(char) * str_len + 1);
-	back_len = ft_strlen(old_str) - var_start - var_len - 2;
-
-	ft_strlcpy(new_str, old_str, var_start + 1);
-	ft_strlcat(new_str, value, ft_strlen(new_str) + ft_strlen(value) + 1);
-	if(ft_strlen(new_str) != str_len)
-	{
-		ft_strlcat(new_str, old_str + var_start + var_len + 1, ft_strlen(new_str) + back_len + 2);
-	}
-	printf("env str: %s\n", new_str);
-
-	free(lexer->str);
-	lexer->str = new_str;
-	free(old_str);
-}
-
-int		cal_var_len(char *str)
+void	lexical_analysis(t_lexer **lexer, char *str)
 {
 	int	i;
+	t_lexer	*current;
 
 	i = 0;
-	while (str[i] && str[i] != '"' && str[i] != '\'' && str[i] != '$')
-		i++;
-	return (i);
-}
-
-//if type == 2
-//will need to change later on the getenv from own env struct
-//create own getenv function
-void	expand_env_var(t_lexer **lexer)
-{
-	int		i;
-	char	*var;
-	int		var_len;
-	char	*value;
-	t_lexer *current;
-
+	tokenizer(lexer, str);
+	print_lexer(lexer);
+	
 	current = *lexer;
-	while (current)
+	while(current)
 	{
-		//if type 2
-		i = 0;
-		while (current->str[i])
-		{
-			if (current->str[i] == '$')
-			{
-				i++;
-				var_len = cal_var_len(current->str + i);
-				var = (char *)malloc(sizeof(char) * var_len);
-				ft_strlcpy(var, current->str + i, var_len + 1); //cpy the varname to var
-				printf("%s, %d\n", var, var_len);
-				value = getenv(var);
-				printf("The value: %s\n", value);
-				replace_env_var(current, i - 1, var_len, value);
-			}
-			i++;
-		}
+		if (current->type == 2 || current->type == 3)
+			expand_env_var(current);
 		current = current->next;
 	}
 }
-/*
-void	rm_quotes(t_lexer *word)
-{
-	i++ to the next quote
-	strdup everything inbetween
-}
-*/
 
-
+//delete this function later only for testing
 void	print_lexer(t_lexer **lexer)
 {
     t_lexer *current;
@@ -162,25 +138,3 @@ void	print_lexer(t_lexer **lexer)
     }
 }
 
-int	main(int argc, char **argv, char **env)
-{
-	char	*line;
-	t_lexer **lexer;
-
-	while (1)
-	{
-		line = readline(C "shell@st42:$ " RST);
-		if (line)
-		{
-		//	lexer = wp_split(line);
-		lexer = tokenizer(line);
-		print_lexer(lexer);
-		//if lexer while loop to expand str
-		//have to check if it double quotes then enter expand
-		expand_env_var(lexer);
-		print_lexer(lexer);
-		}
-		free(line);
-	}
-	return (0);
-}

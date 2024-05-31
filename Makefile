@@ -6,13 +6,13 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/05/30 16:35:00 by ting             ###   ########.fr        #
+#    Updated: 2024/05/31 16:57:46 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror #-g
 
 RM = rm -rf
 
@@ -21,7 +21,8 @@ LIBFT = libft/libft.a
 SRCSPATH = srcs/
 
 SRCS = minishell.c parsing.c \
-		lexer.c lexer_utils.c \
+		lexer.c expand_env_var.c \
+		free_for_lexer.c
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
@@ -29,7 +30,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 		@$(MAKE) -C libft
-		@cc $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+		@cc $(FLAGS) -g $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/05/28 12:57:45 by ting             ###   ########.fr       */
+/*   Updated: 2024/05/31 16:58:08 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,23 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 */
+
+int	main(int argc, char **argv, char **env)
+{
+	char	*line;
+	t_lexer **lexer;
+
+	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
+	*lexer = NULL;
+	while (1)
+	{
+		line = readline(C "shell@st42:$ " RST);
+		if (line)
+		{
+			lexical_analysis(lexer, line);
+			print_lexer(lexer);
+			free_all(lexer, line);
+		}
+	}
+	return (0);
+}
