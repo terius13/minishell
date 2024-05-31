@@ -1,43 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 18:13:40 by ting             ###   ########.fr       */
+/*   Created: 2024/05/31 17:09:03 by ting              #+#    #+#             */
+/*   Updated: 2024/05/31 17:25:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
-int	main(int argc, char **argv, char **env)
-{
-	while (1)
-	{
-		readline(C "shell@st42:$ " RST);
-	}
-	return (0);
-}
-*/
 
-int	main(int argc, char **argv, char **env)
-{
-	char	*line;
-	t_lexer **lexer;
+//if type 3 & 4 then have to remove quotes
+//should only remove the first quotes
 
-	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
-	*lexer = NULL;
-	while (1)
-	{
-		line = readline(C "shell@st42:$ " RST);
-		if (line)
-		{
-			lexical_analysis(lexer, line);
-			print_lexer(lexer);
-			free_all(lexer, line);
-		}
-	}
-	return (0);
-}
+
+
+
+

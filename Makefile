@@ -6,7 +6,7 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/05/31 16:57:46 by ting             ###   ########.fr        #
+#    Updated: 2024/05/31 19:46:20 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCSPATH = srcs/
 
 SRCS = minishell.c parsing.c \
 		lexer.c expand_env_var.c \
-		free_for_lexer.c
+		remove_quotes.c free_for_lexer.c \
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
