@@ -6,7 +6,7 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 13:02:55 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/01 19:27:08 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	execute_builtins(char **args, char *input, t_env **env_dup);
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_cd(char **args);
-void	builtin_exit(char **args, char *input, t_env *	*env);
+void	builtin_exit(char **args, char *input, t_env **env);
+void	builtin_export(char **args, t_env **env_list);
 
 // export
 // unset
