@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 18:50:02 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/01 16:05:23 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,73 +80,35 @@ int	quotes_token(char *str, int i)
 }
 void	tokenizer(t_lexer **lexer, char *str)
 {
-	int		start;
-	int		i;
-	char	*token;
+    int start;
+    int i;
+    int token_len;
 
-	start = 0;
 	i = 0;
-	while (str[i])
+    while (str[i])
 	{
-		while (ft_isspace(str[i]))
-			i++;
-		start = i;
-		if (str[i] == '"' || str[i] == '\'')
+        while (isspace(str[i]))
+            i++;
+        start = i;
+        while (str[i] && !isspace((unsigned char)str[i]))
 		{
-			i = quotes_token(str, i); // skip the quote's string
-			if (i == -1)
-				free_all(lexer, str);
-		}
-		else
-			while (str[i] && !ft_isspace(str[i]) && str[i] != '"'
-				&& str[i] != '\'')
-				i++;
-		if (i > start)
-			lexer_add_back(lexer, new_lexer(ft_strndup(str + start, i
-						- start)));
-	}
+            if (str[i] == '"' || str[i] == '\'')
+			{
+                i = quotes_token(str, i);
+                if (i == -1)
+				{
+                    return(free_all(lexer, NULL)); // Exit on error
+                }
+            }
+			else
+                i++;
+        }
+        token_len = i - start;
+        if (token_len > 0)
+            lexer_add_back(lexer, new_lexer(ft_strndup(str + start, token_len)));
+    }
 }
 
-void	remove_quotes(t_lexer *lexer)
-{
-	int		i;
-	int		j;
-	char	quote;
-	char	*new_str;
-	int		new_str_len;
-	char	*old_str;
-
-	i = 0;
-	old_str = ft_strdup(lexer->str);
-	new_str_len = ft_strlen(old_str) - 2;
-	/*
-	if (new_str_len == 0)
-	{
-		// nothing in quotes, need to handle, maybe set node to NULL,or remove node
-		// return ;
-	}
-	*/
-	while (old_str[i] && old_str[i] != '\'' && old_str[i] != '"')
-	{
-		i++;
-	}
-	new_str = (char *)malloc(sizeof(char) * new_str_len);
-	if (old_str[i] != '\0')
-		quote = old_str[i];
-	if (i != 0)
-	{
-		ft_strlcpy(new_str, old_str + i, i);
-	}
-	i++;
-	j = i;
-	while (old_str[j] && old_str[j] != quote)
-		j++;
-	ft_strlcpy(new_str, old_str + i, j - i + 1);
-	j++;
-	free(lexer->str);
-	lexer->str = new_str;
-//	free(new_str);
-}
 
 void	lexical_analysis(t_lexer **lexer, char *str)
 {
@@ -161,11 +123,11 @@ void	lexical_analysis(t_lexer **lexer, char *str)
 	{
 		if (current->type == 2 || current->type == 3)
 			expand_env_var(current);
-		if (current->type == 3 || current->type == 4)
-		{
-			printf("entering rm quotes\n");
-			remove_quotes(current);
-		}
+//		if (current->type == 3 || current->type == 4)
+//		{
+//			printf("entering rm quotes\n");
+//			remove_quotes(current);
+//		}
 		current = current->next;
 	}
 }

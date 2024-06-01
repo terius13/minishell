@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 18:13:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/01 16:03:53 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **env)
 		if (line)
 		{
 			lexical_analysis(lexer, line);
+			printf("After lexer:\n");
 			print_lexer(lexer);
 			free_all(lexer, line);
 		}
