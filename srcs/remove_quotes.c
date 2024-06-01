@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 17:09:03 by ting              #+#    #+#             */
-/*   Updated: 2024/06/01 15:47:53 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/01 19:40:20 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,19 @@
 
 //if type 3 & 4 then have to remove quotes
 //should only remove the first quotes
+/*
+void    remove_quotes(t_lexer *lexer)
+*/
 
+
+
+
+
+
+
+
+
+/*
 void	remove_quotes(t_lexer *lexer)
 {
 	int		i;
@@ -27,13 +39,13 @@ void	remove_quotes(t_lexer *lexer)
 	i = 0;
 	old_str = ft_strdup(lexer->str);
 	new_str_len = ft_strlen(old_str) - 2;
-	/*
-	if (new_str_len == 0)
-	{
-		// nothing in quotes, need to handle, maybe set node to NULL,or remove node
-		// return ;
-	}
-	*/
+
+//	if (new_str_len == 0)
+//	{
+//		// nothing in quotes, need to handle, maybe set node to NULL,or remove node
+//		// return ;
+//	}
+	
 	while (old_str[i] && old_str[i] != '\'' && old_str[i] != '"')
 	{
 		i++;
@@ -55,6 +67,7 @@ void	remove_quotes(t_lexer *lexer)
 	lexer->str = new_str;
 //	free(new_str);
 }
+*/
 
 
 
