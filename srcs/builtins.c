@@ -3,147 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/05/30 13:23:45 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/01 20:22:18 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_builtins(char **args, char *input, char **env)
+void	execute_builtins(char **args, char *input, t_env **env_dup)
 
 {
 	if (ft_strcmp(args[0], "echo") == 0)
 		builtin_echo(args);
 	else if (ft_strcmp(args[0], "cd") == 0)
 		builtin_cd(args);
-
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		builtin_pwd();
-	// export
-
-	// unset
-
+	else if (ft_strcmp(args[0], "export") == 0)
+		builtin_export(args, env_dup);
+	else if (ft_strcmp(args[0], "unset") == 0)
+		builtin_export(args, env_dup);
 	else if (ft_strcmp(args[0], "env") == 0)
-		builtin_env(env);
+		builtin_env(env_dup);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		builtin_exit(args, input);
+		builtin_exit(args, input, env_dup);
 	else
 		printf("Command %s not found.\n", args[0]);
 }
 
-void	builtin_cd(char **args)
-{
-	if (args[1] == NULL)
-		return;
-	else
-	{
-		if (chdir(args[1]) != 0)
-			perror("cd");
-	}
-}
-
-void	builtin_env(char **env)
-
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
-	
-	
-}
-
-void	builtin_pwd(void)
-
-{
-	char	cwd[1024];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-		perror("pwd");
-}
-
-void	builtin_echo(char **args)
-// might need to handle $ just in case
-{
-	int i;
-
-	i = 1;
-	if (args[i] != NULL && (ft_strcmp(args[i], "-n") == 0))
-	{
-		i++;
-		while (args[i])
-		{
-			printf("%s", args[i]);
-			if (args[i + 1])
-				printf(" ");
-			i++;
-		}
-	}
-	else
-	{
-		while (args[i])
-		{
-			printf("%s", args[i]);
-			if (args[i + 1])
-				printf(" ");
-			i++;
-		}
-		printf("\n");
-	}
-}
-
-void	builtin_exit(char **args, char *input)
-
-{
-	free_all(args, input);
-	printf("exit\n");
-	exit (0);
-}
-
-void	free_all(char **args, char *input)
-
-{
-	int i;
-
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-	free(input);
-}
-
-int		main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 
 {
 	char	*input;
 	char	**args;
+	t_env	**env_dup;
+	int		i;
 
+	i = 0;
+	(void)ac;
+	(void)av;
+	
+	env_dup = init_env_copy(env);
+	if (env_dup == NULL)
+	{
+		perror ("init_env_copy");
+		return (1);
+	}
 	while (1)
 	{
 		input = readline(C "shell@st42:$ " RST);
 		if (input == NULL)
-			break; // exit if EOF or error, can be Ctrl + D
+			break ; // exit if EOF or error, can be Ctrl + D
 		args = ft_split(input, ' ');
 		if (args == NULL)
 		{
 			perror("ft_split");
 			free(input);
-			break;
+			break ;
 		}
-		execute_builtins(args, input, env);
-		free_all(args, input);
+		execute_builtins(args, input, env_dup);
+		while (args[i])
+		{
+			free(args[i]);
+			i++;
+		}
+		free(args);
 	}
-	return(0);
+	free_all(args, input, env_dup);
+	return (0);
 }
