@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/01 19:27:08 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/02 16:00:06 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_cd(char **args);
 void	builtin_exit(char **args, char *input, t_env **env);
+
+// export
 void	builtin_export(char **args, t_env **env_list);
+char	*assign_split1(char **split);
 
 // export
 // unset
@@ -61,7 +64,8 @@ void	ft_lstadd_back_ms(t_env **lst, t_env *new);
 void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
 
 // free
-void	del_env_var(void *env_list);
+void	free_split(char **split);
+void	free_current_export(t_env *tmp, char *value, char **split);
 void	free_env(t_env	**env_list);
 void	free_all(char **args, char *input, t_env **env_dup);
 

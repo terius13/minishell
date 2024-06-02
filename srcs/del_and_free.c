@@ -3,37 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   del_and_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:54 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/01 16:19:46 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/02 16:35:46 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	del_env_var(void *env_dup)
-
+void	free_split(char **split)
 {
-	t_env	*env_var;
+	int	i;
 
-	env_var = (t_env *)env_dup;
-	//free(env_var->key);
-	//free(env_var->value);
-	free(env_var);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
-
 void	free_env(t_env	**env_list)
 {
-	t_env	*head;
-	
-	while (*env_list)
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = *env_list;
+	while (tmp)
 	{
-		head = (**env_list).next;
-		free((**env_list).key);
-		free((**env_list).value);
-		free(*env_list);
-		*env_list = head;
+		next = tmp->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+		tmp = next;
 	}
 	*env_list = NULL;
 }
@@ -41,16 +44,9 @@ void	free_env(t_env	**env_list)
 void	free_all(char **args, char *input, t_env **env_dup)
 
 {
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
+	free_split(args);
+	// free(args);
 	free(input);
 	free_env(env_dup);
-	free(env_dup);
+	// free(env_dup);
 }
