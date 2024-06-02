@@ -6,13 +6,13 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/01 16:42:42 by ting             ###   ########.fr        #
+#    Updated: 2024/06/02 14:39:57 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS = -Wall -Wextra -Werror #-g
+FLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -rf
 

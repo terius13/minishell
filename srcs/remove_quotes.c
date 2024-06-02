@@ -6,13 +6,13 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 17:09:03 by ting              #+#    #+#             */
-/*   Updated: 2024/06/01 19:40:20 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/02 16:45:52 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//if type 3 & 4 then have to remove quotes
+//split by pipes first then remove quotes
 //should only remove the first quotes
 /*
 void    remove_quotes(t_lexer *lexer)

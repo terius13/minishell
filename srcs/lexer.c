@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/01 20:40:21 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/02 16:27:16 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,19 +175,19 @@ void	lexical_analysis(t_lexer **lexer, char *str)
 
 	i = 0;
 	tokenizer(lexer, str);
-	print_lexer(lexer);
+//	print_lexer(lexer);
 	current = *lexer;
-//	while (current)
-//	{
-//		if (current->type == 1)
-			check_env_var(lexer);
+	while (current)
+	{
+		if (current->type == 1)
+			check_env_var(current);
 //		if (current->type == 3 || current->type == 4)
 //		{
 //			printf("entering rm quotes\n");
 //			remove_quotes(current);
 //		}
-//		current = current->next;
-//	}
+		current = current->next;
+	}
 }
 
 // delete this function later only for testing
