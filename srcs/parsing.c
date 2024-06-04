@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 11:48:54 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 12:00:56 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //split on pipes
 //then remove quotes
 //store it in an array **cmd
-
+/*
 void	parsing(t_lexer **lexer, t_cmd **cmds)
 {
 	int		i;
@@ -33,4 +33,5 @@ void	parsing(t_lexer **lexer, t_cmd **cmds)
 		current = current->next;
 	}
 }
+*/
 
