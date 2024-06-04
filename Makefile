@@ -6,11 +6,7 @@
 #    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/06/02 14:54:40 by asyed            ###   ########.fr        #
-=======
-#    Updated: 2024/06/02 14:39:57 by ting             ###   ########.fr        #
->>>>>>> main
+#    Updated: 2024/06/04 12:09:23 by asyed            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,15 +20,12 @@ LIBFT = libft/libft.a
 
 SRCSPATH = srcs/
 
-<<<<<<< HEAD
 SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
 		builtins_utils.c builtins.c del_and_free.c\
 		builtin_export.c
-=======
-SRCS = minishell.c parsing.c \
+#SRCS = minishell.c parsing.c \
 		lexer.c expand_env_var.c \
 		remove_quotes.c free_for_lexer.c \
->>>>>>> main
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
