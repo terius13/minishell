@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 12:01:29 by ting             ###   ########.fr       */
+/*   Created: 2024/05/28 18:59:08 by ting              #+#    #+#             */
+/*   Updated: 2024/05/28 19:02:13 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-/*
-int	main(int argc, char **argv, char **env)
+#include "libft.h"
+
+int	ft_isspace(int c)
 {
-	while (1)
-	{
-		readline(C "shell@st42:$ " RST);
-	}
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
+		return (1);
 	return (0);
 }
-*/
-
-
