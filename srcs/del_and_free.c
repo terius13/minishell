@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:54 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/02 16:35:46 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/04 12:13:10 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void	free_all(char **args, char *input, t_env **env_dup)
 	// free(args);
 	free(input);
 	free_env(env_dup);
-	// free(env_dup);
+	free(env_dup);
 }

@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/02 15:45:46 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/04 18:08:52 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	execute_builtins(char **args, char *input, t_env **env_dup)
 		builtin_pwd();
 	else if (ft_strcmp(args[0], "export") == 0)
 		builtin_export(args, env_dup);
-	//else if (ft_strcmp(args[0], "unset") == 0)
-	//	builtin_unset(args, env_dup);
+	else if (ft_strcmp(args[0], "unset") == 0)
+		builtin_unset(args, env_dup);
 	else if (ft_strcmp(args[0], "env") == 0)
 		builtin_env(env_dup);
 	else if (ft_strcmp(args[0], "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 12:07:15 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/04 18:09:23 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ void	builtin_exit(char **args, char *input, t_env **env);
 // export
 void	update_current_export(t_env *tmp, char *key, char *value);
 int		export_error_check(char *args);
-void	assign_key_value(char **args, int equal, char **key, char **value);
+void	assign_key_value(char *args, int equal, char **key, char **value);
+void	handle_export(char *args, t_env **env_list);
 void	builtin_export(char **args, t_env **env_list);
 
 // unset
+void	free_unset_node(t_env *del);
+void	builtin_unset(char **args, t_env **env_list);
 
 // env
 void	builtin_env(t_env **env_list);
