@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/02 16:46:15 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 11:46:36 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_lexer
 
 typedef struct s_cmd
 {
-	char			**cmd;
+	char			**cmd_arr;
 	int				in_pid;
 	int				out_pid;
 	char			*infile;

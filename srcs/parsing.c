@@ -6,21 +6,31 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 14:18:56 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 11:48:54 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//split on pipes
+//then remove quotes
+//store it in an array **cmd
 
-//if type == 2
-//will need to change later on the getenv from own env struct
-//create own getenv function
-
-/*
-void	rm_quotes(t_lexer *word)
+void	parsing(t_lexer **lexer, t_cmd **cmds)
 {
-	i++ to the next quote
-	strdup everything inbetween
+	int		i;
+
+	while (*lexer)
+	{
+		if (ft_strcmp(current->str, '|'))
+		{
+			(*cmds)->cmd_arr[i] = current->str;
+		}
+		else if (!ft_strcmp(current->str, '|'))
+		{
+			current = current->next;
+		}
+		current = current->next;
+	}
 }
-*/
+

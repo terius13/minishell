@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 08:21:44 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 10:35:04 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,52 +81,68 @@ int	quotes_token(char *str, int i)
 	}
 	return (i);
 }
-int is_special_char(char c) {
+int is_special_char(char c)
+{
     return (c == '<' || c == '>' || c == '|');
 }
 
 // Main tokenizer function
-void tokenizer(t_lexer **lexer, char *str) {
+void tokenizer(t_lexer **lexer, char *str)
+{
     int start;
     int i = 0;
     int token_len;
 
-    while (str[i]) {
-        while (isspace((unsigned char)str[i])) {
+    while (str[i])
+	{
+        while (isspace((unsigned char)str[i]))
+		{
             i++;
         }
         start = i;
-        while (str[i] && !isspace((unsigned char)str[i])) {
-            if (str[i] == '"' || str[i] == '\'') {
+        while (str[i] && !isspace((unsigned char)str[i]))
+		{
+            if (str[i] == '"' || str[i] == '\'')
+			{
                 i = quotes_token(str, i);
                 if (i == -1) {
                     free_all(lexer, NULL);
                     return; // Exit on error
                 }
-            } else if (is_special_char(str[i])) {
+            }
+			else if (is_special_char(str[i]))
+			{
                 break;
-            } else {
+            }
+			else
+			{
                 i++;
             }
         }
 
         // Create a token for the word if it exists
         token_len = i - start;
-        if (token_len > 0) {
+        if (token_len > 0)
+		{
             lexer_add_back(lexer, new_lexer(ft_strndup(str + start, token_len)));
         }
 
         // Handle special characters separately
-        if (is_special_char(str[i])) {
-            if (str[i] == '<' || str[i] == '>') {
+        if (is_special_char(str[i]))
+		{
+            if (str[i] == '<' || str[i] == '>')
+			{
                 int j = i;
                 j++;
-                if (str[j] == str[i]) {
+                if (str[j] == str[i])
+				{
                     j++;
                 }
                 lexer_add_back(lexer, new_lexer(ft_strndup(str + i, j - i)));
                 i = j;
-            } else {
+            }
+			else
+			{
                 lexer_add_back(lexer, new_lexer(ft_strndup(str + i, 1)));
                 i++;
             }
@@ -170,10 +186,8 @@ void	tokenizer(t_lexer **lexer, char *str)
 
 void	lexical_analysis(t_lexer **lexer, char *str)
 {
-	int		i;
 	t_lexer	*current;
 
-	i = 0;
 	tokenizer(lexer, str);
 //	print_lexer(lexer);
 	current = *lexer;
