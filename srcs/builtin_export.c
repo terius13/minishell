@@ -6,56 +6,81 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/02 21:00:25 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/04 11:46:38 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_current_export(t_env *tmp, char *value, char **split)
+void	update_current_export(t_env *tmp, char *key, char *value)
 {
 	free(tmp->value);
-	tmp->value = ft_strdup(value);
-	free_split(split);
+	tmp->value = value;
+	free(key);
 }
-char	*assign_split1(char **split)
+
+int	export_error_check(char *args)
+
 {
-	if (split[1])
-		return (split[1]);
+	int	i;
+
+	if (args == NULL || args[0] == '\0')
+		return (-1);
+	if (args[0] == '=' || ((isalpha(args[0]) == 0) && args[0] != '_'))
+	{
+		printf("shell@st42: export: '%s': not a valid identifier\n", args);
+		return (-1);
+	}
+	i = 1;
+	while (args[i])
+	{
+		if (args[i] == '=')
+			return (i + 1) ;
+		if ((isalnum(args[i]) == 0) && args[i] != '_')
+		{
+			printf("shell@st42: export: '%s': not a valid identifier\n", args);
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	assign_key_value(char **args, int equal, char **key, char **value)
+{
+	if (equal == 0)
+	{
+		*key = ft_strdup(args[1]);
+		*value = NULL;
+	}
 	else
-		return ("");
+	{
+		*key = ft_strndup(args[1], equal - 1);
+		*value = ft_strdup(&args[1][equal]);
+	}
 }
 void	builtin_export(char **args, t_env **env_list)
 {
-	char	**split;
 	char	*key;
 	char	*value;
 	t_env	*tmp;
+	int		equal;
 
-	split = ft_split(args[1], '=');
-	tmp = *env_list;
-
-	// UPDATE CONDITION, CHECK FOR ARGS, NOT NULL, NOT = AND BEFORE = IS ALNUM OR _
-	
-	if (args[1] == NULL || args[1][0] == '\0' || ft_strchr(args[1], '=') ==  args[1]) // can only check after parsing
-	{
-		printf("shell@st42: export: '%s': not a valid identifier\n", args[1]);
-		free_split(split);
+	equal = export_error_check(args[1]);
+	if (equal == -1)
 		return ;
-	}
-	key = split[0];
-	value = ft_strdup(assign_split1(split));
+	assign_key_value(args, equal, &key, &value);
+	tmp = *env_list;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free_current_export(tmp, value, split);
+			update_current_export(tmp, key, value);
 			return ;
 		}
 		tmp = tmp->next;
 	}
 	ft_lstadd_back_ms(env_list, ft_lstnew_ms(key, value));
-	free (split);
 }
 
 

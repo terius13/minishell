@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/02 16:00:06 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/04 11:47:44 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ void	builtin_cd(char **args);
 void	builtin_exit(char **args, char *input, t_env **env);
 
 // export
+void	update_current_export(t_env *tmp, char *key, char *value);
+int		export_error_check(char *args);
+void	assign_key_value(char **args, int equal, char **key, char **value);
 void	builtin_export(char **args, t_env **env_list);
-char	*assign_split1(char **split);
 
-// export
 // unset
 
 // env
