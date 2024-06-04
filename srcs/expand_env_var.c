@@ -6,11 +6,12 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 16:33:17 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/02 16:42:06 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 
 void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value)
 {
@@ -34,44 +35,65 @@ void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value)
 	lexer->str = new_str;
 	free(old_str);
 }
+
 int		cal_var_len(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != '"' && str[i] != '\'' && str[i] != '$')
+	while (str[i] && str[i] != '"' && str[i] != '\'' && str[i] != '$' && str[i] != ' ')
 		i++;
 	return (i);
 }
 
-void    expand_env_var(t_lexer *lexer)
+int    expand_env_var(t_lexer *lexer, int i)
 {
-    int		i;
-	char	*var;
-	int		var_len;
-	char	*value;
-	t_lexer *current;
-
-    i = 0;
-    current = lexer;
-    while (current->str[i])
+    char    *var;
+    int     var_len;
+    char    *value;
+    
+    var_len = cal_var_len(lexer->str + i);
+    var = (char *)malloc(sizeof(char) * (var_len + 1));
+    ft_strlcpy(var, lexer->str + i, var_len + 1); // Copy the varname to var
+    value = getenv(var); //must use own getenv()
+    free(var);
+    if (value == NULL)
     {
-        if (current->str[i] == '$')
-    	{
-            i++;
-	    	var_len = cal_var_len(current->str + i);
-    		var = (char *)malloc(sizeof(char) * var_len + 1);
-    		ft_strlcpy(var, current->str + i, var_len + 1); //cpy the varname to var
-            value = getenv(var);
-            free(var);
-    		if (value == NULL)
-    		{
-	    		value = ft_calloc(1, 1);
-	    		*value = '\0';
-	    	}
-	    	replace_env_var(lexer, i - 1, var_len, value);
+        value = ft_calloc(1, 1);
+        *value = '\0';
+    }
+    replace_env_var(lexer, i - 1, var_len, value);
+    i += ft_strlen(value) - 1; // Adjust index to skip the expanded value
+    return (i);
+}
+
+void check_env_var(t_lexer *lexer)
+{
+    t_lexer *current;
+    int        i;
+    char    quote;
+
+    current = lexer;
+    if (current->type == 1)
+    {
+        i = 0;
+        quote = '\0';
+        while (current->str[i])
+        {
+            if (current->str[i] == '\'' && quote == '\0')
+                quote = '\''; // Entering single quote mode
+            else if (current->str[i] == '\'' && quote == '\'')
+                quote = '\0'; // Exiting single quote mode
+            else if (current->str[i] == '"' && quote == '\0')
+                quote = '"'; // Entering double quote mode
+            else if (current->str[i] == '"' && quote == '"')
+                quote = '\0'; // Exiting double quote mode
+            if (current->str[i] == '$' && quote != '\'')
+                i = expand_env_var(lexer, i + 1);
+            else
+                i++;
         }
-        i++;
     }
 }
+
 
