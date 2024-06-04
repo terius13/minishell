@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 11:46:36 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 17:00:48 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				*builtin;
+	struct s_cmd	*next;
 }					t_cmd;
 
 //lexer.c
@@ -57,6 +58,7 @@ int		quotes_token(char *str, int i);
 void	tokenizer(t_lexer **lexer, char *str);
 void	lexical_analysis(t_lexer **lexer, char *str);
 void	print_lexer(t_lexer **lexer); //to delete later
+void	del_lexer(t_lexer **lexer, t_lexer *to_del);
 
 //expand_env_var.c
 void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value);
@@ -64,8 +66,18 @@ int		cal_var_len(char *str);
 int		expand_env_var(t_lexer *lexer, int i);
 void 	check_env_var(t_lexer *lexer);
 
+//remove_quotes.c
+int	remove_quotes(t_lexer *lexer);
+
+//parsing.c
+t_cmd	*new_cmd(char **arr);
+void	cmd_add_back(t_cmd **cmds, t_cmd *new);
+void	parsing(t_lexer **lexer, t_cmd **cmds);
+void	print_parse(t_cmd **cmds);
+
 //free_for_lexer.c
 void 	free_lexer(t_lexer **lexer);
+void	free_cmds(t_cmd **cmds);
 void	free_all(t_lexer **lexer, char *line);
 
 #endif

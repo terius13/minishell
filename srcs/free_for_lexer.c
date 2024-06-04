@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:56:44 by ting              #+#    #+#             */
-/*   Updated: 2024/05/31 18:13:32 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 13:43:59 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,36 @@ void free_lexer(t_lexer **lexer)
     *lexer = NULL;
 }
 
+void	free_cmds(t_cmd **cmds)
+{
+	t_cmd *current;
+    t_cmd *next;
+	int	i;
+
+	i = 0;
+    if (!cmds || !*cmds)
+        return;
+    current = *cmds;
+    while (current)
+	{
+        next = current->next;
+		i = 0;
+        while (current->cmd_arr[i])
+		{
+			free(current->cmd_arr[i]);
+			i++;
+		}
+		free(current->cmd_arr);
+        free(current);
+        current = next;
+    }
+    *cmds = NULL;
+//	free(cmds);
+}
+
 void	free_all(t_lexer **lexer, char *line)
 {
-	if (*lexer)
+//	if (*lexer)
 		free_lexer(lexer);
 //	if (lexer)
 //		free(lexer);

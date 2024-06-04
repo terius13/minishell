@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 10:35:04 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/04 16:59:30 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_lexer	*new_lexer(char *str)
 	new->str = ft_strdup(str);
 	if (!ft_strcmp(str, "|"))
 		new->type = 2;
-	if (!ft_strcmp(str, "<"))
+	else if (!ft_strcmp(str, "<"))
 		new->type = 3;
-	if (!ft_strcmp(str, ">"))
+	else if (!ft_strcmp(str, ">"))
 		new->type = 4;
-	if (!ft_strcmp(str, "<<"))
+	else if (!ft_strcmp(str, "<<"))
 		new->type = 5;
-	if (!ft_strcmp(str, ">>"))
+	else if (!ft_strcmp(str, ">>"))
 		new->type = 6;
 	else
 		new->type = 1; //type 1 is string
@@ -105,7 +105,8 @@ void tokenizer(t_lexer **lexer, char *str)
             if (str[i] == '"' || str[i] == '\'')
 			{
                 i = quotes_token(str, i);
-                if (i == -1) {
+                if (i == -1)
+				{
                     free_all(lexer, NULL);
                     return; // Exit on error
                 }
@@ -119,14 +120,12 @@ void tokenizer(t_lexer **lexer, char *str)
                 i++;
             }
         }
-
         // Create a token for the word if it exists
         token_len = i - start;
         if (token_len > 0)
 		{
             lexer_add_back(lexer, new_lexer(ft_strndup(str + start, token_len)));
         }
-
         // Handle special characters separately
         if (is_special_char(str[i]))
 		{
@@ -184,9 +183,22 @@ void	tokenizer(t_lexer **lexer, char *str)
 }
 */
 
+void	del_lexer(t_lexer **lexer, t_lexer *to_del)
+{
+    if (to_del->prev)
+        to_del->prev->next = to_del->next;
+    else
+        *lexer = to_del->next;
+    if (to_del->next)
+        to_del->next->prev = to_del->prev;
+    free(to_del->str);
+    free(to_del);
+}
+
 void	lexical_analysis(t_lexer **lexer, char *str)
 {
 	t_lexer	*current;
+	int		checker;
 
 	tokenizer(lexer, str);
 //	print_lexer(lexer);
@@ -194,12 +206,12 @@ void	lexical_analysis(t_lexer **lexer, char *str)
 	while (current)
 	{
 		if (current->type == 1)
+		{
 			check_env_var(current);
-//		if (current->type == 3 || current->type == 4)
-//		{
-//			printf("entering rm quotes\n");
-//			remove_quotes(current);
-//		}
+			checker = remove_quotes(current);
+			if (checker)
+				del_lexer(lexer, current);
+		}
 		current = current->next;
 	}
 }
