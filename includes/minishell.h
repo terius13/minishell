@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 17:00:48 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 16:09:02 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 typedef struct s_lexer
 {
 	char			*str; //have to free
-	int 			type; // token/cmd(1), word(2), ""(3), ''(4)
+	int 			type; // word(1), '|'(2), '<'(3), '>'(4), '<<'(5), '>>'(6),
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
 
@@ -47,7 +47,9 @@ typedef struct s_cmd
 	int				out_pid;
 	char			*infile;
 	char			*outfile;
-	int				*builtin;
+	int				builtin;
+	int				append_re;
+	char			*hdoc_delimeter;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -72,6 +74,7 @@ int	remove_quotes(t_lexer *lexer);
 //parsing.c
 t_cmd	*new_cmd(char **arr);
 void	cmd_add_back(t_cmd **cmds, t_cmd *new);
+void	check_builtins(t_cmd **cmds);
 void	parsing(t_lexer **lexer, t_cmd **cmds);
 void	print_parse(t_cmd **cmds);
 

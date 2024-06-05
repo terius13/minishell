@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 18:23:19 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 16:12:02 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_cmd	*new_cmd(char **arr)
 	new->infile = NULL;
 	new->outfile = NULL;
 	new->builtin = 0;
+	new->append_re = 0;
+	new->hdoc_delimeter = NULL;
 
 	return (new);
 }
@@ -57,9 +59,11 @@ void	print_parse(t_cmd **cmds)
 {
 	t_cmd	*current;
 	int		i;
+	int		j;
 
 	printf("In print parse\n");
 	current = *cmds;
+	j = 0;
 	while (current)
 	{
 		i = 0;
@@ -68,10 +72,14 @@ void	print_parse(t_cmd **cmds)
 			printf("Pos[%d]:%s\n", i, current->cmd_arr[i]);
 			i++;
 		}
+		printf("Cmd[%d]:\n", j);
+		printf("IN_PID: %d, OUT_PID: %d, INFILE: %s, OUTFILE: %s\n", current->in_pid, current->out_pid, current->infile, current->outfile);
+		printf("BUILTINS: %d, APPENDRE: %d, HEREDOC: %s\n", current->builtin, current->append_re, current->hdoc_delimeter);
+		j++;
 		current = current->next;
 	}
 }
-/*
+
 void	check_builtins(t_cmd **cmds)
 {
 	t_cmd	*current;
@@ -79,13 +87,17 @@ void	check_builtins(t_cmd **cmds)
 	current = *cmds;
 	while (current)
 	{
-		if (current->cmd_arr[i])
+		if (!ft_strcmp(current->cmd_arr[0], "echo") || !ft_strcmp(current->cmd_arr[0], "cd")
+				|| !ft_strcmp(current->cmd_arr[0], "pwd") || !ft_strcmp(current->cmd_arr[0], "export")
+				|| !ft_strcmp(current->cmd_arr[0], "unset") || !ft_strcmp(current->cmd_arr[0], "env")
+				|| !ft_strcmp(current->cmd_arr[0], "exit"))
 		{
-
+			current->builtin = 1;
 		}
+		current = current->next;
 	}
 }
-*/
+
 
 void remove_element(char **arr, int index, int arr_length)
 {
@@ -103,20 +115,20 @@ void remove_element(char **arr, int index, int arr_length)
     arr[arr_length - 1] = NULL;
 }
 
-void	parsing(t_lexer **lexer, t_cmd **cmds)
+void parsing(t_lexer **lexer, t_cmd **cmds)
 {
     int		i;
     int		arg_count;
     t_lexer	*curr_l;
     t_lexer	*temp_l;
     char	**arr;
+    t_cmd   *cmd;
 
     curr_l = *lexer;
     while (curr_l)
     {
         arg_count = 0;
         temp_l = curr_l;
-		//count the number of str for arr
         while (temp_l && temp_l->type != 2)
         {
             arg_count++;
@@ -124,51 +136,60 @@ void	parsing(t_lexer **lexer, t_cmd **cmds)
         }
         arr = ft_calloc(arg_count + 1, sizeof(char *));
         i = 0;
+        cmd = new_cmd(arr);
         while (curr_l && curr_l->type != 2)
         {
-			if (curr_l->type == 3)
-			{
-				curr_l = curr_l->next;
-				//check if next is not NULL
-				//if NULL return error
-				//assign curr_l->str to infile
-			}
-			else if (curr_l->type == 4)
-			{
-				curr_l = curr_l->next;
-				//check if next is not NULL
-				//if NULL return error
-				//assign curr_l->str to outfile
-			}
+            if (curr_l->type == 3)
+            {
+                if (curr_l->next && curr_l->next->type != 2 && curr_l->next->type != 4 && curr_l->next->type != 5 && curr_l->next->type != 6)
+                {
+                    curr_l = curr_l->next;
+                    cmd->infile = ft_strdup(curr_l->str);
+                }
+                else
+                    perror("no in/outfile"); //change to error handling later,if NULL return error
+            }
+            else if (curr_l->type == 4)
+            {
+                if (curr_l->next && curr_l->next->type != 2 && curr_l->next->type != 3 && curr_l->next->type != 5 && curr_l->next->type != 6)
+                {
+                    curr_l = curr_l->next;
+                    cmd->outfile = ft_strdup(curr_l->str);
+                }
+                else
+                    perror("no in/outfile"); //change to error handling later,if NULL return error
+            }
 			else if (curr_l->type == 5)
 			{
-				curr_l = curr_l->next;
-				//check if next is not NULL
-				//if NULL return error
-				//create a delimeter var in cmd struct
-				//assign curr_l->str to delimeter
+				if (curr_l->next && curr_l->next->type != 2 && curr_l->next->type != 3 && curr_l->next->type != 4 && curr_l->next->type != 6)
+                {
+                    curr_l = curr_l->next;
+                    cmd->hdoc_delimeter = ft_strdup(curr_l->str);
+                }
+                else
+                    perror("no in/outfile"); //change to error handling later,if NULL return error
 			}
 			else if (curr_l->type == 6)
 			{
-				curr_l = curr_l->next;
-				//check if next is not NULL
-				//if NULL return error
-				//assign curr_l->str to outfile
-				//append_redirection, need to think how to tell if it is
+				if (curr_l->next && curr_l->next->type != 2 && curr_l->next->type != 3 && curr_l->next->type != 5 && curr_l->next->type != 6)
+                {
+                    curr_l = curr_l->next;
+                    cmd->outfile = ft_strdup(curr_l->str);
+					cmd->append_re = 1;
+                }
+                else
+                    perror("no in/outfile"); //change to error handling later,if NULL return error
 			}
-			else
-			{
-        	    arr[i] = ft_strdup(curr_l->str);
-        	    i++;
-			}
-			curr_l = curr_l->next;
+            else
+            {
+                arr[i] = ft_strdup(curr_l->str);
+                i++;
+            }
+            curr_l = curr_l->next;
         }
-        cmd_add_back(cmds, new_cmd(arr));
+        cmd_add_back(cmds, cmd);
         if (curr_l)
             curr_l = curr_l->next;
     }
-    printf("Entering print parse\n");
-    print_parse(cmds);
+	check_builtins(cmds);
 }
-
-

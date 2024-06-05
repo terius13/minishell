@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:56:44 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 13:43:59 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 15:06:03 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	free_cmds(t_cmd **cmds)
 			i++;
 		}
 		free(current->cmd_arr);
+		if (current->hdoc_delimeter)
+			free(current->hdoc_delimeter);
         free(current);
         current = next;
     }

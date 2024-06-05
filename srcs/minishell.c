@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 13:36:05 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 15:13:22 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int	main(void)
 			printf("After lexer:\n");
 			print_lexer(lexer);
 			parsing(lexer, cmds);
-			printf("entering free all\n");
+			print_parse(cmds);
+			printf("entering free cmds\n");
 			free_cmds(cmds);
+			printf("entering free all\n");
 			free_all(lexer, line);
 		}
 	}

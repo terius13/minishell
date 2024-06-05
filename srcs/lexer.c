@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 16:59:30 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 14:57:51 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void tokenizer(t_lexer **lexer, char *str)
 
     while (str[i])
 	{
-        while (isspace((unsigned char)str[i]))
+        while (ft_isspace((unsigned char)str[i]))
 		{
             i++;
         }
         start = i;
-        while (str[i] && !isspace((unsigned char)str[i]))
+        while (str[i] && !ft_isspace((unsigned char)str[i]))
 		{
             if (str[i] == '"' || str[i] == '\'')
 			{
