@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/04 18:09:23 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/05 10:38:46 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_lstadd_back_ms(t_env **lst, t_env *new);
 void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
 
 // free
-void	free_split(char **split);
+void	free_split(char **args);
 void	free_current_export(t_env *tmp, char *value, char **split);
 void	free_env(t_env	**env_list);
 void	free_all(char **args, char *input, t_env **env_dup);
