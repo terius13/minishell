@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/05 10:38:46 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/05 13:57:41 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ typedef struct s_env
 
 void	execute_builtins(char **args, char *input, t_env **env_dup);
 
+// utils
+void	print_error_cd(char *args);
+char	*find_env(t_env **env_list, char *to_find);
+
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
-void	builtin_cd(char **args);
+void	builtin_cd(char **args, t_env **env_list);
 void	builtin_exit(char **args, char *input, t_env **env);
 
 // export

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/04 18:11:25 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/05 13:25:01 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	export_error_check(char *args)
 	while (args[i])
 	{
 		if (args[i] == '=')
-			return (i + 1) ;
+			return (i + 1);
 		if ((isalnum(args[i]) == 0) && args[i] != '_')
 		{
 			printf(C "shell@st42:$ " RST);
