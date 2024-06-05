@@ -6,7 +6,7 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/04 12:22:29 by ting             ###   ########.fr        #
+#    Updated: 2024/06/05 17:18:09 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ LIBFT = libft/libft.a
 SRCSPATH = srcs/
 
 SRCS = minishell.c parsing.c \
-		lexer.c expand_env_var.c \
-		remove_quotes.c free_for_lexer.c \
+		lexer.c lexer_utils.c \
+		expand_env_var.c free_for_lexer.c \
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 

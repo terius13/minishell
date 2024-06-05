@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/05 16:12:02 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 17:16:42 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	print_parse(t_cmd **cmds)
 	int		i;
 	int		j;
 
-	printf("In print parse\n");
 	current = *cmds;
 	j = 0;
 	while (current)
@@ -87,10 +86,11 @@ void	check_builtins(t_cmd **cmds)
 	current = *cmds;
 	while (current)
 	{
-		if (!ft_strcmp(current->cmd_arr[0], "echo") || !ft_strcmp(current->cmd_arr[0], "cd")
+		if (current->cmd_arr && current->cmd_arr[0]
+				&& (!ft_strcmp(current->cmd_arr[0], "echo") || !ft_strcmp(current->cmd_arr[0], "cd")
 				|| !ft_strcmp(current->cmd_arr[0], "pwd") || !ft_strcmp(current->cmd_arr[0], "export")
 				|| !ft_strcmp(current->cmd_arr[0], "unset") || !ft_strcmp(current->cmd_arr[0], "env")
-				|| !ft_strcmp(current->cmd_arr[0], "exit"))
+				|| !ft_strcmp(current->cmd_arr[0], "exit")))
 		{
 			current->builtin = 1;
 		}

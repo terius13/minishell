@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/02 16:42:06 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/05 17:05:58 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value)
     int     new_str_len;
     int		back_len;
     int     mid_len;
-    
+
     old_str = ft_strdup(lexer->str);
     mid_len = var_start + var_len + 1; //until after the var
     back_len = ft_strlen(old_str) - var_start - (var_len + 1);// +1 for '\0' in strcat
@@ -51,7 +51,7 @@ int    expand_env_var(t_lexer *lexer, int i)
     char    *var;
     int     var_len;
     char    *value;
-    
+
     var_len = cal_var_len(lexer->str + i);
     var = (char *)malloc(sizeof(char) * (var_len + 1));
     ft_strlcpy(var, lexer->str + i, var_len + 1); // Copy the varname to var
@@ -94,6 +94,43 @@ void check_env_var(t_lexer *lexer)
                 i++;
         }
     }
+}
+
+int	remove_quotes(t_lexer *lexer)
+{
+    int		i;
+    int		j;
+    char	*new_str;
+    char	*old_str;
+
+    old_str = lexer->str;
+    new_str = malloc(strlen(old_str) + 1); // Allocate enough space for the new string
+
+    if (!new_str)
+        return 1;
+
+    i = 0;
+    j = 0;
+    while (old_str[i])
+    {
+        // If the character is not a quote, copy it to the new string
+        if (old_str[i] != '\'' && old_str[i] != '"')
+        {
+            new_str[j] = old_str[i];
+            j++;
+        }
+        i++;
+    }
+    new_str[j] = '\0'; // Null-terminate the new string
+
+    free(lexer->str);
+    lexer->str = new_str;
+
+    // If the new string is empty, return 1 to indicate that the node should be deleted
+    if (strlen(new_str) == 0)
+        return 1;
+
+    return 0;
 }
 
 
