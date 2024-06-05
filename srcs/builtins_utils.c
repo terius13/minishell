@@ -3,15 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/05/31 12:19:50 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/05 16:21:06 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
+
+
+
+char	*find_env(t_env **env_list, char *to_find)
+
+{
+	t_env	*current;
+	current = *env_list;
+
+	while (current != NULL)
+	{
+		if (ft_strcmp(current->key, to_find) == 0)
+		{
+			return (current->value);
+		}
+		current = current->next;
+	}
+	return (NULL);
+	
+}
+
+// handle more than 1 args
+// find home path
 
 void	builtin_cd(char **args)
 {
@@ -20,14 +43,18 @@ void	builtin_cd(char **args)
 	else
 	{
 		if (chdir(args[1]) != 0)
-			perror("cd");
+		{
+			printf(C "shell@st42:$ " RST);
+			printf("cd: '%s': No such file or directory\n", args[1]);
+		}
+
 	}
 }
 
 void	builtin_pwd(void)
 
 {
-	char	cwd[1024];
+	char	cwd[4086];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
@@ -36,7 +63,7 @@ void	builtin_pwd(void)
 }
 
 void	builtin_echo(char **args)
-// might need to handle $ just in case
+
 {
 	int	i;
 
@@ -64,6 +91,10 @@ void	builtin_echo(char **args)
 		printf("\n");
 	}
 }
+
+// see notes
+// handle wrong args
+
 
 void	builtin_exit(char **args, char *input, t_env **env)
 
