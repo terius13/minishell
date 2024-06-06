@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/05 13:25:01 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/06 10:18:26 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	export_error_check(char *args)
 		return (-1);
 	if (args[0] == '=' || ((isalpha(args[0]) == 0) && args[0] != '_'))
 	{
-		printf(C "shell@st42:$ " RST);
-		printf("export: '%s': not a valid identifier\n", args);
+		//printf(C "shell@st42:$ " RST);
+		printf("bash: export: '%s': not a valid identifier\n", args);
 		return (-1);
 	}
 	i = 1;
@@ -39,8 +39,8 @@ int	export_error_check(char *args)
 			return (i + 1);
 		if ((isalnum(args[i]) == 0) && args[i] != '_')
 		{
-			printf(C "shell@st42:$ " RST);
-			printf("export: '%s': not a valid identifier\n", args);
+			//printf(C "shell@st42:$ " RST);
+			printf("bash: export: '%s': not a valid identifier\n", args);
 			return (-1);
 		}
 		i++;

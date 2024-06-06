@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/05 17:22:45 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/06 11:54:04 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*find_env(t_env **env_list, char *to_find)
 void	print_error_cd(char *args)
 
 {
-	printf(C "shell@st42:$ " RST);
-	printf("cd: '%s': No such file or directory\n", args);
+	//printf(C "shell@st42:$ " RST);
+	printf("bash: cd: '%s': No such file or directory\n", args);
 }
 
 void	builtin_cd(char **args, t_env **env_list)
@@ -50,10 +50,10 @@ void	builtin_cd(char **args, t_env **env_list)
 		if (chdir(home) != 0)
 			print_error_cd(home);
 	}
-	else if (ac >= 2) // why not handling more than 1 args properly?
+	else if (ac > 2) // why not handling more than 1 args properly?
 	{
-		printf(C "shell@st42:$ " RST);
-		perror("cd");
+		//printf(C "shell@st42:$ " RST);
+		printf("bash: cd: too many arguments\n");
 	}
 	else
 	{
@@ -103,13 +103,45 @@ void	builtin_echo(char **args)
 	}
 }
 
-// see notes
-// handle wrong args
 
 void	builtin_exit(char **args, char *input, t_env **env)
 
 {
-	free_all(args, input, env);
+	int	exit_stats;
+	int	ac;
+	int	i;
+	int	av;
+
+	exit_stats = 0;
+	ac = 0;
+	i = 0;
+	
+	while (args[ac])
+		ac++;
 	printf("exit\n");
-	exit(0);
+	if (ac > 2 && args[1] != NULL && ft_isdigit(args[1][i]))
+	{
+		printf("bash: exit: too many arguments\n");
+		return ;
+	}
+	if (args[1] != NULL)
+	{
+		while (args[1][i])
+		{
+			if (ft_isdigit(args[1][i]) == 0 || (args[1][i] != '-' && ft_isdigit(args[1][i + 1]) == 0))
+			{
+				printf("bash: exit: %s: numeric arguments required\n", args[1]);
+				exit_stats = 2;
+				break;
+			}
+			i++;
+		}
+		if (exit_stats == 0)
+		{
+			av = ft_atoi(args[1]);
+			exit_stats = av & 0xFF; // process only lower 8 bits
+		}
+	}
+	free_all(args, input, env);
+	exit(exit_stats);
 }
