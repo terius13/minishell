@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:53:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/05 16:55:52 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/06 18:17:38 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_lexer	*new_lexer(char *str)
 	else if (!ft_strcmp(str, ">>"))
 		new->type = 6;
 	else
-		new->type = 1; //type 1 is string
+		new->type = 1;
 	new->next = NULL;
 	new->prev = NULL;
 	free(str);
