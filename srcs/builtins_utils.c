@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/06 11:54:04 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/06 16:05:53 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,47 +101,4 @@ void	builtin_echo(char **args)
 		}
 		printf("\n");
 	}
-}
-
-
-void	builtin_exit(char **args, char *input, t_env **env)
-
-{
-	int	exit_stats;
-	int	ac;
-	int	i;
-	int	av;
-
-	exit_stats = 0;
-	ac = 0;
-	i = 0;
-	
-	while (args[ac])
-		ac++;
-	printf("exit\n");
-	if (ac > 2 && args[1] != NULL && ft_isdigit(args[1][i]))
-	{
-		printf("bash: exit: too many arguments\n");
-		return ;
-	}
-	if (args[1] != NULL)
-	{
-		while (args[1][i])
-		{
-			if (ft_isdigit(args[1][i]) == 0 || (args[1][i] != '-' && ft_isdigit(args[1][i + 1]) == 0))
-			{
-				printf("bash: exit: %s: numeric arguments required\n", args[1]);
-				exit_stats = 2;
-				break;
-			}
-			i++;
-		}
-		if (exit_stats == 0)
-		{
-			av = ft_atoi(args[1]);
-			exit_stats = av & 0xFF; // process only lower 8 bits
-		}
-	}
-	free_all(args, input, env);
-	exit(exit_stats);
 }

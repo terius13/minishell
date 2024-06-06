@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/05 13:57:41 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/06 16:53:57 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*find_env(t_env **env_list, char *to_find);
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_cd(char **args, t_env **env_list);
-void	builtin_exit(char **args, char *input, t_env **env);
+
 
 // export
 void	update_current_export(t_env *tmp, char *key, char *value);
@@ -65,6 +65,15 @@ void	builtin_env(t_env **env_list);
 void	print_env_var(void *env_list);
 t_env	**env_error(char *message);
 t_env	**init_env_copy(char **env);
+
+
+// exit
+int		check_negative(char **args);
+void	not_numeric(char **args, char *input, t_env **env);
+int		too_many_args(char **args);
+int		confirmed_exit_status(char **args);
+void	builtin_exit(char **args, char *input, t_env **env);
+
 
 // env_node_utils
 void	ft_lstiter_ms(t_env *lst, void (*f)(void *));
