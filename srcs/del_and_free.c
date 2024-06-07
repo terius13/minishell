@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:54 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/05 10:39:23 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 10:37:29 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,12 @@ void	free_env(t_env	**env_list)
 		tmp = next;
 	}
 	free(env_list);
-	//*env_list = NULL;
 }
 
 void	free_all(char **args, char *input, t_env **env_dup)
 
 {
 	free_split(args);
-	// free(args);
 	free(input);
 	free_env(env_dup);
-	// free(env_dup);
 }

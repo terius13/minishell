@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/06 16:53:57 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 11:00:12 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	free_unset_node(t_env *del);
 void	builtin_unset(char **args, t_env **env_list);
 
 // env
+void	create_copy(t_env **env_list, char *env);
 void	builtin_env(t_env **env_list);
 void	print_env_var(void *env_list);
 t_env	**env_error(char *message);

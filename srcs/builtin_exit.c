@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:05:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/06 16:57:07 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 11:07:13 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,15 @@ int	confirmed_exit_status(char **args)
 	int	av;
 	int exit_stats;
 
-	av = ft_atoi(args[1]);
-	exit_stats = av & 0xFF; // process only lower 8 bits
+	if (args[1] != NULL)
+	{
+		av = ft_atoi(args[1]);
+		exit_stats = av & 0xFF; // process only lower 8 bits
+	}
+	else
+	{
+		exit_stats = 0;
+	}
 	return (exit_stats);
 }
 void	builtin_exit(char **args, char *input, t_env **env)
