@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/07 11:10:44 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 13:57:25 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	create_copy(t_env **env_list, char *env)
 		env_error("ft_split");
 		return ;
 	}
-	
 	key = ft_strdup(split[0]);
 	if (split[1] != NULL)
 		value = ft_strdup(split[1]);
