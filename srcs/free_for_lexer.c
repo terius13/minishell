@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_for_lexer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:56:44 by ting              #+#    #+#             */
-/*   Updated: 2024/06/06 17:56:51 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/07 16:38:00 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ void	free_all(t_lexer **lexer, t_cmd **cmds, char *line)
     }
 	if (line)
 		free(line);
-	exit(1); //need to exit so the func that called this with error dont continue running
+//	exit(1); //need to exit so the func that called this with error dont continue running
 }
