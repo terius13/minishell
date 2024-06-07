@@ -6,7 +6,7 @@
 #    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/06 16:55:08 by asyed            ###   ########.fr        #
+#    Updated: 2024/06/07 16:04:49 by asyed            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,11 @@ SRCSPATH = srcs/
 
 SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
 		builtins_utils.c builtins.c del_and_free.c\
-		builtin_export.c builtin_unset.c builtin_exit.c
-#SRCS = minishell.c parsing.c \
-		lexer.c expand_env_var.c \
-		remove_quotes.c free_for_lexer.c \
+		builtin_export.c builtin_unset.c builtin_exit.c\
+		minishell.c parsing.c \
+		lexer.c lexer_utils.c \
+		expand_env_var.c free_for_lexer.c \
+		parsing_utils.c
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
@@ -34,7 +35,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 		@$(MAKE) -C libft
 		@cc $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
-		
+
 $(SRCSPATH)%.o: $(SRCSPATH)%.c
 	cc $(FLAGS) -Iincludes -c $< -o $@
 
