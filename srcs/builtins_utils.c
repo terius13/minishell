@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/06 16:05:53 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 16:53:41 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	builtin_cd(char **args, t_env **env_list)
 		if (chdir(home) != 0)
 			print_error_cd(home);
 	}
-	else if (ac > 2) // why not handling more than 1 args properly?
+	else if (ac > 2)
 	{
 		//printf(C "shell@st42:$ " RST);
 		printf("bash: cd: too many arguments\n");

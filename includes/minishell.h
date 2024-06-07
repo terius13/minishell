@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/07 16:03:53 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 17:53:13 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,66 +38,12 @@ typedef struct s_env
 	struct s_env	*next;
 }			t_env;
 
-void	execute_builtins(char **args, char *input, t_env **env_dup);
-
-// utils
-void	print_error_cd(char *args);
-char	*find_env(t_env **env_list, char *to_find);
-
-void	builtin_echo(char **args);
-void	builtin_pwd(void);
-void	builtin_cd(char **args, t_env **env_list);
-
-
-// export
-void	update_current_export(t_env *tmp, char *key, char *value);
-int		export_error_check(char *args);
-void	assign_key_value(char *args, int equal, char **key, char **value);
-void	handle_export(char *args, t_env **env_list);
-void	builtin_export(char **args, t_env **env_list);
-
-// unset
-void	free_unset_node(t_env *del);
-void	builtin_unset(char **args, t_env **env_list);
-
-// env
-void	create_copy(t_env **env_list, char *env);
-void	builtin_env(t_env **env_list);
-void	print_env_var(void *env_list);
-t_env	**env_error(char *message);
-t_env	**init_env_copy(char **env);
-
-
-// exit
-int		check_negative(char **args);
-void	not_numeric(char **args, char *input, t_env **env);
-int		too_many_args(char **args);
-int		confirmed_exit_status(char **args);
-void	builtin_exit(char **args, char *input, t_env **env);
-
-
-// env_node_utils
-void	ft_lstiter_ms(t_env *lst, void (*f)(void *));
-t_env	*ft_lstnew_ms(char *key, char *value);
-void	ft_lstadd_back_ms(t_env **lst, t_env *new);
-void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
-
-// free
-void	free_split(char **args);
-void	free_current_export(t_env *tmp, char *value, char **split);
-void	free_env(t_env	**env_list);
-void	free_all(char **args, char *input, t_env **env_dup);
-
-#endif
-
-/*
 typedef struct s_lexer
 {
 	char			*str; //have to free
 	int 			type; // word(1), '|'(2), '<'(3), '>'(4), '<<'(5), '>>'(6),
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
-
 }					t_lexer;
 
 typedef struct s_cmd
@@ -111,7 +57,57 @@ typedef struct s_cmd
 	int				append_re;
 	char			*hdoc_delimeter;
 	struct s_cmd	*next;
+//	struct s_env	*env;
 }					t_cmd;
+
+void	execute_builtins(char **args, t_env **env_dup);
+
+// builtins_utils.c
+void	print_error_cd(char *args);
+char	*find_env(t_env **env_list, char *to_find);
+void	builtin_echo(char **args);
+void	builtin_pwd(void);
+void	builtin_cd(char **args, t_env **env_list);
+
+
+// builtin_export.c
+void	update_current_export(t_env *tmp, char *key, char *value);
+int		export_error_check(char *args);
+void	assign_key_value(char *args, int equal, char **key, char **value);
+void	handle_export(char *args, t_env **env_list);
+void	builtin_export(char **args, t_env **env_list);
+
+// builtin_unset.c
+void	free_unset_node(t_env *del);
+void	builtin_unset(char **args, t_env **env_list);
+
+// builtin_env.c
+void	create_copy(t_env **env_list, char *env);
+void	builtin_env(t_env **env_list);
+void	print_env_var(void *env_list);
+t_env	**env_error(char *message);
+t_env	**init_env_copy(char **env);
+
+// builtin_exit.c
+int		check_negative(char **args);
+void	not_numeric(char **args);
+int		too_many_args(char **args);
+int		confirmed_exit_status(char **args);
+void	builtin_exit(char **args);
+
+// builtins_env_node_utils.c
+void	ft_lstiter_ms(t_env *lst, void (*f)(void *));
+t_env	*ft_lstnew_ms(char *key, char *value);
+void	ft_lstadd_back_ms(t_env **lst, t_env *new);
+void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
+
+// del_and_free.c
+void	free_split(char **args);
+void	free_current_export(t_env *tmp, char *value, char **split);
+void	free_env(t_env	**env_list);
+void	free_bi(char **args, char *input, t_env **env_dup);
+
+// PARSING
 
 //lexer.c
 int		quotes_token(char *str, int i);

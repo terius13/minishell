@@ -6,7 +6,7 @@
 #    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/07 16:04:49 by asyed            ###   ########.fr        #
+#    Updated: 2024/06/07 16:34:34 by asyed            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCSPATH = srcs/
 SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
 		builtins_utils.c builtins.c del_and_free.c\
 		builtin_export.c builtin_unset.c builtin_exit.c\
-		minishell.c parsing.c \
+		parsing.c \
 		lexer.c lexer_utils.c \
 		expand_env_var.c free_for_lexer.c \
 		parsing_utils.c

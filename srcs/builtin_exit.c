@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:05:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/07 11:07:13 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 16:46:13 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int		check_negative(char **args)
 	return (i);
 }
 
+// NEED TO FREE ALL
+/*
+
 void	not_numeric(char **args, char *input, t_env **env)
 
 {
@@ -29,7 +32,19 @@ void	not_numeric(char **args, char *input, t_env **env)
 
 	exit_stats = 2;
 	printf("bash: exit: %s: numeric arguments required\n", args[1]);
-	free_all(args, input, env);
+	// free_all(args, input, env);
+	exit(exit_stats);
+}
+
+*/
+void	not_numeric(char **args)
+
+{
+	int	exit_stats;
+
+	exit_stats = 2;
+	printf("bash: exit: %s: numeric arguments required\n", args[1]);
+	// free_all(args, input, env);
 	exit(exit_stats);
 }
 
@@ -64,6 +79,10 @@ int	confirmed_exit_status(char **args)
 	}
 	return (exit_stats);
 }
+/*
+
+// NEED TO FREE ARGS AND INPUT
+
 void	builtin_exit(char **args, char *input, t_env **env)
 
 {
@@ -79,7 +98,7 @@ void	builtin_exit(char **args, char *input, t_env **env)
 		while (args[1][i])
 		{	
 			if (ft_isdigit(args[1][i]) == 0)
-				not_numeric(args, input, env);
+				not_numeric(args); // ADD ARGS AND INPUT TO FREE
 			i++;
 		}
 	}
@@ -87,6 +106,36 @@ void	builtin_exit(char **args, char *input, t_env **env)
 		return ;
 	if (exit_stats == 0)
 		exit_stats = confirmed_exit_status(args);
-	free_all(args, input, env);
+	//free_bi(args, input, env);
+	free_env(env);
+	exit(exit_stats);
+}
+*/
+
+void	builtin_exit(char **args)
+
+{
+	int	exit_stats;
+	int	i;
+
+	exit_stats = 0;
+	i = 0;
+	printf("exit\n");
+	if (args[1] != NULL)
+	{
+		i = check_negative(args);
+		while (args[1][i])
+		{	
+			if (ft_isdigit(args[1][i]) == 0)
+				not_numeric(args); // ADD ARGS AND INPUT TO FREE
+			i++;
+		}
+	}
+	if (too_many_args(args))
+		return ;
+	if (exit_stats == 0)
+		exit_stats = confirmed_exit_status(args);
+	//free_bi(args, input, env);
+	// free_env(env);
 	exit(exit_stats);
 }

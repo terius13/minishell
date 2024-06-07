@@ -6,13 +6,13 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/07 10:39:02 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/07 16:30:07 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_builtins(char **args, char *input, t_env **env_dup)
+void	execute_builtins(char **args, t_env **env_dup) // INCLUDE INPUT LATER
 
 {
 	if (ft_strcmp(args[0], "echo") == 0)
@@ -28,11 +28,12 @@ void	execute_builtins(char **args, char *input, t_env **env_dup)
 	else if (ft_strcmp(args[0], "env") == 0)
 		builtin_env(env_dup);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		builtin_exit(args, input, env_dup);
+		builtin_exit(args);
 	else
 		printf("Command %s not found.\n", args[0]);
 }
 
+/*
 int	main(int ac, char **av, char **env)
 
 {
@@ -75,3 +76,4 @@ int	main(int ac, char **av, char **env)
 	// free_all(args, input, env_dup);
 	return (0);
 }
+*/
