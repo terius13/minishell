@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/07 17:53:13 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/08 13:06:50 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ typedef struct s_cmd
 //	struct s_env	*env;
 }					t_cmd;
 
+
+//--------------------BUILT-INS--------------------
+
+//builtins.c
 void	execute_builtins(char **args, t_env **env_dup);
 
 // builtins_utils.c
@@ -68,7 +72,6 @@ char	*find_env(t_env **env_list, char *to_find);
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_cd(char **args, t_env **env_list);
-
 
 // builtin_export.c
 void	update_current_export(t_env *tmp, char *key, char *value);
@@ -101,13 +104,8 @@ t_env	*ft_lstnew_ms(char *key, char *value);
 void	ft_lstadd_back_ms(t_env **lst, t_env *new);
 void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
 
-// del_and_free.c
-void	free_split(char **args);
-void	free_current_export(t_env *tmp, char *value, char **split);
-void	free_env(t_env	**env_list);
-void	free_bi(char **args, char *input, t_env **env_dup);
 
-// PARSING
+//--------------------PARSING--------------------
 
 //lexer.c
 int		quotes_token(char *str, int i);
@@ -142,9 +140,15 @@ void	cmd_add_back(t_cmd **cmds, t_cmd *new);
 void	print_parse(t_cmd **cmds);
 int		cal_arg_count(t_lexer *curr_l);
 
-//free_for_lexer.c
+
+//--------------------FREEING--------------------
+
+//free.c
+void	free_array(char **array);
+void	free_env(t_env	**env_list);
 void 	free_lexer(t_lexer **lexer);
 void	free_cmds(t_cmd **cmds);
-void	free_all(t_lexer **lexer, t_cmd **cmds, char *line);
+void	freeall_and_exit(t_cmd **cmds);
+//void	freeall_and_exit(t_lexer **lexer, t_cmd **cmds, char *line);
 
 #endif

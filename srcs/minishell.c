@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/07 16:39:09 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/08 13:07:08 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ int	main(int ac, char **av, char **env)
 		if (line)
 		{
 			lexical_analysis(lexer, line);
+			free(line);
 			printf("After lexer:\n");
 			print_lexer(lexer);
 			parsing(lexer, cmds);
 			print_parse(cmds);
-		//	free_lexer(lexer);
+			free_lexer(lexer);
 			current = *cmds;
 			while(current)
 			{
@@ -53,7 +54,7 @@ int	main(int ac, char **av, char **env)
 				current = current->next;
 			}
 			free_cmds(cmds);
-		//	free_all(lexer, cmds ,line); //should be in exit func
+		//	freeall_and_exit(lexer, cmds ,line); //should be in exit func
 		}
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:05:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/07 16:46:13 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/08 13:03:40 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	builtin_exit(char **args, char *input, t_env **env)
 	{
 		i = check_negative(args);
 		while (args[1][i])
-		{	
+		{
 			if (ft_isdigit(args[1][i]) == 0)
 				not_numeric(args); // ADD ARGS AND INPUT TO FREE
 			i++;
@@ -125,7 +125,7 @@ void	builtin_exit(char **args)
 	{
 		i = check_negative(args);
 		while (args[1][i])
-		{	
+		{
 			if (ft_isdigit(args[1][i]) == 0)
 				not_numeric(args); // ADD ARGS AND INPUT TO FREE
 			i++;
@@ -135,7 +135,7 @@ void	builtin_exit(char **args)
 		return ;
 	if (exit_stats == 0)
 		exit_stats = confirmed_exit_status(args);
-	//free_bi(args, input, env);
+	//free_bi(args, input, env); //change function to take in t_cmd, so able to use freeall_and_exit to free everything
 	// free_env(env);
 	exit(exit_stats);
 }
