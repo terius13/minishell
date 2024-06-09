@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/06 18:15:54 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/09 16:05:01 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,18 @@ void	check_builtins(t_cmd **cmds)
 
 void handle_redirection(t_lexer **curr_l, t_cmd *cmd)
 {
+	if (!curr_l || !*curr_l || !cmd)
+    {
+        perror("Null pointer");
+        return;
+    }
     if ((*curr_l)->type == 3)
     {
         if ((*curr_l)->next && (*curr_l)->next->type == 1)
         {
             *curr_l = (*curr_l)->next;
-            cmd->infile = ft_strdup((*curr_l)->str); //may need to change to handle multiple redirection
-        }
+            add_to_arr(&cmd->infile, (*curr_l)->str);
+		}
         else
             perror("no infile"); //need to change to error handling later
     }
@@ -48,7 +53,7 @@ void handle_redirection(t_lexer **curr_l, t_cmd *cmd)
         if ((*curr_l)->next && (*curr_l)->next->type == 1)
         {
             *curr_l = (*curr_l)->next;
-            cmd->outfile = ft_strdup((*curr_l)->str); //may need to change to handle multiple redirection
+            add_to_arr(&cmd->outfile, (*curr_l)->str);
         }
         else
             perror("no outfile"); //need to change to error handling later
@@ -62,8 +67,8 @@ void handle_append(t_lexer **curr_l, t_cmd *cmd)
         if ((*curr_l)->next && (*curr_l)->next->type == 1)
         {
             *curr_l = (*curr_l)->next;
-            cmd->outfile = ft_strdup((*curr_l)->str);
-            cmd->append_re = 1; //may need to change later to char * instead, outfile will be in here
+            add_to_arr(&cmd->outfile, (*curr_l)->str);
+            add_to_arr(&cmd->append_re, (*curr_l)->str);
         }
         else
             perror("no outfile for append"); //need to change to error handling later

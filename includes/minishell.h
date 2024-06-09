@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/08 13:06:50 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/09 15:58:53 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef struct s_cmd
 	char			**cmd_arr;
 	int				in_pid;
 	int				out_pid;
-	char			*infile;
-	char			*outfile;
+	char			**infile;
+	char			**outfile;
 	int				builtin;
-	int				append_re;
+	char			**append_re;
 	char			*hdoc_delimeter;
 	struct s_cmd	*next;
 //	struct s_env	*env;
@@ -111,7 +111,7 @@ void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
 int		quotes_token(char *str, int i);
 void	handle_special_token(t_lexer **lexer, char *str, int *i);
 void	tokenizer(t_lexer **lexer, char *str);
-void	lexical_analysis(t_lexer **lexer, char *str);
+void	lexer_and_parse(t_cmd **cmds, char *str);
 
 //lexer_utils.c
 t_lexer	*new_lexer(char *str);
@@ -125,6 +125,8 @@ void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value);
 int		cal_var_len(char *str);
 int		expand_env_var(t_lexer *lexer, int i);
 void 	check_env_var(t_lexer *lexer);
+
+//remove_quotes.c
 int		remove_quotes(t_lexer *lexer);
 
 //parsing.c
@@ -139,6 +141,8 @@ t_cmd	*new_cmd(char **arr);
 void	cmd_add_back(t_cmd **cmds, t_cmd *new);
 void	print_parse(t_cmd **cmds);
 int		cal_arg_count(t_lexer *curr_l);
+int	get_arr_size(char **arr);
+void	add_to_arr(char ***arr, char *str);
 
 
 //--------------------FREEING--------------------
@@ -149,6 +153,5 @@ void	free_env(t_env	**env_list);
 void 	free_lexer(t_lexer **lexer);
 void	free_cmds(t_cmd **cmds);
 void	freeall_and_exit(t_cmd **cmds);
-//void	freeall_and_exit(t_lexer **lexer, t_cmd **cmds, char *line);
 
 #endif

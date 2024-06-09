@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/06 18:27:14 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/09 16:32:56 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,15 @@ void tokenizer(t_lexer **lexer, char *str)
     }
 }
 
-void	lexical_analysis(t_lexer **lexer, char *str)
+void	lexer_and_parse(t_cmd **cmds, char *str)
 {
+	t_lexer **lexer;
 	t_lexer	*current;
 	t_lexer	*next;
 	int		no_value;
-    
 
+	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
+	*lexer = NULL;
 	tokenizer(lexer, str);
 	current = *lexer;
 	while (current)
@@ -96,12 +98,18 @@ void	lexical_analysis(t_lexer **lexer, char *str)
 		next = current->next; // Store the next node before any potential deletion
 		if (current->type == 1)
 		{
-			check_env_var(current); // pass current by reference to allow modification within the function
+			check_env_var(current);
 			no_value = remove_quotes(current);
 			if (no_value)
 				del_lexer(lexer, current);
 		}
-		current = next; // Move to the next node
+		current = next;
 	}
+	printf("After lexer:\n");
+	print_lexer(lexer);
+	parsing(lexer, cmds);
+	print_parse(cmds);
+	free_lexer(lexer);
+	free(lexer);
 }
 
