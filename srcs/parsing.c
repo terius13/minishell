@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 19:16:38 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 19:28:22 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,27 @@ int handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd)
     return (0);
 }
 
+int check_redirection(t_lexer *curr_l, t_cmd *cmd)
+{
+    if (curr_l->type == 3 || curr_l->type == 4)
+    {
+        if (handle_redirection(&curr_l, cmd))
+        {
+            free(cmd);
+            return (1);
+        }
+    }
+    else if (curr_l->type == 5 || curr_l->type == 6)
+    {
+        if (handle_append_or_heredoc(&curr_l, cmd))
+        {
+            free(cmd);
+            return (1);
+        }
+    }
+    return (0);
+}
+
 int parsing(t_lexer **lexer, t_cmd **cmds)
 {
     int     i;
@@ -113,23 +134,10 @@ int parsing(t_lexer **lexer, t_cmd **cmds)
         cmd = new_cmd(arr);
         while (curr_l && curr_l->type != 2)
         {
-            if (curr_l->type == 3 || curr_l->type == 4)
+            if (curr_l->type >= 3 && curr_l->type <= 6)
             {
-                if (handle_redirection(&curr_l, cmd))
-                {
-                    free_array(arr);
-                    free(cmd);
-                    return (1);
-                }
-            }
-            else if (curr_l->type == 5 || curr_l->type == 6)
-            {
-                if (handle_append_or_heredoc(&curr_l, cmd))
-                {
-                    free_array(arr);
-                    free(cmd);
-                    return (1);
-                }
+                if (check_redirection(curr_l, cmd))
+                    return (free_array(arr), 1);
             }
             else
                 arr[i++] = ft_strdup(curr_l->str);

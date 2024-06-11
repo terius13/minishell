@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 19:16:21 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 19:21:40 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int		remove_quotes(t_lexer *lexer);
 //parsing.c
 void	check_builtins(t_cmd **cmds);
 int		parsing(t_lexer **lexer, t_cmd **cmds);
+int		check_redirection(t_lexer *curr_l, t_cmd *cmd);
 int		handle_redirection(t_lexer **curr_l, t_cmd *cmd);
 int 	handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd);
 
