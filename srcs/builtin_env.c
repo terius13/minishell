@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/08 12:22:52 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 14:48:11 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ void	create_copy(t_env **env_list, char *env)
 		env_error("ft_strdup");
 		return ;
 	}
-	new_node = ft_lstnew_ms(key, value);
+	new_node = ft_new_env_node(key, value);
 	if (new_node == NULL)
 	{
 		env_error("ft_lstnew_ms");
 		return ;
 	}
-	ft_lstadd_back_ms(env_list, new_node);
+	ft__add_env_back_node(env_list, new_node);
 	free_array(split);
 }
 
