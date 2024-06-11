@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 12:21:41 by ting              #+#    #+#             */
-/*   Updated: 2024/06/09 16:28:41 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 15:16:47 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	free_env(t_env **env_list)
 		tmp = next;
 	}
 	*env_list = NULL;
-	// free(env_list);
+	
 }
 
 void	free_lexer(t_lexer **lexer)
@@ -96,11 +96,14 @@ void	free_cmds(t_cmd **cmds)
 	}
 	*cmds = NULL;
 }
-/*
-freeall_and_exit(t_cmd **cmds)
+
+void	free_all_and_exit(t_cmd **cmds, t_env **env_dup)
 {
 	free_cmds(cmds);
 	if (cmds)
 		free(cmds);
+	free_env(env_dup);
+	if (env_dup)
+		free(env_dup);
 }
-*/
+

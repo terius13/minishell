@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 14:54:55 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 15:18:36 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	t_lexer **lexer;
 	t_cmd	**cmds;
-	 t_env	**env_dup;
+	t_env	**env_dup;
 	t_cmd	*current;
 
 	(void)ac;
 	(void)av;
-	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
-	*lexer = NULL;
 	cmds = (t_cmd **)malloc(sizeof(t_cmd *));
 	*cmds = NULL;
+	env_dup = init_env_copy(env);
+	if (env_dup == NULL)
+	{
+		perror ("init_env_copy");
+		return (1);
+	}
 	while (1)
 	{
 		line = readline(C "shell@st42:$ " RST);
@@ -38,14 +41,13 @@ int	main(int ac, char **av, char **env)
 			printf("After lexer:\n");
 			print_lexer(lexer);
 			parsing(lexer, cmds);
-			
 			print_parse(cmds);
 			free_lexer(lexer);
 			current = *cmds;
 			while(current)
 			{
 				if (current->builtin)
-					execute_builtins(cmds, current->cmd_arr);
+					execute_builtins(cmds, current->cmd_arr, env_dup);
 				current = current->next;
 			}
 			free_cmds(cmds);

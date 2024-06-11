@@ -6,29 +6,29 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 14:40:09 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 15:11:23 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_builtins(t_cmd	**cmds, char **args) // INCLUDE INPUT LATER
+void	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup) // INCLUDE INPUT LATER
 
 {
 	if (ft_strcmp(args[0], "echo") == 0)
 		builtin_echo(args);
 	else if (ft_strcmp(args[0], "cd") == 0)
-		builtin_cd(args, (*cmds)->env);
+		builtin_cd(args, env_dup);
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		builtin_pwd();
 	else if (ft_strcmp(args[0], "export") == 0)
-		builtin_export(args, (*cmds)->env);
+		builtin_export(args, env_dup);
 	else if (ft_strcmp(args[0], "unset") == 0)
-		builtin_unset(args, (*cmds)->env);
+		builtin_unset(args, env_dup);
 	else if (ft_strcmp(args[0], "env") == 0)
-		builtin_env((*cmds)->env);
+		builtin_env(env_dup);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		builtin_exit(cmds, args);
+		builtin_exit(cmds, env_dup, args);
 	else
 		printf("Command %s not found.\n", args[0]);
 }

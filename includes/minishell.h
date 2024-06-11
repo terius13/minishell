@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 14:47:15 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 15:14:37 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_cmd
 //--------------------BUILT-INS--------------------
 
 //builtins.c
-void	execute_builtins(t_cmd	**cmds, char **args);
+void	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup);
 
 // builtins_utils.c
 void	print_error_cd(char *args);
@@ -96,7 +96,7 @@ int		check_negative(char **args);
 void	not_numeric(char **args);
 int		too_many_args(char **args);
 int		confirmed_exit_status(char **args);
-void	builtin_exit(t_cmd	**cmds, char **args);
+void	builtin_exit(t_cmd	**cmds, t_env	**env, char **args);
 
 // builtins_env_node_utils.c
 t_env	*ft_new_env_node(char *key, char *value);
@@ -149,6 +149,6 @@ void	free_array(char **array);
 void	free_env(t_env	**env_list);
 void 	free_lexer(t_lexer **lexer);
 void	free_cmds(t_cmd **cmds);
-void	freeall_and_exit(t_cmd **cmds);
+void	free_all_and_exit(t_cmd **cmds, t_env **env_dup);
 
 #endif
