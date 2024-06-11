@@ -1,44 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_env_node_utils.c                          :+:      :+:    :+:   */
+/*   print_error_msg.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 10:46:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 19:03:18 by asyed            ###   ########.fr       */
+/*   Created: 2024/06/11 19:05:15 by asyed             #+#    #+#             */
+/*   Updated: 2024/06/11 19:05:32 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*ft_new_env_node(char *key, char *value)
+void	print_error(char *str)
+
 {
-	t_env	*new;
-
-	new = (t_env *)malloc(sizeof(t_env));
-	if (new == NULL)
-		return (NULL);
-	(*new).key = key;
-	(*new).value = value;
-	(*new).next = NULL;
-	return (new);
+	printf("shell@st42: %s\n", str);
 }
-
-void	ft_add_env_back_node(t_env **lst, t_env *new)
-{
-	t_env	*current;
-
-	current = *lst;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	while (current->next)
-	{
-		current = current->next;
-	}
-	current->next = new;
-}
-

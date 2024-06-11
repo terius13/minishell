@@ -6,16 +6,25 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 14:48:11 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:03:50 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtin_env(t_env **env_list)
+void	builtin_env(t_env **env_list, char **args)
 {
 	t_env	*current;
+	int ac;
 
+	ac = 0;
+	while (args[ac])
+		ac++;
+	if (ac > 1)
+	{
+		print_error("No such file or directory");
+		return ;
+	}
 	current = *env_list;
 	while (current)
 	{
@@ -61,7 +70,7 @@ void	create_copy(t_env **env_list, char *env)
 		env_error("ft_lstnew_ms");
 		return ;
 	}
-	ft__add_env_back_node(env_list, new_node);
+	ft_add_env_back_node(env_list, new_node);
 	free_array(split);
 }
 
