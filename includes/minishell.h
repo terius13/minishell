@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 19:02:28 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 19:16:21 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,7 @@ int		remove_quotes(t_lexer *lexer);
 void	check_builtins(t_cmd **cmds);
 int		parsing(t_lexer **lexer, t_cmd **cmds);
 int		handle_redirection(t_lexer **curr_l, t_cmd *cmd);
-int		handle_heredoc(t_lexer **curr_l, t_cmd *cmd);
-int		handle_append(t_lexer **curr_l, t_cmd *cmd);
+int 	handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd);
 
 //parsing_utils.c
 t_cmd	*new_cmd(char **arr);

@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 19:08:19 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 19:16:38 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd)
         }
         else
         {
-            perror("no hdoc delimiter"); //need to change to error handling later
+            perror("no hdoc delimiter"); //need to change to error handling later,chagne to print_error_msg
             return (1);
         }
     }
@@ -95,44 +95,6 @@ int handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd)
     }
     return (0);
 }
-/*
-int handle_append(t_lexer **curr_l, t_cmd *cmd)
-{
-    if ((*curr_l)->type == 6)
-    {
-        if ((*curr_l)->next && (*curr_l)->next->type == 1)
-        {
-            *curr_l = (*curr_l)->next;
-            add_to_arr(&cmd->outfile, (*curr_l)->str);
-            add_to_arr(&cmd->append_re, (*curr_l)->str);
-        }
-        else
-        {
-            perror("no outfile for append"); //need to change to error handling later
-            return (1);
-        }
-    }
-    return (0);
-}
-
-int handle_heredoc(t_lexer **curr_l, t_cmd *cmd)
-{
-    if ((*curr_l)->type == 5)
-    {
-        if ((*curr_l)->next && (*curr_l)->next->type == 1)
-        {
-            *curr_l = (*curr_l)->next;
-            cmd->hdoc_delimeter = ft_strdup((*curr_l)->str);
-        }
-        else
-        {
-            perror("no hdoc delimiter"); //need to change to error handling later
-            return (1);
-        }
-    }
-    return (0);
-}
-*/
 
 int parsing(t_lexer **lexer, t_cmd **cmds)
 {
@@ -160,18 +122,9 @@ int parsing(t_lexer **lexer, t_cmd **cmds)
                     return (1);
                 }
             }
-            else if (curr_l->type == 5)
+            else if (curr_l->type == 5 || curr_l->type == 6)
             {
-                if (handle_heredoc(&curr_l, cmd))
-                {
-                    free_array(arr);
-                    free(cmd);
-                    return (1);
-                }
-            }
-            else if (curr_l->type == 6)
-            {
-                if (handle_append(&curr_l, cmd))
+                if (handle_append_or_heredoc(&curr_l, cmd))
                 {
                     free_array(arr);
                     free(cmd);
@@ -179,9 +132,7 @@ int parsing(t_lexer **lexer, t_cmd **cmds)
                 }
             }
             else
-            {
                 arr[i++] = ft_strdup(curr_l->str);
-            }
             curr_l = curr_l->next;
         }
         cmd_add_back(cmds, cmd);
