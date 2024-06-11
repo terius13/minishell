@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 17:46:53 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 19:08:19 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int handle_redirection(t_lexer **curr_l, t_cmd *cmd)
         {
             perror("no infile"); //need to change to error handling later
             return (1);
+        //   return (error_msg("syntax error"), 1);
         }
     }
     else if ((*curr_l)->type == 4)
@@ -57,11 +58,44 @@ int handle_redirection(t_lexer **curr_l, t_cmd *cmd)
         {
             perror("no outfile"); //need to change to error handling later
             return (1);
+        //    return (error_msg("syntax error"), 1);
         }
     }
     return (0);
 }
 
+int handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd)
+{
+    if ((*curr_l)->type == 5)
+    {
+        if ((*curr_l)->next && (*curr_l)->next->type == 1)
+        {
+            *curr_l = (*curr_l)->next;
+            cmd->hdoc_delimeter = ft_strdup((*curr_l)->str);
+        }
+        else
+        {
+            perror("no hdoc delimiter"); //need to change to error handling later
+            return (1);
+        }
+    }
+    else if ((*curr_l)->type == 6)
+    {
+        if ((*curr_l)->next && (*curr_l)->next->type == 1)
+        {
+            *curr_l = (*curr_l)->next;
+            add_to_arr(&cmd->outfile, (*curr_l)->str);
+            add_to_arr(&cmd->append_re, (*curr_l)->str);
+        }
+        else
+        {
+            perror("no outfile for append"); //need to change to error handling later
+            return (1);
+        }
+    }
+    return (0);
+}
+/*
 int handle_append(t_lexer **curr_l, t_cmd *cmd)
 {
     if ((*curr_l)->type == 6)
@@ -98,6 +132,7 @@ int handle_heredoc(t_lexer **curr_l, t_cmd *cmd)
     }
     return (0);
 }
+*/
 
 int parsing(t_lexer **lexer, t_cmd **cmds)
 {
