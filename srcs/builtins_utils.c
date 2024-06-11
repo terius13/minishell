@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 18:52:06 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:05:11 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,7 @@ char	*find_env(t_env **env_list, char *to_find)
 	return (NULL);
 }
 
-void	print_error(char *str)
 
-{
-	printf("shell@st42: %s\n", str);
-}
 
 void	builtin_cd(char **args, t_env **env_list)
 {

@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 18:55:29 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:05:54 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ typedef struct s_cmd
 //builtins.c
 void	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup);
 
-// builtins_utils.c
+// print_error_msg.c 
 void	print_error(char *str);
+
+// builtins_utils.c
 char	*find_env(t_env **env_list, char *to_find);
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
@@ -99,7 +101,7 @@ void	builtin_exit(t_cmd	**cmds, t_env	**env, char **args);
 
 // builtins_env_node_utils.c
 t_env	*ft_new_env_node(char *key, char *value);
-void	ft__add_env_back_node(t_env **lst, t_env *new);
+void	ft_add_env_back_node(t_env **lst, t_env *new);
 
 //--------------------PARSING--------------------
 
