@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 	*cmds = NULL;
 	while (1)
 	{
-		line = readline(C "shell@st42:$ " RST);
+		line = readline(C "shell@st42:$ " RST); 
 		if (line == NULL)
 			break ; // exit if EOF or error, can be Ctrl + D
 		if (line)
