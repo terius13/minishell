@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/07 16:53:41 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 18:52:06 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ char	*find_env(t_env **env_list, char *to_find)
 	return (NULL);
 }
 
-void	print_error_cd(char *args)
+void	print_error(char *str)
 
 {
-	//printf(C "shell@st42:$ " RST);
-	printf("bash: cd: '%s': No such file or directory\n", args);
+	printf("shell@st42: %s\n", str);
 }
 
 void	builtin_cd(char **args, t_env **env_list)
@@ -48,17 +47,18 @@ void	builtin_cd(char **args, t_env **env_list)
 	{
 		home = find_env(env_list, "HOME");
 		if (chdir(home) != 0)
-			print_error_cd(home);
+			print_error("No such file or directory");
 	}
 	else if (ac > 2)
 	{
 		//printf(C "shell@st42:$ " RST);
-		printf("bash: cd: too many arguments\n");
+		print_error("Too many arguments");
+		
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
-			print_error_cd(args[1]);
+			print_error("No such file or directory");
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 14:48:40 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 18:51:49 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	export_error_check(char *args)
 	if (args[0] == '=' || ((isalpha(args[0]) == 0) && args[0] != '_'))
 	{
 		//printf(C "shell@st42:$ " RST);
-		printf("bash: export: '%s': not a valid identifier\n", args);
+		print_error("Not a valid identifier");
 		return (-1);
 	}
 	i = 1;
@@ -40,7 +40,7 @@ int	export_error_check(char *args)
 		if ((isalnum(args[i]) == 0) && args[i] != '_')
 		{
 			//printf(C "shell@st42:$ " RST);
-			printf("bash: export: '%s': not a valid identifier\n", args);
+			print_error("Not a valid identifier");
 			return (-1);
 		}
 		i++;
