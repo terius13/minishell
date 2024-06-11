@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/09 15:58:53 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 14:47:15 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ typedef struct s_cmd
 	char			**append_re;
 	char			*hdoc_delimeter;
 	struct s_cmd	*next;
-//	struct s_env	*env;
+	struct s_env	**env;
 }					t_cmd;
 
 
 //--------------------BUILT-INS--------------------
 
 //builtins.c
-void	execute_builtins(char **args, t_env **env_dup);
+void	execute_builtins(t_cmd	**cmds, char **args);
 
 // builtins_utils.c
 void	print_error_cd(char *args);
@@ -96,14 +96,11 @@ int		check_negative(char **args);
 void	not_numeric(char **args);
 int		too_many_args(char **args);
 int		confirmed_exit_status(char **args);
-void	builtin_exit(char **args);
+void	builtin_exit(t_cmd	**cmds, char **args);
 
 // builtins_env_node_utils.c
-void	ft_lstiter_ms(t_env *lst, void (*f)(void *));
-t_env	*ft_lstnew_ms(char *key, char *value);
-void	ft_lstadd_back_ms(t_env **lst, t_env *new);
-void	ft_lstclear_ms(t_env **lst, void (*del)(void *));
-
+t_env	*ft_new_env_node(char *key, char *value);
+void	ft__add_env_back_node(t_env **lst, t_env *new);
 
 //--------------------PARSING--------------------
 

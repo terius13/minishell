@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/07 10:59:02 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 14:48:40 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	handle_export(char *args, t_env **env_list)
 		tmp = tmp->next;
 	}
 	if (tmp == NULL)
-		ft_lstadd_back_ms(env_list, ft_lstnew_ms(key, value));
+		ft__add_env_back_node(env_list, ft_new_env_node(key, value));
 }
 // only store split[0] if there is an equal
 void	builtin_export(char **args, t_env **env_list)
