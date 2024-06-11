@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 15:36:21 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 18:19:31 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void	ft__add_env_back_node(t_env **lst, t_env *new);
 //lexer.c
 int		quotes_token(char *str, int i);
 void	handle_special_token(t_lexer **lexer, char *str, int *i);
-void	tokenizer(t_lexer **lexer, char *str);
-void	lexer_and_parse(t_cmd **cmds, char *str);
+int		tokenizer(t_lexer **lexer, char *str);
+int		lexer_and_parse(t_cmd **cmds, char *str);
 
 //lexer_utils.c
 t_lexer	*new_lexer(char *str);
@@ -127,17 +127,17 @@ int		remove_quotes(t_lexer *lexer);
 
 //parsing.c
 void	check_builtins(t_cmd **cmds);
-void	parsing(t_lexer **lexer, t_cmd **cmds);
-void	handle_redirection(t_lexer **curr_l, t_cmd *cmd);
-void	handle_heredoc(t_lexer **curr_l, t_cmd *cmd);
-void	handle_append(t_lexer **curr_l, t_cmd *cmd);
+int		parsing(t_lexer **lexer, t_cmd **cmds);
+int		handle_redirection(t_lexer **curr_l, t_cmd *cmd);
+int		handle_heredoc(t_lexer **curr_l, t_cmd *cmd);
+int		handle_append(t_lexer **curr_l, t_cmd *cmd);
 
 //parsing_utils.c
 t_cmd	*new_cmd(char **arr);
 void	cmd_add_back(t_cmd **cmds, t_cmd *new);
 void	print_parse(t_cmd **cmds);
 int		cal_arg_count(t_lexer *curr_l);
-int	get_arr_size(char **arr);
+int		get_arr_size(char **arr);
 void	add_to_arr(char ***arr, char *str);
 
 
