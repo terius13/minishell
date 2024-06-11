@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/09 16:32:56 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/11 18:33:11 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	quotes_token(char *str, int i)
 		i++;
 	else if (str[i] != quote)
 	{
-		printf("close quote missing\n");
-		return (-1); // change to error handling
+		perror("close quote missing");
+		return (-1);
 	}
 	return (i);
 }
@@ -48,7 +48,7 @@ void handle_special_token(t_lexer **lexer, char *str, int *i)
 }
 
 
-void tokenizer(t_lexer **lexer, char *str)
+int tokenizer(t_lexer **lexer, char *str)
 {
     int start;
     int i;
@@ -57,19 +57,15 @@ void tokenizer(t_lexer **lexer, char *str)
     i = 0;
     while (str[i])
     {
-        while (ft_isspace((unsigned char)str[i]))
+        while (ft_isspace(str[i]))
             i++;
         start = i;
-        while (str[i] && !ft_isspace((unsigned char)str[i]) && !is_special_char(str[i]))
+        while (str[i] && !ft_isspace(str[i]) && !is_special_char(str[i]))
         {
             if (str[i] == '"' || str[i] == '\'')
             {
-                i = quotes_token(str, i);
-                if (i == -1)
-                {
-                //    free_all(lexer, NULL); //NEED TO CHANGE CANT USE THAT FUNCTION
-                    return; // Exit on error
-                }
+                if (quotes_token(str, i) < 0)
+                    return (1);
             }
             else
                 i++;
@@ -80,9 +76,10 @@ void tokenizer(t_lexer **lexer, char *str)
         if (is_special_char(str[i]))
             handle_special_token(lexer, str, &i);
     }
+    return (0);
 }
 
-void	lexer_and_parse(t_cmd **cmds, char *str)
+int	lexer_and_parse(t_cmd **cmds, char *str)
 {
 	t_lexer **lexer;
 	t_lexer	*current;
@@ -91,7 +88,12 @@ void	lexer_and_parse(t_cmd **cmds, char *str)
 
 	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
 	*lexer = NULL;
-	tokenizer(lexer, str);
+    if (tokenizer(lexer, str))
+    {
+        free_lexer(lexer);
+	    free(lexer);
+        return (1);
+    }
 	current = *lexer;
 	while (current)
 	{
@@ -107,9 +109,15 @@ void	lexer_and_parse(t_cmd **cmds, char *str)
 	}
 	printf("After lexer:\n");
 	print_lexer(lexer);
-	parsing(lexer, cmds);
+	if (parsing(lexer, cmds))
+    {
+        free_lexer(lexer);
+	    free(lexer);
+        return (1);
+    }
 	print_parse(cmds);
 	free_lexer(lexer);
 	free(lexer);
+    return (0);
 }
 

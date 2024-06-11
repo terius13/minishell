@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 15:32:03 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 18:21:56 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,12 @@ int	main(int ac, char **av, char **env)
 			break ; // exit if EOF or error, can be Ctrl + D
 		if (line)
 		{
-			lexer_and_parse(cmds, line);
+			if (lexer_and_parse(cmds, line))
+			{
+				free_cmds(cmds);
+				free(line);
+				continue;
+			}
 			free(line);
 			current = *cmds;
 			while(current)
