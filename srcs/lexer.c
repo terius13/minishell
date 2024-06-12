@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/12 20:18:56 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/12 20:21:40 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ int	lexer_and_parse(t_cmd **cmds, char *str)
 		if (current->type == 1)
 		{
 			check_env_var(current);
-			no_value = remove_quotes(current);
-			if (no_value)
+			if ((no_value = remove_quotes(current)) == 1)
 				del_lexer(lexer, current);
 		}
 		current = next;
