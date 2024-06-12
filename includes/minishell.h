@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 19:08:23 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/12 19:34:35 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_env	**init_env_copy(char **env);
 
 // builtin_exit.c
 int		check_negative(char **args);
-void	not_numeric();
+void	not_numeric(t_cmd	**cmds, t_env	**env);
 int		too_many_args(char **args);
 int		confirmed_exit_status(char **args);
 void	builtin_exit(t_cmd	**cmds, t_env	**env, char **args);

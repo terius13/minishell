@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 18:21:56 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/12 20:08:15 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,15 @@ int	main(int ac, char **av, char **env)
 	*cmds = NULL;
 	while (1)
 	{
-		line = readline(C "shell@st42:$ " RST); 
+		line = readline(C "shell@st42:$ " RST);
 		if (line == NULL)
-			break ; // exit if EOF or error, can be Ctrl + D
-		if (line)
 		{
+			rl_clear_history();
+			break ; // exit if EOF or error, can be Ctrl + D
+		}
+		if (line && *line)
+		{
+			add_history(line);
 			if (lexer_and_parse(cmds, line))
 			{
 				free_cmds(cmds);
@@ -54,5 +58,6 @@ int	main(int ac, char **av, char **env)
 			free_cmds(cmds);
 		}
 	}
+	rl_clear_history();
 	return (0);
 }
