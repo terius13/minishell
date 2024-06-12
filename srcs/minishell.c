@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 18:21:56 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/12 19:55:52 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	main(int ac, char **av, char **env)
 			if (lexer_and_parse(cmds, line))
 			{
 				free_cmds(cmds);
-				free(line);
+			//	free(line); //prob dont need to free, only in exit
 				continue;
 			}
-			free(line);
+		//	free(line);
 			current = *cmds;
 			while(current)
 			{
