@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/14 16:10:16 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/14 16:50:10 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_cmd
 //builtins.c
 void	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup);
 
-// print_error_msg.c 
+// print_error_msg.c
 void	print_error(char *str);
 
 // builtins_utils.c
@@ -108,7 +108,7 @@ void	ft_add_env_back_node(t_env **lst, t_env *new);
 //lexer.c
 int		quotes_token(char *str, int i);
 void	handle_special_token(t_lexer **lexer, char *str, int *i);
-int	skip_wp(char *str, int *i);
+int		skip_wp(char *str, int *i);
 int		tokenizer(t_lexer **lexer, char *str);
 int		lexer_and_parse(t_cmd **cmds, char *str);
 
@@ -131,8 +131,7 @@ int		remove_quotes(t_lexer *lexer);
 //parsing.c
 void	check_builtins(t_cmd **cmds);
 int		parsing(t_lexer **lexer, t_cmd **cmds);
-int handle_lexer(t_lexer **curr_l, t_cmd **cmd, char **arr);
-int		check_redirection(t_lexer *curr_l, t_cmd *cmd,  char **arr);
+int 	handle_lexer(t_lexer **curr_l, t_cmd **cmd, char **arr);
 int		handle_redirection(t_lexer **curr_l, t_cmd *cmd);
 int 	handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd);
 
