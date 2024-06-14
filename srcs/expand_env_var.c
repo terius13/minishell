@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/09 14:45:27 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/14 12:00:49 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int    expand_env_var(t_lexer *lexer, int i)
 void check_env_var(t_lexer *lexer)
 {
     t_lexer *current;
-    int        i;
+    int     i;
     char    quote;
 
     current = lexer;

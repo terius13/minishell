@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/12 20:21:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/14 15:47:33 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,22 @@ void	handle_special_token(t_lexer **lexer, char *str, int *i)
 	}
 }
 
+int	skip_wp(char *str, int *i)
+{
+	while (ft_isspace(str[*i]))
+		(*i)++;
+	return (*i);
+}
+
 int	tokenizer(t_lexer **lexer, char *str)
 {
 	int	start;
 	int	i;
-	int	token_len;
 
 	i = 0;
 	while (str[i])
 	{
-		while (ft_isspace(str[i]))
-			i++;
-		start = i;
+		start = skip_wp(str, &i);
 		while (str[i] && !ft_isspace(str[i]) && !is_special_char(str[i]))
 		{
 			if (str[i] == '"' || str[i] == '\'')
@@ -71,10 +75,9 @@ int	tokenizer(t_lexer **lexer, char *str)
 			else
 				i++;
 		}
-		token_len = i - start;
-		if (token_len > 0)
+		if (i - start > 0)
 			lexer_add_back(lexer, new_lexer(ft_strndup(str + start,
-						token_len)));
+						i - start)));
 		if (is_special_char(str[i]))
 			handle_special_token(lexer, str, &i);
 	}
@@ -91,11 +94,11 @@ int	lexer_and_parse(t_cmd **cmds, char *str)
 	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
 	*lexer = NULL;
 	if (tokenizer(lexer, str))
-        return (free_lexer(lexer), free(lexer), 1);
+		return (free_lexer(lexer), free(lexer), 1);
 	current = *lexer;
 	while (current)
 	{
-		next = current->next; // Store the next node before any potential deletion
+		next = current->next;
 		if (current->type == 1)
 		{
 			check_env_var(current);
@@ -107,10 +110,8 @@ int	lexer_and_parse(t_cmd **cmds, char *str)
 	printf("After lexer:\n");
 	print_lexer(lexer);
 	if (parsing(lexer, cmds))
-        return (free_lexer(lexer), free(lexer), 1);
+		return (free_lexer(lexer), free(lexer), 1);
 	check_builtins(cmds);
 	print_parse(cmds);
-	free_lexer(lexer);
-	free(lexer);
-	return (0);
+	return (free_lexer(lexer), free(lexer), 0);
 }
