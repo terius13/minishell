@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 19:03:56 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 17:47:20 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	export_error_check(char *args)
 	int	i;
 
 	if (args == NULL || args[0] == '\0')
-		return (-1);
+		return (1);
 	if (args[0] == '=' || ((isalpha(args[0]) == 0) && args[0] != '_'))
 	{
 		//printf(C "shell@st42:$ " RST);
@@ -51,18 +51,19 @@ int	export_error_check(char *args)
 
 void	assign_key_value(char *args, int equal, char **key, char **value)
 {
-	if (equal == 0)
-	{
-		*key = ft_strdup(args);
-		*value = NULL;
-	}
-	else
+	if (equal > 0)
 	{
 		*key = ft_strndup(args, equal - 1);
 		*value = ft_strdup(&args[equal]);
 	}
+	else
+	{
+		*key = NULL;
+		*value = NULL;
+	}
 }
-void	handle_export(char *args, t_env **env_list)
+
+int	handle_export(char *args, t_env **env_list)
 {
 	char	*key;
 	char	*value;
@@ -70,31 +71,34 @@ void	handle_export(char *args, t_env **env_list)
 	int		equal;
 
 	equal = export_error_check(args);
-	if (equal == -1)
-		return ;
+	if (equal <= 0)
+		return (1);
 	assign_key_value(args, equal, &key, &value);
+	if (key == NULL && value == NULL)
+		return (0);
 	tmp = *env_list;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			update_current_export(tmp, key, value);
-			return;
+			return (0);
 		}
 		tmp = tmp->next;
 	}
 	if (tmp == NULL)
 		ft_add_env_back_node(env_list, ft_new_env_node(key, value));
+	return (0);
 }
-// only store split[0] if there is an equal
-void	builtin_export(char **args, t_env **env_list)
+int	builtin_export(char **args, t_env **env_list, int exit_status)
 {
 	int		i;
 
 	i = 1;
 	while (args[i])
 	{
-		handle_export(args[i], env_list);
+		exit_status = handle_export(args[i], env_list);
 		i++;
 	}
+	return (exit_status);
 }

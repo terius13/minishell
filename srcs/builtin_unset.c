@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:23:39 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/04 18:09:17 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 17:13:26 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	free_unset_node(t_env *del)
 {
@@ -24,7 +23,7 @@ void	free_unset_node(t_env *del)
 		free(del);
 	}
 }
-void	builtin_unset(char **args, t_env **env_list)
+int		builtin_unset(char **args, t_env **env_list)
 {
 	t_env	*tmp;
 	t_env	*prev;
@@ -51,4 +50,5 @@ void	builtin_unset(char **args, t_env **env_list)
 		}
 		i++;
 	}
+	return (0);
 }

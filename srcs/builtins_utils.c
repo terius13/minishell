@@ -3,35 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 19:05:11 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 17:28:56 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*find_env(t_env **env_list, char *to_find)
-
-{
-	t_env *current;
-
-	current = *env_list;
-	while (current != NULL)
-	{
-		if (ft_strcmp(current->key, to_find) == 0)
-		{
-			return (current->value);
-		}
-		current = current->next;
-	}
-	return (NULL);
-}
-
-
-
-void	builtin_cd(char **args, t_env **env_list)
+int	builtin_cd(char **args, t_env **env_list)
 {
 	int		ac;
 	char	*home;
@@ -43,22 +24,29 @@ void	builtin_cd(char **args, t_env **env_list)
 	{
 		home = find_env(env_list, "HOME");
 		if (chdir(home) != 0)
+		{
 			print_error("No such file or directory");
+			return (1);
+		}
 	}
 	else if (ac > 2)
 	{
 		//printf(C "shell@st42:$ " RST);
 		print_error("Too many arguments");
-		
+		return (1);
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
+		{
 			print_error("No such file or directory");
+			return (1);
+		}
 	}
+	return (0);
 }
 
-void	builtin_pwd(void)
+int	builtin_pwd(void)
 
 {
 	char cwd[4086];
@@ -66,10 +54,14 @@ void	builtin_pwd(void)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
 	else
+	{
 		perror("pwd");
+		return (1);
+	}
+	return (0);	
 }
 
-void	builtin_echo(char **args)
+int		builtin_echo(char **args, int exit_status)
 
 {
 	int i;
@@ -97,4 +89,5 @@ void	builtin_echo(char **args)
 		}
 		printf("\n");
 	}
+	return (exit_status);
 }
