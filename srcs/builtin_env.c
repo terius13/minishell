@@ -3,16 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 19:03:50 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 17:29:04 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtin_env(t_env **env_list, char **args)
+char	*find_env(t_env **env_list, char *to_find)
+
+{
+	t_env *current;
+
+	current = *env_list;
+	while (current != NULL)
+	{
+		if (ft_strcmp(current->key, to_find) == 0)
+		{
+			return (current->value);
+		}
+		current = current->next;
+	}
+	return (NULL);
+}
+
+int		builtin_env(t_env **env_list, char **args)
 {
 	t_env	*current;
 	int ac;
@@ -23,7 +40,7 @@ void	builtin_env(t_env **env_list, char **args)
 	if (ac > 1)
 	{
 		print_error("No such file or directory");
-		return ;
+		return (1);
 	}
 	current = *env_list;
 	while (current)
@@ -31,6 +48,7 @@ void	builtin_env(t_env **env_list, char **args)
 		printf("%s=%s\n", current->key, current->value);
 		current = current ->next;
 	}
+	return (0);
 }
 
 t_env	**env_error(char *message)

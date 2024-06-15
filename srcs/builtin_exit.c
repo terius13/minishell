@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:05:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/12 19:55:44 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 16:55:37 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		check_negative(char **args)
 	return (i);
 }
 
-void	not_numeric(t_cmd	**cmds, t_env	**env)
+void	not_numeric(t_cmd	**cmds, t_env	**env, t_ms_state *status)
 
 {
 	int	exit_stats;
@@ -30,7 +30,7 @@ void	not_numeric(t_cmd	**cmds, t_env	**env)
 	exit_stats = 2;
 	print_error("Numeric arguments required");
 	rl_clear_history();
-	free_all_and_exit(cmds, env);
+	free_all_and_exit(cmds, env, status);
 	exit(exit_stats);
 }
 
@@ -66,7 +66,7 @@ int	confirmed_exit_status(char **args)
 	return (exit_stats);
 }
 
-void	builtin_exit(t_cmd	**cmds, t_env	**env, char **args)
+int	builtin_exit(t_cmd	**cmds, t_env	**env, char **args, t_ms_state *status)
 
 {
 	int	exit_stats;
@@ -81,15 +81,15 @@ void	builtin_exit(t_cmd	**cmds, t_env	**env, char **args)
 		while (args[1][i])
 		{
 			if (ft_isdigit(args[1][i]) == 0)
-				not_numeric(cmds, env);
+				not_numeric(cmds, env, status);
 			i++;
 		}
 	}
 	if (too_many_args(args))
-		return ;
+		return (1);
 	if (exit_stats == 0)
 		exit_stats = confirmed_exit_status(args);
 	rl_clear_history();
-	free_all_and_exit(cmds, env);
+	free_all_and_exit(cmds, env, status);
 	exit(exit_stats);
 }

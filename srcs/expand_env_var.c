@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_var.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/14 12:00:49 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/15 17:42:57 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ int		cal_var_len(char *str)
 	return (i);
 }
 
-int    expand_env_var(t_lexer *lexer, int i)
+int    expand_env_var(t_lexer *lexer, int i, t_env **env_dup)
 {
     char    *var;
     int     var_len;
     char    *value;
 
-//    if(!ft_strcmp(value, "?"))
+//    if(!ft_strcmp(value, "?")) 
 //        handle_expand_question_mark();
     var_len = cal_var_len(lexer->str + i);
     var = (char *)malloc(sizeof(char) * (var_len + 1));
     ft_strlcpy(var, lexer->str + i, var_len + 1); // Copy the varname to var
-    value = getenv(var); //must use own getenv()
+    value = find_env(env_dup, var); // need to bring in env_dup from main
     free(var);
     if (value == NULL)
     {
@@ -73,7 +73,7 @@ int    expand_env_var(t_lexer *lexer, int i)
     return (i);
 }
 
-void check_env_var(t_lexer *lexer)
+void check_env_var(t_lexer *lexer, t_env **env_dup)
 {
     t_lexer *current;
     int     i;
@@ -95,7 +95,7 @@ void check_env_var(t_lexer *lexer)
             else if (current->str[i] == '"' && quote == '"')
                 quote = '\0'; // Exiting double quote mode
             if (current->str[i] == '$' && quote != '\'')
-                i = expand_env_var(lexer, i + 1);
+                i = expand_env_var(lexer, i + 1, env_dup);
             else
                 i++;
         }
