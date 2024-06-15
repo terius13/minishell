@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/14 16:50:10 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/15 17:14:24 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>         //for process management
 # include <sys/wait.h>          //for process management
 # include <unistd.h>            //POSIX API functions
+# include <fcntl.h>
 
 # define G "\033[32m"
 # define M "\033[35m"
