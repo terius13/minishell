@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 12:21:41 by ting              #+#    #+#             */
-/*   Updated: 2024/06/11 15:16:47 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 16:59:03 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	free_cmds(t_cmd **cmds)
 	*cmds = NULL;
 }
 
-void	free_all_and_exit(t_cmd **cmds, t_env **env_dup)
+void	free_all_and_exit(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
 	free_cmds(cmds);
 	if (cmds)
@@ -105,5 +105,11 @@ void	free_all_and_exit(t_cmd **cmds, t_env **env_dup)
 	free_env(env_dup);
 	if (env_dup)
 		free(env_dup);
+	if (status != NULL)
+	{
+		free(status);
+		status = NULL;
+	}
+	
 }
 
