@@ -6,24 +6,26 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:27:06 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/16 16:04:45 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-
-int	signal_handlers_setup()
+/*
+void	signal_handlers_setup()
 
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = sigint_handler;
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 	
+	sa_int.sa_handler = sigint_handler;
+	sigemptyset(&sa_int.sa_mask)
 	
-
+	sa_int.sa_handler = sigint_handler;
 }
+*/
 
 int	main(int ac, char **av, char **env)
 {
@@ -36,8 +38,9 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
-	if (signal_handlers_setup() != 0)
-		return (1);
+	
+	//if (signal_handlers_setup() != 0)
+	//	return (1);
 	update = (t_ms_state *)malloc(sizeof(t_ms_state));
 	if (update == NULL)
 	{
