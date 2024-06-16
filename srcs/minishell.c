@@ -6,11 +6,26 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 14:28:20 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 15:12:59 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+
+
+int	signal_handlers_setup()
+
+{
+	struct sigaction	sa_int;
+
+	sa_int.sa_handler = sigint_handler;
+
+
+}
+
+*/
 
 int	main(int ac, char **av, char **env)
 {
@@ -23,6 +38,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
+	// signal_handlers_setup();
 	update = (t_ms_state *)malloc(sizeof(t_ms_state));
 	if (update == NULL)
 	{
@@ -44,6 +60,7 @@ int	main(int ac, char **av, char **env)
 		line = readline(C "shell@st42:$ " RST);
 		if (line == NULL)
 		{
+			ft_putendl_fd("exit", STDOUT_FILENO); // Handle Ctrl + D
 			rl_clear_history();
 			break ; // exit if EOF or error, can be Ctrl + D
 		}

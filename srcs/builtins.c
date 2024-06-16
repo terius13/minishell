@@ -6,7 +6,7 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/15 17:15:18 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/16 14:48:33 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute_builtins(t_cmd **cmds, char **args, t_env **env_dup,
 
 {
 	if (ft_strcmp(args[0], "echo") == 0)
-		status->exit_status = builtin_echo(args, status->exit_status);
+		status->exit_status = builtin_echo(args);
 	else if (ft_strcmp(args[0], "cd") == 0)
 		status->exit_status = builtin_cd(args, env_dup);
 	else if (ft_strcmp(args[0], "pwd") == 0)

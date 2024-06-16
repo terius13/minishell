@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 15:12:41 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	cal_var_len(char *str)
 		i++;
 	return (i);
 }
+
 
 int	expand_env_var(t_lexer *lexer, int i, t_env **env_dup, t_ms_state *stat)
 {

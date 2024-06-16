@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 14:30:57 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 15:12:51 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 	//for standard input/output and memory management
 # include <string.h>            //for string manipulation
+# include <signal.h>			//for sigaction
 # include <sys/types.h>         //for process management
 # include <sys/wait.h>          //for process management
 # include <unistd.h>            //POSIX API functions
@@ -75,7 +76,7 @@ void	print_error(char *str);
 
 // builtins_utils.c
 char	*find_env(t_env **env_list, char *to_find);
-int		builtin_echo(char **args, int exit_status);
+int		builtin_echo(char **args);
 int		builtin_pwd(void);
 int		builtin_cd(char **args, t_env **env_list);
 
