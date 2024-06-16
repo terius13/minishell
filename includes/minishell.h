@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:30:23 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 18:53:34 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,14 @@ void	print_parse(t_cmd **cmds);
 int		cal_arg_count(t_lexer *curr_l);
 int		get_arr_size(char **arr);
 void	add_to_arr(char ***arr, char *str);
+
+//--------------------EXECUTION--------------------
+
+//execution.c
+int		is_append_re(char *filename, char **append_re);
+int		handle_infile(t_cmd *cmd, t_ms_state *stat);
+int		handle_outfile(t_cmd *cmd, t_ms_state *stat);
+int		do_redirection(t_cmd *cmd, t_ms_state *stat);
 
 
 //--------------------FREEING--------------------

@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:36:57 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 19:03:01 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,12 @@ int	main(int ac, char **av, char **env)
 			current = *cmds;
 			while(current)
 			{
+				do_redirection(current, update);
 				if (current->builtin)
+				{
+					printf("Entering builtin\n");
 					execute_builtins(cmds, current->cmd_arr, env_dup, update);
+				}
 				current = current->next;
 			}
 			free_cmds(cmds);
