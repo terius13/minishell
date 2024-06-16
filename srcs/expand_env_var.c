@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:12:41 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 15:28:58 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,27 @@ int	cal_var_len(char *str)
 		i++;
 	return (i);
 }
+char	*get_env_value(char *var, int *free_flag, t_env **env_dup, t_ms_state *stat)
+{
+	char	*value;
 
+	if (!ft_strcmp(var, "?"))
+	{
+		value = ft_itoa(stat->exit_status);
+		*free_flag = 1;
+	}
+	else
+	{
+		value = find_env(env_dup, var);
+		if (value == NULL)
+		{
+			value = ft_calloc(1, 1);
+			*free_flag = 1;
+		}
+	}
+	free(var);
+	return (value);
+}
 
 int	expand_env_var(t_lexer *lexer, int i, t_env **env_dup, t_ms_state *stat)
 {
@@ -62,21 +82,7 @@ int	expand_env_var(t_lexer *lexer, int i, t_env **env_dup, t_ms_state *stat)
 	var_len = cal_var_len(lexer->str + i);
 	var = (char *)malloc(sizeof(char) * (var_len + 1));
 	ft_strlcpy(var, lexer->str + i, var_len + 1);
-	if (!ft_strcmp(var, "?"))
-	{
-		value = ft_itoa(stat->exit_status);
-		free_flag = 1;
-	}
-	else
-	{
-		value = find_env(env_dup, var);
-		if (value == NULL)
-		{
-			value = ft_calloc(1, 1);
-			free_flag = 1;
-		}
-	}
-	free(var);
+	value = get_env_value(var, &free_flag, env_dup, stat);
 	replace_env_var(lexer, i - 1, var_len, value);
 	i += ft_strlen(value) - 1;
 	if (free_flag)
