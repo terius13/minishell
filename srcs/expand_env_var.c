@@ -6,7 +6,7 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/15 17:42:57 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 18:14:27 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,16 @@ int		cal_var_len(char *str)
 		i++;
 	return (i);
 }
+/*
 
-int    expand_env_var(t_lexer *lexer, int i, t_env **env_dup)
+void    handle_expand_question_mark(int exit_status)
+{
+    printf("%d", exit_status);
+}
+*/
+
+
+int     expand_env_var(t_lexer *lexer, int i, t_env **env_dup)
 {
     char    *var;
     int     var_len;

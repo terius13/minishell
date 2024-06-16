@@ -6,11 +6,13 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/15 17:39:34 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/15 18:07:24 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
 
 int	main(int ac, char **av, char **env)
 {
