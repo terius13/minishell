@@ -6,7 +6,7 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/15 17:28:56 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/16 14:47:18 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	builtin_pwd(void)
 	return (0);	
 }
 
-int		builtin_echo(char **args, int exit_status)
+int		builtin_echo(char **args)
 
 {
 	int i;
@@ -89,5 +89,5 @@ int		builtin_echo(char **args, int exit_status)
 		}
 		printf("\n");
 	}
-	return (exit_status);
+	return (0);
 }
