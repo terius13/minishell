@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/15 17:40:37 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/16 14:25:59 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,15 @@ int	tokenizer(t_lexer **lexer, char *str)
 				i++;
 		}
 		if (i - start > 0)
-			lexer_add_back(lexer, new_lexer(ft_strndup(str + start,
-						i - start)));
+			lexer_add_back(lexer, new_lexer(ft_strndup(str + start, i
+						- start)));
 		if (is_special_char(str[i]))
 			handle_special_token(lexer, str, &i);
 	}
 	return (0);
 }
 
-int	lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup)
+int	lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup, t_ms_state *stat)
 {
 	t_lexer	**lexer;
 	t_lexer	*current;
@@ -101,7 +101,7 @@ int	lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup)
 		next = current->next;
 		if (current->type == 1)
 		{
-			check_env_var(current, env_dup);
+			check_env_var(current, env_dup, stat);
 			if ((no_value = remove_quotes(current)) == 1)
 				del_lexer(lexer, current);
 		}
