@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:12:59 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/16 15:36:57 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,10 @@ int	main(int ac, char **av, char **env)
 			while(current)
 			{
 				if (current->builtin)
-					update->exit_status = execute_builtins(cmds, current->cmd_arr, env_dup, update);
+					execute_builtins(cmds, current->cmd_arr, env_dup, update);
 				current = current->next;
 			}
 			free_cmds(cmds);
 		}
 	}
-	rl_clear_history();
-	return (update->exit_status);
 }
