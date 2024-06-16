@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/15 17:39:34 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/16 14:28:20 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **env)
 		if (line && *line)
 		{
 			add_history(line);
-			if (lexer_and_parse(cmds, line, env_dup))
+			if (lexer_and_parse(cmds, line, env_dup, update))
 			{
 				free_cmds(cmds);
 				free(line); //prob dont need to free, only in exit

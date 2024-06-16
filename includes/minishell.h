@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/15 17:42:13 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/16 14:30:57 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		quotes_token(char *str, int i);
 void	handle_special_token(t_lexer **lexer, char *str, int *i);
 int		skip_wp(char *str, int *i);
 int		tokenizer(t_lexer **lexer, char *str);
-int		lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup);
+int		lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup, t_ms_state *stat);
 
 //lexer_utils.c
 t_lexer	*new_lexer(char *str);
@@ -126,8 +126,8 @@ void	print_lexer(t_lexer **lexer); //to delete later
 //expand_env_var.c
 void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value);
 int		cal_var_len(char *str);
-int		expand_env_var(t_lexer *lexer, int i, t_env **env_dup);
-void 	check_env_var(t_lexer *lexer, t_env **env_dup);
+int		expand_env_var(t_lexer *lexer, int i, t_env **env_dup, t_ms_state *stat);
+void 	check_env_var(t_lexer *lexer, t_env **env_dup, t_ms_state *stat);
 
 //remove_quotes.c
 int		remove_quotes(t_lexer *lexer);
