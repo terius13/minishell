@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 19:02:12 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/18 10:10:03 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	handle_infile(t_cmd *cmd, t_ms_state *stat)
 	if (last_fd != -1)
 	{
 		if (dup2(last_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 infile");
 			return (print_error("dup2 infile"), 1);
+		}
 		close(last_fd);
 	}
 	return (0);
@@ -96,7 +99,7 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 		}
 		close(last_fd);
 	}
-	printf("Exiting handle_outfile now\n");
+	perror("Exiting handle_outfile now in perror");
 	return (0);
 }
 
@@ -111,7 +114,7 @@ int	do_redirection(t_cmd *cmd, t_ms_state *stat)
 	{
 		if (handle_outfile(cmd, stat))
 			return (1);
-		printf("Exiting in do_redirection\n");
+		perror("Exiting in do_redirection");
 	}
 	return (0);
 }
