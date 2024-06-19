@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 12:21:41 by ting              #+#    #+#             */
-/*   Updated: 2024/06/15 16:59:03 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 18:09:47 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,5 @@ void	free_all_and_exit(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 		free(status);
 		status = NULL;
 	}
-	
 }
 

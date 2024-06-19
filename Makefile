@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
+#    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/11 19:13:13 by ting             ###   ########.fr        #
+#    Updated: 2024/06/19 18:39:20 by asyed            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,11 @@ LIBFT = libft/libft.a
 SRCSPATH = srcs/
 
 SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
-		builtins_utils.c builtins.c builtin_exit.c\
-		builtin_export.c builtin_unset.c\
+		builtin_echo.c builtins.c builtin_exit.c\
+		builtin_export.c builtin_unset.c builtin_cd_pwd.c\
 		parsing.c lexer.c lexer_utils.c remove_quotes.c\
-		expand_env_var.c parsing_utils.c \
-		free.c print_error_msg.c
+		expand_env_var.c parsing_utils.c\
+		free.c print_error_msg.c init_status_envdup.c
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
