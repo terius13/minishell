@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 14:45:07 by ting              #+#    #+#             */
-/*   Updated: 2024/06/09 14:45:30 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/12 19:34:20 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	remove_quotes(t_lexer *lexer)
     new_str[j] = '\0';
     free(lexer->str);
     lexer->str = new_str;
-    // If the new string is empty, return 1 to indicate that the node should be deleted
     if (ft_strlen(new_str) == 0)
         return 1;
     return 0;

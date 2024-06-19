@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_error_msg.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 19:05:15 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 19:05:32 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/11 19:13:43 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void	print_error(char *str)
-
 {
 	printf("shell@st42: %s\n", str);
 }
