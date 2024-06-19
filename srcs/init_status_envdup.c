@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:23:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/19 18:23:38 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:02:42 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,24 @@ t_ms_state	*init_status()
 	if (status == NULL)
 	{
 		perror ("status");
-		return (NULL);
+		exit(1);
 	}
 	status->exit_status = 0;
 	return (status);
 }
 
-t_env	**init_status_and_envdup(t_ms_state **status, char **env)
+t_env	**init_envdup(t_ms_state *status, char **env)
 
 {
 	t_env	**env_dup;
 
-	*status = init_status();
-	if (status == NULL)
-		return (NULL);
 	env_dup = init_env_copy(env);
 	if (env_dup == NULL)
 	{
 		perror("init_env_copy");
-		free(*status);
-		*status = NULL;
-		return(NULL);
+		free(status);
+		status = NULL;
+		exit(1);
 	}
 	return (env_dup);
 }

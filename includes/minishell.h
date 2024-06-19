@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 18:39:01 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:06:37 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_cmd
 //-------------------INITIALISE--------------------
 
 //init_status_envdup.c
-t_env	**init_status_and_envdup(t_ms_state **status, char **env);
 t_ms_state	*init_status();
+t_env	**init_envdup(t_ms_state *status, char **env);
 
 //--------------------BUILT-INS--------------------
 
@@ -124,7 +124,7 @@ int		quotes_token(char *str, int i);
 void	handle_special_token(t_lexer **lexer, char *str, int *i);
 int		skip_wp(char *str, int *i);
 int		tokenizer(t_lexer **lexer, char *str);
-int		lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup);
+int		lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup, t_ms_state *stat);
 
 //lexer_utils.c
 t_lexer	*new_lexer(char *str);
