@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/16 14:48:33 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 18:20:31 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execute_builtins(t_cmd **cmds, char **args, t_env **env_dup,
-		t_ms_state *status)
+void	execute_builtins(t_cmd **cmds, char **args, t_env **env_dup, t_ms_state *status)
 
 {
 	if (ft_strcmp(args[0], "echo") == 0)
@@ -34,7 +33,6 @@ int	execute_builtins(t_cmd **cmds, char **args, t_env **env_dup,
 	else
 		// printf("Command %s not found.\n", args[0]);
 		status->exit_status = 127;
-	return (status->exit_status);
 }
 
 /*

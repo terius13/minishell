@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:23:09 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/19 19:11:30 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,27 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+//-------------------INITIALISE--------------------
+
+//init_status_envdup.c
+t_ms_state	*init_status();
+t_env	**init_envdup(t_ms_state *status, char **env);
 
 //--------------------BUILT-INS--------------------
 
 //builtins.c
-int	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup, t_ms_state *status);
+void	execute_builtins(t_cmd **cmds, char **args, t_env **env_dup, t_ms_state *status);
 
 // print_error_msg.c
 void	print_error(char *str);
 
-// builtins_utils.c
-char	*find_env(t_env **env_list, char *to_find);
+// builtin_echo.c
 int		builtin_echo(char **args);
-int		builtin_pwd(void);
+
+//	builtin_cd_pwd.c
 int		builtin_cd(char **args, t_env **env_list);
+int		builtin_pwd(void);
+void	update_pwd(t_env **env_list);
 
 // builtin_export.c
 void	update_current_export(t_env *tmp, char *key, char *value);
@@ -86,11 +93,13 @@ int		export_error_check(char *args);
 void	assign_key_value(char *args, int equal, char **key, char **value);
 int		handle_export(char *args, t_env **env_list);
 int		builtin_export(char **args, t_env **env_list, int exit_status);
+
 // builtin_unset.c
 void	free_unset_node(t_env *del);
 int		builtin_unset(char **args, t_env **env_list);
 
 // builtin_env.c
+char	*find_env(t_env **env_list, char *to_find);
 void	create_copy(t_env **env_list, char *env);
 int		builtin_env(t_env **env_list, char **args);
 void	print_env_var(void *env_list);
