@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 14:57:52 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 16:08:45 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+//-------------------INITIALISE--------------------
+
+//init_status_envdup.c
+t_env	**init_status_and_envdup(t_ms_state **status, char **env);
+t_ms_state	*init_status();
 
 //--------------------BUILT-INS--------------------
 
