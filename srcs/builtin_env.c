@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/15 17:29:04 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 18:31:07 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ char	*find_env(t_env **env_list, char *to_find)
 	while (current != NULL)
 	{
 		if (ft_strcmp(current->key, to_find) == 0)
-		{
 			return (current->value);
-		}
 		current = current->next;
 	}
 	return (NULL);
