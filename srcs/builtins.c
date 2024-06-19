@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/18 10:48:39 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/19 12:48:00 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	execute_builtins(t_cmd **cmds, char **args, t_env **env_dup,
 		// printf("Command %s not found.\n", args[0]);
 		status->exit_status = 127;
 	return (status->exit_status);
+	perror("Exiting Builtins");
 }
 
 /*

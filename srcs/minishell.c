@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/18 10:26:02 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/19 18:28:26 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	signal_handlers_setup()
 }
 
 */
-/*
+
 int	main(int ac, char **av, char **env)
 {
 	char		*line;
 	t_cmd		**cmds;
 	t_env		**env_dup;
-	t_cmd		*current;
 	t_ms_state	*update;
 
 	(void)ac;
@@ -74,23 +73,14 @@ int	main(int ac, char **av, char **env)
 				continue;
 			}
 			free(line);
-			current = *cmds;
-			while(current)
-			{
-				do_redirection(current, update);
-				if (current->builtin)
-				{
-					perror("Entering builtin");
-					execute_builtins(cmds, current->cmd_arr, env_dup, update);
-				}
-				current = current->next;
-			}
+            exec_single_cmd(cmds, env_dup, update);
+        //    execution(cmds, env_dup, update);
 			free_cmds(cmds);
 		}
 	}
 }
-*/
 
+/*
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -196,17 +186,18 @@ int main(int ac, char **av, char **env) {
                     if (current->builtin) {
                         execute_builtins(cmds, current->cmd_arr, env_dup, update);
                         exit(update->exit_status);
-                    } else {
-                        char *cmd_path = find_command_path(current->cmd_arr[0], env);
-                        if (cmd_path) {
-                            execve(cmd_path, current->cmd_arr, env);
-                            perror("execve");
-                            free(cmd_path);
-                        } else {
-                            fprintf(stderr, "Command not found: %s\n", current->cmd_arr[0]);
-                        }
-                        exit(1);
                     }
+                    // } else {
+                    //     char *cmd_path = find_command_path(current->cmd_arr[0], env);
+                    //     if (cmd_path) {
+                    //         execve(cmd_path, current->cmd_arr, env);
+                    //         perror("execve");
+                    //         free(cmd_path);
+                    //     } else {
+                    //         fprintf(stderr, "Command not found: %s\n", current->cmd_arr[0]);
+                    //     }
+                    //     exit(1);
+                    // }
                 } else if (pid < 0) {
                     perror("fork");
                     return 1;
@@ -214,10 +205,10 @@ int main(int ac, char **av, char **env) {
                     waitpid(pid, &status, 0);
                     if (WIFEXITED(status)) {
                         update->exit_status = WEXITSTATUS(status);
-						if (current->builtin) {
-                        execute_builtins(cmds, current->cmd_arr, env_dup, update);
-						//exit only works in parent process
-						}
+						// if (current->builtin) {
+                        // execute_builtins(cmds, current->cmd_arr, env_dup, update);
+						// //exit only works in parent process
+						// }
                     }
                 }
                 current = current->next;
@@ -230,5 +221,5 @@ int main(int ac, char **av, char **env) {
 
     return 0;
 }
-
+*/
 

@@ -6,116 +6,96 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/18 10:10:03 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/19 18:41:47 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// check to see if the file is append_re
-int	is_append_re(char *filename, char **append_re)
+
+// void	handle_cmd(t_cmd **cmds, t_cmd *current, t_env **env, t_ms_state *status)
+// {
+// 	do_redirection(current, status);
+// 	if (current->builtin)
+// 	{
+// 		execute_builtins(cmds, current->cmd_arr, env, status);
+// 	}
+// 	// else
+// 	// {
+// 	// 	//execve
+// 	// }
+// }
+
+
+//pipefd[0] is for reading end
+//pipefd[1] is for writing end
+// int	execution(t_cmd **cmds, t_env **env, t_ms_state *status)
+// {
+// 	t_cmd	*current;
+// 	int		pipefd[2];
+// 	int		pid;
+
+// 	current = *cmds;
+// 	while (current)
+// 	{
+// 		if (current->next)
+// 			pipe(pipefd);
+// 		pid = fork();
+// 		if (pid < 0)
+// 			perror("fork error");
+// 		if (pid == 0)
+// 		{
+// 			dup2(pipefd[0], STDIN_FILENO);
+// 			close(pipefd[0]);
+// 			dup2(pipefd[1], STDOUT_FILENO);
+// 			close(pipefd[1]);
+// 			handle_cmd(cmds, current, env, status);
+// 		}
+// 		current = current->next;
+// 	}
+// 	waitpid(pid, NULL, 0);
+// 	return (0);
+// }
+
+void	exec_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
-	int	i;
+	int		pid;
+	int		exit_status;
 
-	printf("Checking if is in append_re\n");
-	i = 0;
-	while (append_re && append_re[i])
+	//should execute the builtin and return, so no forking
+	if ((*cmds)->builtin)
 	{
-		if (ft_strcmp(filename, append_re[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	handle_infile(t_cmd *cmd, t_ms_state *stat)
-{
-	int	i;
-	int	fd;
-	int	last_fd;
-
-	i = 0;
-	last_fd = -1;
-	while (cmd->infile[i])
-	{
-		fd = open(cmd->infile[i], O_RDONLY);
-		if (fd == -1)
-			return (stat->exit_status = 1,
-				print_error("No such file or directory"), 1);
-		if (last_fd != -1)
-			close(last_fd);
-		last_fd = fd;
-		i++;
-	}
-	if (last_fd != -1)
-	{
-		if (dup2(last_fd, STDIN_FILENO) == -1)
+		if (!ft_strcmp((*cmds)->cmd_arr[0], "cd") || !ft_strcmp((*cmds)->cmd_arr[0], "export")
+			|| !ft_strcmp((*cmds)->cmd_arr[0], "unset") || !ft_strcmp((*cmds)->cmd_arr[0], "exit"))
 		{
-			perror("dup2 infile");
-			return (print_error("dup2 infile"), 1);
+			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
+			return;
 		}
-		close(last_fd);
 	}
-	return (0);
-}
-
-int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
-{
-	int	i;
-	int	fd;
-	int	last_fd;
-
-	i = 0;
-	last_fd = -1;
-	printf("Entered handle_outfile\n");
-	while (cmd->outfile[i])
+	pid = fork();
+	if (pid < 0)
+		perror("fork error");
+	if (pid == 0)
 	{
-		if (is_append_re(cmd->outfile[i], cmd->append_re))
+		do_redirection((*cmds), status);
+		if ((*cmds)->builtin)
 		{
-			printf("Opening appendre\n");
-			fd = open(cmd->outfile[i], O_RDWR | O_CREAT | O_APPEND, 0777);
+			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
+		//	free_all_and_exit(cmds, env, status); //have to free in child process before exit
+			exit(status->exit_status);
+		//	exit(0);
 		}
-		else
-		{
-			printf("Opening outfile\n");
-			fd = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		}
-		if (fd == -1)
-			return (stat->exit_status = 1,
-				print_error("No such file or directory"), 1);
-		if (last_fd != -1)
-			close(last_fd);
-		last_fd = fd;
-		i++;
+		// else
+		// {
+		// 	//execve
+		// }
+		free_all_and_exit(cmds, env, status); //have to free in child process before exit
+		exit(0);
 	}
-	printf("Entering dup\n");
-	if (last_fd != -1)
-	{
-		printf("Last file descriptor before dup2: %d\n", last_fd);
-		if (dup2(last_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 outfile");
-			return (print_error("dup2 outfile"), 1);
-		}
-		close(last_fd);
-	}
-	perror("Exiting handle_outfile now in perror");
-	return (0);
+	waitpid(pid, &exit_status, 0);
+    if (WIFEXITED(exit_status))
+    {
+        status->exit_status = WEXITSTATUS(exit_status);
+    }
+	
 }
-
-int	do_redirection(t_cmd *cmd, t_ms_state *stat)
-{
-	if (cmd->infile)
-	{
-		if (handle_infile(cmd, stat))
-			return (1);
-	}
-	if (cmd->outfile)
-	{
-		if (handle_outfile(cmd, stat))
-			return (1);
-		perror("Exiting in do_redirection");
-	}
-	return (0);
-}
-
