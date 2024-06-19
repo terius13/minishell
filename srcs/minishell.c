@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 19:24:59 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/19 19:27:50 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int ac, char **av, char **env)
 	char		*line;
 	t_cmd		**cmds;
 	t_env		**env_dup;
-	t_cmd		*current;
 	t_ms_state	*status;
 
 	(void)ac;
