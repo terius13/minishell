@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 19:06:37 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/19 19:11:30 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,9 @@ void	print_lexer(t_lexer **lexer); //to delete later
 //expand_env_var.c
 void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value);
 int		cal_var_len(char *str);
-int		expand_env_var(t_lexer *lexer, int i, t_env **env_dup);
-void 	check_env_var(t_lexer *lexer, t_env **env_dup);
+char	*get_env_value(char *var, int *free_flag, t_env **env_dup, t_ms_state *stat);
+int		expand_env_var(t_lexer *lexer, int i, t_env **env_dup, t_ms_state *stat);
+void 	check_env_var(t_lexer *lexer, t_env **env_dup, t_ms_state *stat);
 
 //remove_quotes.c
 int		remove_quotes(t_lexer *lexer);
