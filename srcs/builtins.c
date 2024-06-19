@@ -6,13 +6,13 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 11:35:19 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/11 18:55:08 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/14 11:43:46 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup) // INCLUDE INPUT LATER
+void	execute_builtins(t_cmd	**cmds, char **args, t_env **env_dup)
 
 {
 	if (ft_strcmp(args[0], "echo") == 0)
