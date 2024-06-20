@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/20 12:20:38 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/20 16:07:52 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,36 @@
 // 	return (0);
 // }
 
-void	exec_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
+char	**env_in_arr(t_env **env)
+{
+	char	**env_cpy;
+	char	*line;
+	t_env	*current;
+	int		i;
+
+	i = 0;
+	while (current)
+	{
+		line = ft_strlcpy()
+		current = current->next;
+	}
+}
+
+void	exec_cmd(t_cmd *cmd, t_env **env)
+{
+	char	*cmd_path;
+	
+	cmd_path = find_path(cmd->cmd_arr[0], env);
+	if (cmd_path)
+	{
+		execve(cmd_path, cmd->cmd_arr, env);
+		free(cmd_path);
+	}
+	else
+		perror("Command not found");
+}
+
+void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int		pid;
 	int		exit_status;
@@ -85,17 +114,14 @@ void	exec_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 			free_all_and_exit(cmds, env, status); //have to free in child process before exit
 			exit(stat);
 		}
-		// else
-		// {
-		// 	//execve
-		// }
+		else
+		{
+			exec_cmd((*cmds), env);
+		}
 		free_all_and_exit(cmds, env, status); //have to free in child process before exit
 		exit(0);
 	}
 	waitpid(pid, &exit_status, 0);
     if (WIFEXITED(exit_status))
-    {
         status->exit_status = WEXITSTATUS(exit_status);
-    }
-	
 }

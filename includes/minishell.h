@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/20 14:12:22 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/20 15:51:41 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,13 @@ void	add_to_arr(char ***arr, char *str);
 //--------------------EXECUTION--------------------
 
 //execution.c
-void	exec_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
+void	exec_cmd(t_cmd *cmd, t_env **env);
+void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
 void	handle_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
 int		execution(t_cmd **cmds, t_env **env, t_ms_state *status);
+
+//execution_utils.c
+char    *find_path(char *cmd, t_env **env);
 
 //redirections.c
 int		is_append_re(char *filename, char **append_re);
