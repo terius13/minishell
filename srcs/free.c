@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 12:21:41 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 18:09:47 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/20 11:16:28 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	free_env(t_env **env_list)
 		tmp = next;
 	}
 	*env_list = NULL;
-	
 }
 
 void	free_lexer(t_lexer **lexer)
