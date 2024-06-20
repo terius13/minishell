@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/20 14:38:06 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/20 20:25:32 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	signal_handlers_setup(void)
 	
 	sa_ignore.sa_handler = sigignore_handler;
 	sigemptyset(&sa_ignore.sa_mask);
-	sa_ignore.sa_flag = 0;
+	sa_ignore.sa_flags = 0;
 	if (sigaction(SIGINT, &sa_ignore, NULL) == -1)
 	{
 		perror("SIGINT");
@@ -56,7 +56,7 @@ int	signal_handlers_setup(void)
 	}
 	sa_quit.sa_handler = sigquit_handler;
 	sigemptyset(&sa_ignore.sa_mask);
-	sa_quit.sa_flag = 0;
+	sa_quit.sa_flags = 0;
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
 	{
 		perror("SIGQUIT");
