@@ -6,12 +6,11 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 18:41:47 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/20 12:20:38 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 // void	handle_cmd(t_cmd **cmds, t_cmd *current, t_env **env, t_ms_state *status)
 // {
@@ -61,6 +60,7 @@ void	exec_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int		pid;
 	int		exit_status;
+	int		stat;
 
 	//should execute the builtin and return, so no forking
 	if ((*cmds)->builtin)
@@ -81,9 +81,9 @@ void	exec_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 		if ((*cmds)->builtin)
 		{
 			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
-		//	free_all_and_exit(cmds, env, status); //have to free in child process before exit
-			exit(status->exit_status);
-		//	exit(0);
+			stat = status->exit_status;
+			free_all_and_exit(cmds, env, status); //have to free in child process before exit
+			exit(stat);
 		}
 		// else
 		// {

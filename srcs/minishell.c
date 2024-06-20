@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 19:27:50 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/19 19:43:08 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av, char **env)
 		line = readline(C "shell@st42:$ " RST);
 		if (line == NULL)
 		{
-			ft_putendl_fd("exit", STDOUT_FILENO); // Handle Ctrl + D
+			ft_putendl_fd("exit", STDOUT_FILENO); // Handle Ctrl + D 
 			rl_clear_history();
 			break ; // exit if EOF or error, can be Ctrl + D
 		}
