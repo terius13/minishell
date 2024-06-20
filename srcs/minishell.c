@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 19:43:08 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/20 14:12:28 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	main(int ac, char **av, char **env)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO); // Handle Ctrl + D 
 			rl_clear_history();
-			break ; // exit if EOF or error, can be Ctrl + D
+			free_all_and_exit(cmds, env_dup, status);
+			exit(EXIT_SUCCESS); // exit if EOF or error, can be Ctrl + D
 		}
 		if (line && *line)
 		{
