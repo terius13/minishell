@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/20 16:07:52 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/20 20:46:55 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,24 @@
 // 	return (0);
 // }
 
-char	**env_in_arr(t_env **env)
-{
-	char	**env_cpy;
-	char	*line;
-	t_env	*current;
-	int		i;
 
-	i = 0;
-	while (current)
-	{
-		line = ft_strlcpy()
-		current = current->next;
-	}
-}
+// Function to concatenate key and value into "key=value"
 
-void	exec_cmd(t_cmd *cmd, t_env **env)
+
+void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 {
 	char	*cmd_path;
 	
 	cmd_path = find_path(cmd->cmd_arr[0], env);
 	if (cmd_path)
 	{
-		execve(cmd_path, cmd->cmd_arr, env);
+		execve(cmd_path, cmd->cmd_arr, env_in_arr(env));
 		free(cmd_path);
 	}
-	else
-		perror("Command not found");
+	else{
+		printf("%s: command not found\n", cmd->cmd_arr[0]);
+		status->exit_status = 127;
+	}
 }
 
 void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
@@ -91,16 +82,10 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 	int		exit_status;
 	int		stat;
 
-	//should execute the builtin and return, so no forking
 	if ((*cmds)->builtin)
-	{
 		if (!ft_strcmp((*cmds)->cmd_arr[0], "cd") || !ft_strcmp((*cmds)->cmd_arr[0], "export")
 			|| !ft_strcmp((*cmds)->cmd_arr[0], "unset") || !ft_strcmp((*cmds)->cmd_arr[0], "exit"))
-		{
-			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
-			return;
-		}
-	}
+			return(execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
 	pid = fork();
 	if (pid < 0)
 		perror("fork error");
@@ -108,18 +93,12 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 	{
 		do_redirection((*cmds), status);
 		if ((*cmds)->builtin)
-		{
 			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
-			stat = status->exit_status;
-			free_all_and_exit(cmds, env, status); //have to free in child process before exit
-			exit(stat);
-		}
 		else
-		{
-			exec_cmd((*cmds), env);
-		}
+			execute_cmd((*cmds), env, status);
+		stat = status->exit_status;
 		free_all_and_exit(cmds, env, status); //have to free in child process before exit
-		exit(0);
+		exit(stat);
 	}
 	waitpid(pid, &exit_status, 0);
     if (WIFEXITED(exit_status))
