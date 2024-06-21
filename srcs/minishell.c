@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 12:39:17 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/21 17:12:28 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **env)
 				continue;
 			}
 			free(line);
+        //call single cmd if only one cmd
         //    do_single_cmd(cmds, env_dup, status);
             execute_pipeline(cmds, env_dup, status);
 			free_cmds(cmds);
