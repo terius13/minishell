@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 18:33:05 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/21 22:10:04 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	**init_pipe_ends(int num_cmds)
 {
 	int		**pipe_ends;
 	int		i;
-	
+
 	i = 0;
 	pipe_ends = (int **)malloc(sizeof(int *) * (num_cmds - 1));
 	if (!pipe_ends)
@@ -103,7 +103,7 @@ void	init_pipes(int **pipe_ends, int num_cmds)
 {
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	while (i < num_cmds - 1)
 	{
@@ -136,7 +136,7 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 	int	stat;
 
 	num_cmds = cmds_len((*cmds));
-	
+
 
 	current = *cmds;
 	i = 0;
