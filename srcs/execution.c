@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 17:15:20 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/21 18:33:05 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,24 +150,24 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 	{
 		//if encounter any of the builtin unallowed, exit out of the process
 		//so dont need to check here and execute anymore
-		if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
-                || !ft_strcmp(current->cmd_arr[0], "export")
-                || !ft_strcmp(current->cmd_arr[0], "unset")))
-            //    || !ft_strcmp(current->cmd_arr[0], "exit")))
-        {
-            // Execute built-in commands directly in parent process
-            execute_builtins(&current, current->cmd_arr, env, status);
-            current = current->next;
-            continue;
-        }
-		else if (!ft_strcmp(current->cmd_arr[0], "exit"))
-		{
-			i = 0;
-			while (i++ < num_cmds - 1)
-				free(pipe_ends[i]);
-			free(pipe_ends);
-			return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
-		}
+		// if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
+        //         || !ft_strcmp(current->cmd_arr[0], "export")
+        //         || !ft_strcmp(current->cmd_arr[0], "unset")))
+        //     //    || !ft_strcmp(current->cmd_arr[0], "exit")))
+        // {
+        //     // Execute built-in commands directly in parent process
+        //     execute_builtins(&current, current->cmd_arr, env, status);
+        //     current = current->next;
+        //     continue;
+        // }
+		// else if (!ft_strcmp(current->cmd_arr[0], "exit"))
+		// {
+		// 	i = 0;
+		// 	while (i++ < num_cmds - 1)
+		// 		free(pipe_ends[i]);
+		// 	free(pipe_ends);
+		// 	return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
+		// }
 		pid = fork();
 		if (pid < 0)
 		{
@@ -185,13 +185,9 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 		if (pid == 0)
 		{
 			if (i > 0)
-			{
 				dup2(pipe_ends[i - 1][0], STDIN_FILENO);
-			}
 			if (i < num_cmds - 1)
-			{
 				dup2(pipe_ends[i][1], STDOUT_FILENO);
-			}
 			j = 0;
 			while (j < num_cmds - 1)
 			{
@@ -202,6 +198,15 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 			do_redirection(current, status);
 			//check if builtin is unallowed, exit out of child process
 			//only execute builtins if its allowed
+			// if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
+            //     || !ft_strcmp(current->cmd_arr[0], "export")
+            //     || !ft_strcmp(current->cmd_arr[0], "unset")
+            //     || !ft_strcmp(current->cmd_arr[0], "exit")))
+        	// {
+			// 	while (i++ < num_cmds - 1)
+			// 		free(pipe_ends[i]);
+			// 	free(pipe_ends);
+        	// }
 			if (current->builtin)
 				execute_builtins(&current, current->cmd_arr, env, status);
 			else
