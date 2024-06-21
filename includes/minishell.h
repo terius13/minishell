@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 12:11:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/21 12:38:17 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status);
 void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
 void	handle_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
 int		execution(t_cmd **cmds, t_env **env, t_ms_state *status);
+void execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status);
 
 //execution_utils.c
 char 	*join_key_value(const char *key, const char *value);
