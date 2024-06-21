@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:46:24 by ting              #+#    #+#             */
-/*   Updated: 2024/06/19 15:47:05 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/21 11:45:30 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,14 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 
 	i = 0;
 	last_fd = -1;
-	printf("Entered handle_outfile\n");
 	while (cmd->outfile[i])
 	{
 		if (is_append_re(cmd->outfile[i], cmd->append_re))
 		{
-			printf("Opening appendre\n");
 			fd = open(cmd->outfile[i], O_RDWR | O_CREAT | O_APPEND, 0777);
 		}
 		else
 		{
-			printf("Opening outfile\n");
 			fd = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		}
 		if (fd == -1)
@@ -88,7 +85,6 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 		last_fd = fd;
 		i++;
 	}
-	printf("Entering dup\n");
 	if (last_fd != -1)
 	{
 		printf("Last file descriptor before dup2: %d\n", last_fd);
@@ -99,7 +95,6 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 		}
 		close(last_fd);
 	}
-	perror("Exiting handle_outfile now in perror");
 	return (0);
 }
 
@@ -114,7 +109,6 @@ int	do_redirection(t_cmd *cmd, t_ms_state *stat)
 	{
 		if (handle_outfile(cmd, stat))
 			return (1);
-		perror("Exiting in do_redirection");
 	}
 	return (0);
 }
