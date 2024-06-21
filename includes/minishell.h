@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/20 20:46:46 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/21 12:11:40 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ typedef struct s_cmd
 //init_status_envdup.c
 t_ms_state	*init_status();
 t_env	**init_envdup(t_ms_state *status, char **env);
+
+//--------------------SIGNALS----------------------
+
+//signals.c
+void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status);
+void	sigignore_handler();
+void	sigquit_handler();
+int		signal_handlers_setup(void);
 
 //--------------------BUILT-INS--------------------
 
