@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:13:55 by ting              #+#    #+#             */
-/*   Updated: 2024/05/30 14:28:15 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/22 19:18:38 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int		ft_prthex_printf(unsigned long n, char format);
 int		ft_nb_abs(int num);
 int		ft_isspace(int c);
 char	*ft_strndup(const char *s, size_t n);
+void    *ft_realloc(void *ptr, size_t original_size, size_t new_size);
 
 #endif

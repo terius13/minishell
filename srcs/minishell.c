@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 22:10:08 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/22 17:03:56 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,10 @@ int	main(int ac, char **av, char **env)
 				continue;
 			}
 			free(line);
-        //call single cmd if only one cmd
-            //if ((*cmds)->next)
-           //     execute_pipeline(cmds, env_dup, status);
-           // else
-             //   do_single_cmd(cmds, env_dup, status);
-	     do_single_cmd(cmds, env_dup, status);
+            if ((*cmds)->next)
+               execute_pipeline(cmds, env_dup, status);
+            else
+               do_single_cmd(cmds, env_dup, status);
 			free_cmds(cmds);
 		}
 	}

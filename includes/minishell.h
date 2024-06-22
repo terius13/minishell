@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 12:38:17 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/22 19:09:29 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,14 +172,20 @@ void	add_to_arr(char ***arr, char *str);
 //execution.c
 void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status);
 void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
-void	handle_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
-int		execution(t_cmd **cmds, t_env **env, t_ms_state *status);
-void execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status);
+void 	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status);
 
 //execution_utils.c
+void	parent_wait(t_ms_state *status);
+int		cmds_len(t_cmd *cmds);
 char 	*join_key_value(const char *key, const char *value);
 char 	**env_in_arr(t_env **env);
 char    *find_path(char *cmd, t_env **env);
+
+//pipe.c
+int		**init_pipe_ends(int num_cmds);
+void	init_pipes(int **pipe_ends, int num_cmds);
+void	free_pipe_ends(int **pipe_ends, int num_cmds);
+void	close_pipe_ends(int **pipe_ends, int num_cmds);
 
 //redirections.c
 int		is_append_re(char *filename, char **append_re);

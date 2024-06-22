@@ -6,11 +6,36 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:04:57 by ting              #+#    #+#             */
-/*   Updated: 2024/06/20 20:29:51 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/22 19:03:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+void	parent_wait(t_ms_state *status)
+{
+	int	exit_status;
+	
+	wait(&exit_status);
+	if (WIFEXITED(exit_status))
+		status->exit_status = WEXITSTATUS(exit_status);
+}
+
+int	cmds_len(t_cmd *cmds)
+{
+	t_cmd	*current;
+	int 	num_cmds;
+
+	num_cmds = 0;
+	current = cmds;
+	while (current)
+    {
+        num_cmds++;
+        current = current->next;
+    }
+	return (num_cmds);
+}
 
 char *join_key_value(const char *key, const char *value)
 {
