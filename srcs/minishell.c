@@ -43,10 +43,11 @@ int	main(int ac, char **av, char **env)
 			}
 			free(line);
         //call single cmd if only one cmd
-            if ((*cmds)->next)
-                execute_pipeline(cmds, env_dup, status);
-            else
-                do_single_cmd(cmds, env_dup, status);
+            //if ((*cmds)->next)
+           //     execute_pipeline(cmds, env_dup, status);
+           // else
+             //   do_single_cmd(cmds, env_dup, status);
+	     do_single_cmd(cmds, env_dup, status);
 			free_cmds(cmds);
 		}
 	}
