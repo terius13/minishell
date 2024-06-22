@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/20 20:36:34 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/22 19:01:31 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,38 @@ void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	exit(EXIT_SUCCESS); // EOF, Ctrl + D
 }
 
-void	sigignore_handler()
-{
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	sigquit_handler()
+void	cancel_handler()
 
 {
 	if (isatty(STDIN_FILENO))
+	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		rl_done = 1;
+	}
 }
 
 int	signal_handlers_setup(void)
 {
-	struct sigaction	sa_ignore;
-	struct sigaction	sa_quit;	
+	struct sigaction	do_nothing;
+	struct sigaction	cancel;	
 	
-	sa_ignore.sa_handler = sigignore_handler;
-	sigemptyset(&sa_ignore.sa_mask);
-	sa_ignore.sa_flags = 0;
-	if (sigaction(SIGINT, &sa_ignore, NULL) == -1)
+	do_nothing.sa_handler = SIG_IGN;
+	sigemptyset(&do_nothing.sa_mask);
+	do_nothing.sa_flags = 0;
+	if (sigaction(SIGQUIT, &do_nothing, NULL) == -1)
 	{
-		perror("SIGINT");
+		perror("Ctrl-\\");
 		return (1);
 	}
-	sa_quit.sa_handler = sigquit_handler;
-	sigemptyset(&sa_ignore.sa_mask);
-	sa_quit.sa_flags = 0;
-	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
+	cancel.sa_handler = cancel_handler;
+	sigemptyset(&cancel.sa_mask);
+	cancel.sa_flags = 0;
+	if (sigaction(SIGINT, &cancel, NULL) == -1)
 	{
-		perror("SIGQUIT");
+		perror("Ctrl-C");
 		return (1);
 	}
 	return (0);
