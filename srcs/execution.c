@@ -1,12 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   execution->c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: ting <ting@student->42singapore->sg>         +#+  +:+      
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/22 19:03:04 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/24 17:49:18 by ting             ###   ########->fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +15,31 @@
 
 // pipefd[0] is for reading end
 // pipefd[1] is for writing end
+
+int	illegal_builtins(t_cmd *current)
+{
+	if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
+			|| !ft_strcmp(current->cmd_arr[0], "export")
+			|| !ft_strcmp(current->cmd_arr[0], "unset")
+			|| !ft_strcmp(current->cmd_arr[0], "exit")))
+	{
+		return (1);
+	}
+	return (0);
+}
+
+void	free_n_exit_child(t_pipeline *pipeline)
+{
+	int	stat;
+	int	num_cmds;
+
+	num_cmds = cmds_len((*pipeline->cmds));
+	stat = pipeline->status->exit_status;
+	free_all_and_exit(pipeline->cmds, pipeline->env, pipeline->status);
+	free_pipe_ends(pipeline->pipe_ends, num_cmds);
+	free(pipeline);
+	exit(stat);
+}
 
 void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 {
@@ -32,16 +58,13 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 	}
 }
 
-
 void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int	pid;
 	int	stat;
+	int	exit_status;
 
-	if ((*cmds)->builtin && (!ft_strcmp((*cmds)->cmd_arr[0], "cd")
-		|| !ft_strcmp((*cmds)->cmd_arr[0], "export")
-		|| !ft_strcmp((*cmds)->cmd_arr[0], "unset")
-		|| !ft_strcmp((*cmds)->cmd_arr[0], "exit")))
+	if (illegal_builtins((*cmds)))
 		return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
 	pid = fork();
 	if (pid < 0)
@@ -57,64 +80,21 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 		free_all_and_exit(cmds, env, status);
 		exit(stat);
 	}
-	parent_wait(status);
+	wait(&exit_status);
+	if (WIFEXITED(exit_status))
+		status->exit_status = WEXITSTATUS(exit_status);
 }
 
-void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
+void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
 {
-	int		num_cmds;
-	t_cmd	*current;
-	int		i;
-	int		pid;
-	int		**pipe_ends;
-	int		stat;
-
-	num_cmds = cmds_len((*cmds));
-	current = *cmds;
-	i = 0;
-	pipe_ends = init_pipe_ends(num_cmds);
-	init_pipes(pipe_ends, num_cmds);
-	while (current)
-	{
-		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork error");
-			free_pipe_ends(pipe_ends, num_cmds);
-			return ;
-		}
-		if (pid == 0)
-		{
-			if (i > 0)
-				dup2(pipe_ends[i - 1][0], STDIN_FILENO);
-			if (i < num_cmds - 1)
-				dup2(pipe_ends[i][1], STDOUT_FILENO);
-			close_pipe_ends(pipe_ends, num_cmds);
-			do_redirection(current, status);
-			if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
-                || !ft_strcmp(current->cmd_arr[0], "export")
-                || !ft_strcmp(current->cmd_arr[0], "unset")
-                || !ft_strcmp(current->cmd_arr[0], "exit")))
-        	{
-				free_all_and_exit(cmds, env, status);
-				free_pipe_ends(pipe_ends, num_cmds);
-				exit(0);
-        	}
-			if (current->builtin)
-				execute_builtins(&current, current->cmd_arr, env, status);
-			else
-				execute_cmd(current, env, status);
-			stat = status->exit_status;
-			free_all_and_exit(cmds, env, status);
-			free_pipe_ends(pipe_ends, num_cmds);
-			exit(stat);
-		}
-		current = current->next;
-		i++;
-	}
-	close_pipe_ends(pipe_ends, num_cmds);
-	i = 0;
-	while (i++ < num_cmds)
-		parent_wait(status);
-	free_pipe_ends(pipe_ends, num_cmds);
+	init_dup(pipeline->num_cmds, i, pipeline->pipe_ends);
+	do_redirection(current, pipeline->status);
+	if (illegal_builtins(current))
+		free_n_exit_child(pipeline);
+	if (current->builtin)
+		execute_builtins(&current, current->cmd_arr, pipeline->env,
+			pipeline->status);
+	else
+		execute_cmd(current, pipeline->env, pipeline->status);
+	free_n_exit_child(pipeline);
 }

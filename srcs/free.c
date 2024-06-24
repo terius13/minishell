@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 12:21:41 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 16:28:32 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/24 18:31:33 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,3 @@ void	free_all_and_exit(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 		status = NULL;
 	}
 }
-

@@ -6,7 +6,7 @@
 #    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/22 17:53:08 by ting             ###   ########.fr        #
+#    Updated: 2024/06/24 18:27:49 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
 		free.c print_error_msg.c execution.c \
 		redirections.c init_status_envdup.c \
 		execution_utils.c signals.c \
-		pipe.c
+		pipe.c execute_pipeline.c \
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 

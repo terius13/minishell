@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:46:24 by ting              #+#    #+#             */
-/*   Updated: 2024/06/21 11:45:30 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/24 17:38:26 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	is_append_re(char *filename, char **append_re)
 {
 	int	i;
 
-	printf("Checking if is in append_re\n");
 	i = 0;
 	while (append_re && append_re[i])
 	{
@@ -87,7 +86,6 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 	}
 	if (last_fd != -1)
 	{
-		printf("Last file descriptor before dup2: %d\n", last_fd);
 		if (dup2(last_fd, STDOUT_FILENO) == -1)
 		{
 			perror("dup2 outfile");
