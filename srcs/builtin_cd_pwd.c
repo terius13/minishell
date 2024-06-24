@@ -6,11 +6,33 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:26:40 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/19 18:36:22 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/24 18:44:48 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	update_old(t_env **env_list)
+
+{
+	t_env 	*current;
+	char	*old_pwd;
+	
+	current = *env_list;
+	old_pwd = find_env(env_list, "PWD");
+
+	while (current != NULL)
+	{
+		if (ft_strcmp(current->key, "OLDPWD") == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup(old_pwd);
+			return ;
+		}
+		current = current->next;
+	}
+	ft_add_env_back_node(env_list, ft_new_env_node("OLDPWD", old_pwd));
+}
 
 int	builtin_cd(char **args, t_env **env_list)
 {
@@ -43,10 +65,10 @@ int	builtin_cd(char **args, t_env **env_list)
 			return (1);
 		}
 	}
+	update_old(env_list);
 	update_pwd(env_list);
 	return (0);
 }
-
 void	update_pwd(t_env **env_list)
 
 {
