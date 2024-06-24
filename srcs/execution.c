@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution->c                                        :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student->42singapore->sg>         +#+  +:+      
-	+#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 17:49:18 by ting             ###   ########->fr       */
+/*   Updated: 2024/06/24 20:05:19 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +15,13 @@
 // pipefd[0] is for reading end
 // pipefd[1] is for writing end
 
+
 int	illegal_builtins(t_cmd *current)
 {
 	if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
 			|| !ft_strcmp(current->cmd_arr[0], "export")
-			|| !ft_strcmp(current->cmd_arr[0], "unset")
-			|| !ft_strcmp(current->cmd_arr[0], "exit")))
+			|| !ft_strcmp(current->cmd_arr[0], "unset")))
+			// || !ft_strcmp(current->cmd_arr[0], "exit")))
 	{
 		return (1);
 	}
@@ -66,6 +66,8 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 
 	if (illegal_builtins((*cmds)))
 		return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
+	if (!ft_strcmp((*cmds)->cmd_arr[0], "exit"))
+		return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
 	pid = fork();
 	if (pid < 0)
 		perror("fork error");
@@ -91,6 +93,8 @@ void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
 	do_redirection(current, pipeline->status);
 	if (illegal_builtins(current))
 		free_n_exit_child(pipeline);
+	if (!ft_strcmp(current->cmd_arr[0], "exit"))
+		return (execute_builtins(pipeline->cmds, (*pipeline->cmds)->cmd_arr, pipeline->env, pipeline->status));
 	if (current->builtin)
 		execute_builtins(&current, current->cmd_arr, pipeline->env,
 			pipeline->status);
