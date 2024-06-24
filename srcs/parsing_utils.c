@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:33:55 by ting              #+#    #+#             */
-/*   Updated: 2024/06/22 19:27:09 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/24 17:38:04 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_cmd	*new_cmd(char **arr)
 	new->builtin = 0;
 	new->append_re = NULL;
 	new->hdoc_delimeter = NULL;
+	new->next = NULL;
 	return (new);
 }
 
