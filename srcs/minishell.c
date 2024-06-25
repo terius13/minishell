@@ -6,15 +6,42 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 19:05:10 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/25 15:05:10 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
+{
+	int			i;
+	char		*line;
+
+	while (1)
+	{
+		line = readline(C "shell@st42:$ " RST);
+		if (line == NULL)
+			sigexit_handler(cmds, env_dup, status);
+		i = 0;
+		skip_wp(line, &i);
+		if (line[i] == '\0')
+			continue;
+		add_history(line);
+		if (lexer_and_parse(cmds, line, env_dup, status))
+		{
+			free_cmds(cmds);
+			continue;
+		}
+        if ((*cmds)->next)
+            execute_pipeline(cmds, env_dup, status);
+        else
+            do_single_cmd(cmds, env_dup, status);
+		free_cmds(cmds);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
-	char		*line;
 	t_cmd		**cmds;
 	t_env		**env_dup;
 	t_ms_state	*status;
@@ -27,27 +54,5 @@ int	main(int ac, char **av, char **env)
 	env_dup = init_envdup(status, env);
 	cmds = (t_cmd **)malloc(sizeof(t_cmd *));
 	*cmds = NULL;
-	while (1)
-	{
-		line = readline(C "shell@st42:$ " RST);
-		if (line == NULL)
-			sigexit_handler(cmds, env_dup, status);
-		if (line && *line)
-		{
-			add_history(line);
-			if (lexer_and_parse(cmds, line, env_dup, status))
-			{
-				free_cmds(cmds);
-				free(line); //prob dont need to free, only in exit
-				continue;
-			}
-			free(line);
-            if ((*cmds)->next)
-               execute_pipeline(cmds, env_dup, status);
-            else
-               do_single_cmd(cmds, env_dup, status);
-			free_cmds(cmds);
-		}
-	}
+	minishell_loop(cmds, env_dup, status);
 }
-
