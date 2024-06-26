@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/22 19:01:31 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/26 15:43:35 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	cancel_handler()
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		rl_done = 1;
 	}
+	rl_done = 1;
 }
 
 int	signal_handlers_setup(void)

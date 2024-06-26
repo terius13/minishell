@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/25 15:03:22 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/26 15:42:20 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
 	while (1)
 	{
+		rl_done = 0;
 		line = readline(C "shell@st42:$ " RST);
 		if (line == NULL)
 			sigexit_handler(cmds, env_dup, status);
@@ -55,4 +56,5 @@ int	main(int ac, char **av, char **env)
 	cmds = (t_cmd **)malloc(sizeof(t_cmd *));
 	*cmds = NULL;
 	minishell_loop(cmds, env_dup, status);
+	return (0);
 }

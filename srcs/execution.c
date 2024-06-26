@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/25 14:45:08 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/26 19:49:31 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,33 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 	}
 }
 
+void	here_doc(t_cmd *current)
+{
+	char	*line;
+	int		fd;
+	char	*file;
+	
+	if (!current->hdoc_delimeter)
+		return ;
+	file = (char *)malloc(sizeof(char) * 18);
+	file = "./tmp/heredoc.tmp";
+	fd = open(file, O_CREAT | O_EXCL | O_WRONLY, 0600);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			printf("shell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n", current->hdoc_delimeter);
+			break;
+		}
+		if (ft_strcmp(line, current->hdoc_delimeter) == 0)
+        {
+            free(line);
+            break;
+        }
+	}
+}
+
 void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int	pid;
@@ -68,9 +95,10 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 	if (pid == 0)
 	{
 		do_redirection((*cmds), status);
+		here_doc((*cmds));
 		if ((*cmds)->builtin)
 			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
-		else
+		else if ((*cmds)->cmd_arr[0])
 			execute_cmd((*cmds), env, status);
 		stat = status->exit_status;
 		free_all_and_exit(cmds, env, status);
@@ -81,16 +109,19 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 		status->exit_status = WEXITSTATUS(exit_status);
 }
 
+
+
 void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
 {
 	init_dup(pipeline->num_cmds, i, pipeline->pipe_ends);
 	do_redirection(current, pipeline->status);
+	here_doc(current);
 	if (illegal_builtins(current))
 		free_n_exit_child(pipeline);
 	if (current->builtin)
 		execute_builtins(&current, current->cmd_arr, pipeline->env,
 			pipeline->status);
-	else
+	else if (current->cmd_arr[0])
 		execute_cmd(current, pipeline->env, pipeline->status);
 	free_n_exit_child(pipeline);
 }

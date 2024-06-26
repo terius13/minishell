@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 17:38:22 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/26 16:55:17 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ int	lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup, t_ms_state *stat)
 		}
 		current = next;
 	}
-//	printf("After lexer:\n");
-//	print_lexer(lexer);
+	printf("After lexer:\n");
+	print_lexer(lexer);
 	if (parsing(lexer, cmds))
 		return (free_lexer(lexer), free(lexer), 1);
 	check_builtins(cmds);
-//	print_parse(cmds);
+	print_parse(cmds);
 	return (free_lexer(lexer), free(lexer), 0);
 }

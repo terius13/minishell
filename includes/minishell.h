@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 18:30:30 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/26 16:57:45 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 # include <sys/wait.h>  //for process management
 # include <unistd.h>    //POSIX API functions
 
-# define G "\033[32m"
-# define M "\033[35m"
-# define C "\033[36m"
-# define RST "\033[0m"
+# define G "\001\033[32m\002"
+# define M "\001033[35m\002"
+# define C "\001\033[36m\002"
+# define RST "\001\033[0m\002"
 # define MALLOC_ERROR 1
 
 typedef struct s_ms_state
