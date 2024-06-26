@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/16 15:28:58 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/25 14:46:44 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ void	replace_env_var(t_lexer *lexer, int var_start, int var_len, char *value)
 
 	old_str = ft_strdup(lexer->str);
 	mid_len = var_start + var_len + 1;
-		// until after the var
-	back_len = ft_strlen(old_str) - var_start - (var_len + 1); //+1 for '\0' in strcat
+	back_len = ft_strlen(old_str) - var_start - (var_len + 1);
 	new_str_len = (ft_strlen(old_str) - (var_len + 1)) + ft_strlen(value);
 	new_str = (char *)malloc(sizeof(char) * new_str_len + 1);
-	ft_strlcpy(new_str, old_str, var_start + 1); // cpy the front of the old str
+	ft_strlcpy(new_str, old_str, var_start + 1);
 	if (*value != '\0')
 	{
 		ft_strlcat(new_str, value, ft_strlen(new_str) + ft_strlen(value) + 1);
-			// concat the value
 	}
 	ft_strlcat(new_str, old_str + mid_len, new_str_len + back_len + 1);
-		// concat after the value
 	free(lexer->str);
 	lexer->str = new_str;
 	free(old_str);
@@ -111,7 +108,7 @@ void	check_env_var(t_lexer *lexer, t_env **env_dup, t_ms_state *stat)
 				quote = '"'; // Entering double quote mode
 			else if (current->str[i] == '"' && quote == '"')
 				quote = '\0'; // Exiting double quote mode
-			if (current->str[i] == '$' && quote != '\'')
+			if (current->str[i] == '$' && current->str[i + 1] && quote != '\'')
 				i = expand_env_var(lexer, i + 1, env_dup, stat);
 			else
 				i++;
