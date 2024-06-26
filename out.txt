@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-(null): command not found
-=======
-hi
->>>>>>> main
