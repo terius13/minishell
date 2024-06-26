@@ -6,11 +6,22 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/26 15:16:30 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/26 20:04:08 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+volatile sig_atomic_t	g_reset_cancel = 0;
+
+void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
+{
+	if ((*cmds)->next)
+		execute_pipeline(cmds, env_dup, status);
+	else
+		do_single_cmd(cmds, env_dup, status);
+	free_cmds(cmds);
+}
 
 void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
@@ -19,6 +30,11 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
 	while (1)
 	{
+		if (g_reset_cancel)
+		{
+			g_reset_cancel = 0;
+			continue;
+		}
 		line = readline(C "shell@st42:$ " RST);
 		if (line == NULL)
 			sigexit_handler(cmds, env_dup, status);
@@ -32,11 +48,7 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 			free_cmds(cmds);
 			continue;
 		}
-        if ((*cmds)->next)
-            execute_pipeline(cmds, env_dup, status);
-        else
-            do_single_cmd(cmds, env_dup, status);
-		free_cmds(cmds);
+		execution(cmds, env_dup, status);
 	}
 }
 

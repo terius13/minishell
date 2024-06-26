@@ -6,11 +6,13 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/22 19:01:31 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/26 19:45:44 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern volatile sig_atomic_t	g_reset_cancel;
 
 void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
@@ -30,8 +32,8 @@ void	cancel_handler()
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		rl_done = 1;
 	}
+	g_reset_cancel = 1;
 }
 
 int	signal_handlers_setup(void)
