@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:04:57 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 18:31:48 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/24 19:06:10 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*join_key_value(const char *key, const char *value)
 	int		len;
 	char	*result;
 
-	len = strlen(key) + strlen(value) + 2; // +2 for '=' and '\0'
+	len = ft_strlen(key) + ft_strlen(value) + 2; // +2 for '=' and '\0'
 	result = (char *)malloc(len * sizeof(char));
 	if (result)
 	{
@@ -59,7 +59,7 @@ char	**env_in_arr(t_env **env)
 		size++;
 		current = current->next;
 	}
-	env_cpy = (char **)calloc(size + 1, sizeof(char *));
+	env_cpy = (char **)ft_calloc(size + 1, sizeof(char *));
 	if (!env_cpy)
 		return (NULL);
 	current = *env;

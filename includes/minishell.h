@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/26 16:57:45 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/26 20:04:39 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define RST "\001\033[0m\002"
 # define MALLOC_ERROR 1
 
+extern volatile sig_atomic_t	g_reset_cancel;
 typedef struct s_ms_state
 {
 	int				exit_status;
