@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 17:55:23 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 18:31:12 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	here_doc(t_cmd *current)
 	char	*line;
 	int		fd;
 	char	*file;
-	int		size;
 	
 	if (!current->hdoc_delimeter)
 		return ;
@@ -83,18 +82,8 @@ void	here_doc(t_cmd *current)
 	}
 	close(fd);
 	if (!current->infile)
-    {
         current->infile = ft_calloc(2, sizeof(char *));
-        if (!current->infile)
-        {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
-    }
-	size = get_arr_size(current->infile);
-	current->infile = (char **)ft_realloc(current->infile, size * sizeof(char *), (size + 2) * sizeof(char *));
-	current->infile[size] = ft_strdup(file);
-	(current->infile)[size + 1] = NULL;
+	add_to_arr(&(current->infile), file);
 }
 
 
@@ -130,7 +119,6 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 
 void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
 {
-	here_doc(current);
 	init_dup(pipeline->num_cmds, i, pipeline->pipe_ends);
 	
 	do_redirection(current, pipeline->status);

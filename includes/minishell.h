@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 17:55:18 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 18:30:24 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define MALLOC_ERROR 1
 
 extern volatile sig_atomic_t	g_reset_cancel;
+
 typedef struct s_ms_state
 {
 	int				exit_status;
@@ -203,6 +204,7 @@ void				execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status);
 void				do_single_cmd(t_cmd **cmds, t_env **env,
 						t_ms_state *status);
 void				execute_child_process(t_pipeline *pipeline, t_cmd *current, int i);
+void				here_doc(t_cmd *current);
 
 // execution_utils.c
 int					cmds_len(t_cmd *cmds);
