@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 19:03:06 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 19:13:32 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 		perror("fork error");
 	if (pid == 0)
 	{
-		// here_doc((*cmds));
 		do_redirection((*cmds), status);
 		if ((*cmds)->builtin)
 			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
