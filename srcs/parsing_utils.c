@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:33:55 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 17:38:04 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 17:28:22 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	add_to_arr(char ***arr, char *str)
 	int	size;
 
 	size = get_arr_size(*arr);
-	*arr = (char **)ft_realloc(*arr, (size + 2) * sizeof(char *), (size + 2) * sizeof(char *));
+	*arr = (char **)ft_realloc(*arr, size * sizeof(char *), (size + 2) * sizeof(char *));
 	(*arr)[size] = ft_strdup(str);
 	(*arr)[size + 1] = NULL;
 }

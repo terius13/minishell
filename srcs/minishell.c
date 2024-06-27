@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/26 20:04:48 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 17:25:35 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	else
 		do_single_cmd(cmds, env_dup, status);
 	free_cmds(cmds);
+	if (access("./heredoc.tmp", F_OK) != -1)
+	{
+		if (unlink("./heredoc.tmp") == -1)
+		{
+    		perror("unlink");
+		}
+	}
 }
 
 void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
