@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 18:31:12 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 19:03:06 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,13 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 
 	if (illegal_builtins((*cmds)))
 		return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
+	here_doc((*cmds));
 	pid = fork();
 	if (pid < 0)
 		perror("fork error");
 	if (pid == 0)
 	{
-		here_doc((*cmds));
+		// here_doc((*cmds));
 		do_redirection((*cmds), status);
 		if ((*cmds)->builtin)
 			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
@@ -120,7 +121,6 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
 {
 	init_dup(pipeline->num_cmds, i, pipeline->pipe_ends);
-	
 	do_redirection(current, pipeline->status);
 	if (illegal_builtins(current))
 		free_n_exit_child(pipeline);
