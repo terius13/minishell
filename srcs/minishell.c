@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 17:25:35 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 17:55:16 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	if (signal_handlers_setup() != 0)
-		return (1);
 	status = init_status();
+	if (signal_handlers_setup(status) != 0)
+		return (1);
 	env_dup = init_envdup(status, env);
 	cmds = (t_cmd **)malloc(sizeof(t_cmd *));
 	*cmds = NULL;

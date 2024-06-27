@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/26 20:04:39 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 17:55:18 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ t_env				**init_envdup(t_ms_state *status, char **env);
 // signals.c
 void				sigexit_handler(t_cmd **cmds, t_env **env_dup,
 						t_ms_state *status);
-void				sigignore_handler(void);
-void				sigquit_handler(void);
-int					signal_handlers_setup(void);
+int					signal_handlers_setup(t_ms_state *status);
+void				cancel_handler(int siggy);
+t_ms_state			**set_stats(void);
+void				extract_stats(t_ms_state *extraction);
 
 //--------------------BUILT-INS--------------------
 

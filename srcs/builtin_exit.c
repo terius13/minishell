@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:05:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/24 19:50:34 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 17:01:37 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	not_numeric(t_cmd	**cmds, t_env	**env, t_ms_state *status)
 
 	exit_stats = 2;
 	print_error("Numeric arguments required");
+	status->exit_status = exit_stats;
 	rl_clear_history();
 	free_all_and_exit(cmds, env, status);
 	exit(exit_stats);
@@ -89,6 +90,7 @@ int	builtin_exit(t_cmd	**cmds, t_env	**env, char **args, t_ms_state *status)
 		return (1);
 	if (exit_stats == 0)
 		exit_stats = confirmed_exit_status(args);
+	status->exit_status = exit_stats;
 	rl_clear_history();
 	free_all_and_exit(cmds, env, status);
 	exit(exit_stats);
