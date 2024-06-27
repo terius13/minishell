@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 17:55:16 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 22:58:23 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,28 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
 	while (1)
 	{
+		// if (g_reset_cancel)
+		// {
+		// 	g_reset_cancel = 0;
+		// 	line = readline("");
+		// 	continue;
+		// }
+		// else if (g_reset_cancel == 0)
+		// {
+		// 	line = readline(C "shell@st42:$ " RST);
+		// }
 		if (g_reset_cancel)
 		{
 			g_reset_cancel = 0;
-			continue;
+        	line = readline("");
+		//	continue;
 		}
-		line = readline(C "shell@st42:$ " RST);
+		else
+			line = readline(C "shell@st42:$ " RST);
+		// line = readline(C "shell@st42:$ " RST);
 		if (line == NULL)
 			sigexit_handler(cmds, env_dup, status);
-		i = 0;
+		i = 0; //cleanup
 		skip_wp(line, &i);
 		if (line[i] == '\0')
 			continue;

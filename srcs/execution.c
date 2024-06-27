@@ -6,11 +6,13 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 19:13:32 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 22:59:17 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern volatile sig_atomic_t	g_reset_cancel;
 
 int	illegal_builtins(t_cmd *current)
 {
@@ -54,35 +56,125 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 	}
 }
 
+// void	here_doc(t_cmd *current)
+// {
+// 	char	*line;
+// 	int		fd;
+// 	char	*file;
+	
+// 	if (!current->hdoc_delimeter)
+// 		return ;
+// 	file = "./heredoc.tmp";
+// 	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+// 	while (1)
+// 	{
+// 		line = readline("> ");
+// 		if (!line)
+// 		{
+// 			printf("shell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n", current->hdoc_delimeter);
+// 			break;
+// 		}
+// 		if (ft_strcmp(line, current->hdoc_delimeter) == 0)
+//         {
+//             free(line);
+//             break;
+//         }
+// 		ft_putendl_fd(line, fd);
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	if (!current->infile)
+//         current->infile = ft_calloc(2, sizeof(char *));
+// 	add_to_arr(&(current->infile), file);
+// }
+
+// void	ctrl_c_heredoc(int sig)
+// {
+// 	t_ms_state	*status;
+
+// 	status = *set_stats();
+// 	if (sig == SIGINT)
+// 	{
+// 		status->exit_status = 130;
+// 		g_reset_cancel = 1;  // Set the flag to indicate Ctrl-C was pressed
+// 		rl_done = 1;  // This tells readline to return immediately
+// 	}
+// }
+
+
+char	*trim_whitespace(char *str)
+{
+	char	*end;
+
+	// Trim leading space
+	while (*str == ' ' || *str == '\n' || *str == '\r')
+		str++;
+
+	if (*str == 0)
+		return (str);
+
+	// Trim trailing space
+	end = str + ft_strlen(str) - 1;
+	while (end > str && (*end == ' ' || *end == '\n' || *end == '\r'))
+		end--;
+
+	// Write new null terminator
+	*(end + 1) = '\0';
+
+	return (str);
+}
+
 void	here_doc(t_cmd *current)
 {
 	char	*line;
 	int		fd;
 	char	*file;
-	
+
 	if (!current->hdoc_delimeter)
-		return ;
+		return;
+		
+
 	file = "./heredoc.tmp";
 	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+
 	while (1)
 	{
-		line = readline("> ");
+		if (g_reset_cancel)
+		{
+			g_reset_cancel = 0;
+			continue;
+		}
+		write(1, "> ", 2);
+		if (g_reset_cancel)
+		{
+			printf("test1\n");
+			break;
+		}
+		line = get_next_line(0);  // 0 is the file descriptor for standard input
+		if (g_reset_cancel)
+		{
+			free (line);
+			break;
+		}
 		if (!line)
 		{
 			printf("shell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n", current->hdoc_delimeter);
 			break;
 		}
-		if (ft_strcmp(line, current->hdoc_delimeter) == 0)
-        {
-            free(line);
-            break;
-        }
+		char *trimmed_line = trim_whitespace(line);
+		if (ft_strcmp(trimmed_line, current->hdoc_delimeter) == 0)
+		{
+			free(line);
+			break;
+		}
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+
 	close(fd);
+
 	if (!current->infile)
-        current->infile = ft_calloc(2, sizeof(char *));
+		current->infile = ft_calloc(2, sizeof(char *));
 	add_to_arr(&(current->infile), file);
 }
 

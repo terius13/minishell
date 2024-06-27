@@ -6,12 +6,15 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:13:55 by ting              #+#    #+#             */
-/*   Updated: 2024/06/22 19:18:38 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 20:56:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
+# endif
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
@@ -67,6 +70,12 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+int		ft_nb_abs(int num);
+int		ft_isspace(int c);
+char	*ft_strndup(const char *s, size_t n);
+void    *ft_realloc(void *ptr, size_t original_size, size_t new_size);
+
+//-------------ft_printf-----------------
 int		ft_printf(const char *str, ...);
 int		ft_checker(va_list list, char format);
 int		ft_prtstr_printf(char *str);
@@ -74,9 +83,12 @@ int		ft_prtchar_printf(char c);
 int		ft_prtnbr_printf(int nbr);
 int		ft_prtunnbr_printf(unsigned int nbr);
 int		ft_prthex_printf(unsigned long n, char format);
-int		ft_nb_abs(int num);
-int		ft_isspace(int c);
-char	*ft_strndup(const char *s, size_t n);
-void    *ft_realloc(void *ptr, size_t original_size, size_t new_size);
+
+//-------------get_next_line-------------
+char	*get_next_line(int fd);
+char	*ft_strcat(char *s1, char *s2, int size);
+void	ft_bzero(void *s, size_t n);
+char	*ft_strchr(const char *s, int c);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/27 18:59:00 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/27 22:59:05 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
 void	cancel_handler(int siggy)
 
-{
+{	
 	t_ms_state	*status;
 	(void)siggy;
 	
