@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 14:57:28 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/28 18:02:23 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void				execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status);
 void				do_single_cmd(t_cmd **cmds, t_env **env,
 						t_ms_state *status);
 void				execute_child_process(t_pipeline *pipeline, t_cmd *current, int i);
-void				here_doc(t_cmd *current, t_env **env, t_ms_state *stat);
+
 
 // execution_utils.c
 int					cmds_len(t_cmd *cmds);
@@ -223,6 +223,13 @@ int					is_append_re(char *filename, char **append_re);
 int					handle_infile(t_cmd *cmd, t_ms_state *stat);
 int					handle_outfile(t_cmd *cmd, t_ms_state *stat);
 int					do_redirection(t_cmd *cmd, t_ms_state *stat);
+
+//heredoc.c
+void    here_doc_handler(int siggy);
+int		here_doc_set_up(struct sigaction *old_sa);
+char	*trim_whitespace(char *str);
+char	*env_var_heredoc(char *line, t_env **env, t_ms_state *stat);
+void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat);
 
 //--------------------FREEING--------------------
 

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:26:40 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/27 16:00:08 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/28 17:54:32 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	update_old(t_env **env_list)
-
 {
 	t_env 	*current;
 	char	*old_pwd;
@@ -70,7 +69,6 @@ int	builtin_cd(char **args, t_env **env_list)
 	return (0);
 }
 void	update_pwd(t_env **env_list)
-
 {
 	char	cwd[4086];
 	t_env	*current;
@@ -95,7 +93,6 @@ void	update_pwd(t_env **env_list)
 }
 
 int	builtin_pwd(void)
-
 {
 	char cwd[4086];
 

@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 17:46:44 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/28 17:54:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,38 @@ void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	}
 }
 
-void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
+void    minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
-	int			i;
-	char		*line;
+    int         i;
+    char        *line;
 
-	while (1)
-	{
-		// if (g_reset_cancel)
-		// {
-		// 	g_reset_cancel = 0;
-		// 	line = readline("");
-		// 	continue;
-		// }
-		// else if (g_reset_cancel == 0)
-		// {
-		// 	line = readline(C "shell@st42:$ " RST);
-		// }
-		// if (g_reset_cancel)
-		// {
-		// 	g_reset_cancel = 0;
-        // 	line = readline("");
-		// //	continue;
-		// }
-		// else
-		// 	line = readline(C "shell@st42:$ " RST);
-		 line = readline(C "shell@st42:$ " RST);
-		if (line == NULL)
-			sigexit_handler(cmds, env_dup, status);
-		i = 0; //cleanup
-		skip_wp(line, &i);
-		if (line[i] == '\0')
-			continue;
-		add_history(line);
-		if (lexer_and_parse(cmds, line, env_dup, status))
-		{
-			free_cmds(cmds);
-			continue;
-		}
-		execution(cmds, env_dup, status);
-	}
+    while (1)
+    {
+        if (g_reset_cancel == 1)
+        {
+            g_reset_cancel = 0;
+            continue;
+        }
+        else if (g_reset_cancel == 2)
+        {
+            g_reset_cancel = 0;
+            continue;
+        }
+        line = readline(C "shell@st42:$ " RST);
+        if (line == NULL)
+            sigexit_handler(cmds, env_dup, status);
+        i = 0;
+        skip_wp(line, &i);
+        if (line[i] == '\0')
+            continue;
+        add_history(line);
+        if (lexer_and_parse(cmds, line, env_dup, status))
+        {
+            free_cmds(cmds);
+            continue;
+        }
+        execution(cmds, env_dup, status);
+    }
 }
 
 int	main(int ac, char **av, char **env)
