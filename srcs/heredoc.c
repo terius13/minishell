@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 18:49:01 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/28 19:00:45 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ char *env_var_heredoc(char *line, t_env **env, t_ms_state *stat)
                 while (ft_isalnum(*end) || *end == '_')
                     end++;
             var_name = ft_substr(line + 1, 0, end - line - 1);
-			printf("Variable name: %s\n", var_name); 
 			var_value = get_env_value(var_name, &free_flag, env, stat);
-            printf("Variable value: %s\n", var_value);  
             if (var_value)
                 temp_result = ft_strjoin(result, var_value);
             else
@@ -114,7 +112,7 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
             break;
         }
         char *abc = env_var_heredoc(line, env, stat);
-        if (abc[0] != '\0' && strlen(abc) > 1)
+        if (abc[0] != '\0' && ft_strlen(abc) > 1)
             trimmed_line = trim_whitespace(abc);
         else
         {
