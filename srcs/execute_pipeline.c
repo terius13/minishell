@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 18:28:47 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/28 14:57:55 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 	i = 0;
 	while (current)
 	{
-		here_doc(current);
+		here_doc(current, env, status);
 		pid = fork();
 		if (pid < 0)
 			return (perror("fork error"), free_pipe_ends(pipeline->pipe_ends,
