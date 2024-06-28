@@ -6,7 +6,11 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/28 19:00:45 by ting             ###   ########.fr       */
+=======
+/*   Updated: 2024/06/28 19:06:33 by ting             ###   ########.fr       */
+>>>>>>> execution
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +92,7 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
     char    *file;
     struct sigaction old_sa;
     char    *trimmed_line;
+    char    *expanded_line;
 
     if (!current->hdoc_delimeter)
         return;
@@ -111,13 +116,13 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
             printf("shell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n", current->hdoc_delimeter);
             break;
         }
-        char *abc = env_var_heredoc(line, env, stat);
-        if (abc[0] != '\0' && ft_strlen(abc) > 1)
-            trimmed_line = trim_whitespace(abc);
+        expanded_line = env_var_heredoc(line, env, stat);
+        if (expanded_line[0] != '\0' && ft_strlen(expanded_line) > 1)
+            trimmed_line = trim_whitespace(expanded_line);
         else
         {
             trimmed_line = ft_strdup("");
-            free(abc);
+            free(expanded_line);
         }
         if (ft_strcmp(trimmed_line, current->hdoc_delimeter) == 0)
         {
