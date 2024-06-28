@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 19:06:33 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/28 19:08:41 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,13 @@ char	*trim_whitespace(char *str)
 {
 	char	*end;
 
-	// Trim leading space
 	while (*str == ' ' || *str == '\n' || *str == '\r')
 		str++;
-
 	if (*str == 0)
 		return (str);
-
-	// Trim trailing space
 	end = str + ft_strlen(str) - 1;
 	while (end > str && (*end == ' ' || *end == '\n' || *end == '\r'))
 		end--;
-
-	// Write new null terminator
 	*(end + 1) = '\0';
 	return (str);
 }
