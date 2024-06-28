@@ -6,35 +6,12 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 18:01:07 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/28 18:49:01 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    here_doc_handler(int siggy)
-{
-    (void)siggy;
-    g_reset_cancel = 2;
-    if (isatty(STDIN_FILENO))
-        ft_putstr_fd("\n", STDOUT_FILENO);
-}
-
-int here_doc_set_up(struct sigaction *old_sa)
-
-{
-    struct sigaction    here_doc;
-    
-    here_doc.sa_handler = here_doc_handler;
-    sigemptyset(&here_doc.sa_mask);
-    here_doc.sa_flags = 0;
-    if (sigaction(SIGINT, &here_doc, old_sa) == -1)
-    {
-        perror("here_doc_ctrl_c");
-        exit (EXIT_FAILURE);
-    }
-    return (0);
-}
 
 char	*trim_whitespace(char *str)
 {
@@ -86,8 +63,8 @@ char *env_var_heredoc(char *line, t_env **env, t_ms_state *stat)
             if (var_value)
                 temp_result = ft_strjoin(result, var_value);
             else
-                temp_result = ft_strdup(result);
-            free(result);  // Free previous result
+                temp_result = ft_strjoin(result, "");
+            free(result);
             result = temp_result;
             line = end;  // Move line pointer past the variable name
 			if (free_flag)
@@ -136,7 +113,14 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
             printf("shell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n", current->hdoc_delimeter);
             break;
         }
-        trimmed_line = trim_whitespace(env_var_heredoc(line, env, stat));
+        char *abc = env_var_heredoc(line, env, stat);
+        if (abc[0] != '\0' && strlen(abc) > 1)
+            trimmed_line = trim_whitespace(abc);
+        else
+        {
+            trimmed_line = ft_strdup("");
+            free(abc);
+        }
         if (ft_strcmp(trimmed_line, current->hdoc_delimeter) == 0)
         {
             free(line);
