@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 14:03:13 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 21:22:33 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
     char    *line;
     int     fd;
     char    *file;
-    struct sigaction old_sa;
+    struct sigaction old_sigint;
+    struct sigaction old_sigquit;
     char    *trimmed_line;
     char    *expanded_line;
 
@@ -88,7 +89,7 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
         return;
     file = "./heredoc.tmp";
     fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-    if (here_doc_set_up(&old_sa) != 0)
+    if (here_doc_set_up(&old_sigint, &old_sigquit) != 0)
         return;
     while (1)
     {
@@ -125,7 +126,7 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
         free(trimmed_line);
         free(line);
     }
-    if (sigaction(SIGINT, &old_sa, NULL) == -1)
+    if (sigaction(SIGINT, &old_sigint, NULL) == -1 || sigaction(SIGQUIT, &old_sigquit, NULL))
     {
         perror("sigaction");
         exit(EXIT_FAILURE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 14:01:25 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 21:23:50 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>    //for string manipulation
 # include <sys/types.h> //for process management
 # include <sys/wait.h>  //for process management
+# include <sys/ioctl.h>
 # include <unistd.h>    //POSIX API functions
 
 # define G "\001\033[32m\002"
@@ -225,14 +226,21 @@ int					handle_infile(t_cmd *cmd, t_ms_state *stat);
 int					handle_outfile(t_cmd *cmd, t_ms_state *stat);
 int					do_redirection(t_cmd *cmd, t_ms_state *stat);
 
-//heredoc.c
-char	*trim_whitespace(char *str);
-char	*env_var_heredoc(char *line, t_env **env, t_ms_state *stat);
-void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat);
+// heredoc.c
+char				*trim_whitespace(char *str);
+char				*env_var_heredoc(char *line, t_env **env, t_ms_state *stat);
+void				here_doc(t_cmd *current, t_env **env, t_ms_state *stat);
 
-//heredoc_signal.c
-void    here_doc_handler(int siggy);
-int		here_doc_set_up(struct sigaction *old_sa);
+// heredoc_signal.c
+void    			here_doc_handler(int siggy);
+int					here_doc_set_up(struct sigaction *old_quit, struct sigaction *old_ign);
+
+// child_signal.c
+void    			child_handler(int siggy);
+void 				child_set_up();
+void    			save_original_signal(struct sigaction *ori_sigint, struct sigaction *ori_sigquit);
+void    			ignore_signal(void);
+void    			restore_original_signal(struct sigaction *ori_sigint, struct sigaction *ori_sigquit);
 
 //--------------------FREEING--------------------
 
