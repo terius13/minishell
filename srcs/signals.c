@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/29 18:50:39 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 21:50:37 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,12 @@ void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
 void	cancel_handler(int siggy)
 {	
-	t_ms_state	*status;
 	(void)siggy;
 	
-	status = *set_stats();
+	ft_putstr_fd("cancel handler activate\n", STDOUT_FILENO);
 	if (isatty(STDIN_FILENO))
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		status->exit_status = 130;
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

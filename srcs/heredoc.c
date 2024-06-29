@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 21:43:50 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 21:53:09 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 		return ;
 	file = "./heredoc.tmp";
 	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-	if (heredoc_sig_set_up(&old_sa) != 0)
+	if (here_doc_set_up(&old_sa) != 0)
 		return ;
 	heredoc_loop(current, env, stat, fd);
 	if (sigaction(SIGINT, &old_sa, NULL) == -1)
