@@ -6,17 +6,16 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:51:16 by ting              #+#    #+#             */
-/*   Updated: 2024/06/22 18:59:20 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 15:06:16 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Dynamically allocate memory for pipe_ends
 int	**init_pipe_ends(int num_cmds)
 {
-	int		**pipe_ends;
-	int		i;
+	int	**pipe_ends;
+	int	i;
 
 	i = 0;
 	pipe_ends = (int **)malloc(sizeof(int *) * (num_cmds - 1));
@@ -34,8 +33,8 @@ int	**init_pipe_ends(int num_cmds)
 
 void	init_pipes(int **pipe_ends, int num_cmds)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < num_cmds - 1)
@@ -50,29 +49,28 @@ void	init_pipes(int **pipe_ends, int num_cmds)
 				j++;
 			}
 			free(pipe_ends);
-			return  ;
+			return ;
 		}
 		i++;
 	}
 }
 
-
 void	free_pipe_ends(int **pipe_ends, int num_cmds)
 {
-    int i;
+	int	i;
 
 	i = 0;
-    while (i < num_cmds - 1)
+	while (i < num_cmds - 1)
 	{
-        free(pipe_ends[i]);
-        i++;
-    }
-    free(pipe_ends);
+		free(pipe_ends[i]);
+		i++;
+	}
+	free(pipe_ends);
 }
 
 void	close_pipe_ends(int **pipe_ends, int num_cmds)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < num_cmds - 1)

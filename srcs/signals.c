@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/27 22:59:05 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 18:50:39 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 extern volatile sig_atomic_t	g_reset_cancel;
 
 t_ms_state	**set_stats(void)
-
 {
 	static t_ms_state *stats = NULL;
 	return (&stats);
 }
 
 void	extract_stats(t_ms_state *extraction)
-
 {
 	t_ms_state **extract;
 	extract = set_stats();
@@ -30,7 +28,6 @@ void	extract_stats(t_ms_state *extraction)
 }
 
 void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
-
 {
 	int	exit_stats;
 	
@@ -42,7 +39,6 @@ void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 }
 
 void	cancel_handler(int siggy)
-
 {	
 	t_ms_state	*status;
 	(void)siggy;
@@ -83,3 +79,7 @@ int	signal_handlers_setup(t_ms_state *status)
 	}
 	return (0);
 }
+
+
+
+

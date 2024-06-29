@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:33:55 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 17:28:22 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 20:37:26 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_cmd	*new_cmd(char **arr)
 	if (!new)
 		return (NULL);
 	new->cmd_arr = arr;
-	new->in_pid = 0;  // set to std_int for now
-	new->out_pid = 1; // set to std_out for now, change if open
+	new->in_pid = 0;
+	new->out_pid = 1;
 	new->infile = NULL;
 	new->outfile = NULL;
 	new->builtin = 0;
@@ -49,60 +49,6 @@ void	cmd_add_back(t_cmd **cmds, t_cmd *new)
 			current = current->next;
 		current->next = new;
 		new->next = NULL;
-	}
-}
-void	print_parse(t_cmd **cmds)
-{
-	t_cmd	*current;
-	int		i;
-	int		j;
-	int		k;
-
-	current = *cmds;
-	j = 0;
-	while (current)
-	{
-		i = 0;
-		while (current->cmd_arr[i])
-		{
-			printf("Pos[%d]:%s\n", i, current->cmd_arr[i]);
-			i++;
-		}
-		printf("Cmd[%d]:\n", j);
-		printf("INFILE: ");
-		k = 0;
-		if (current && current->infile)
-		{
-			while (current->infile[k])
-			{
-				printf("%s ", current->infile[k]);
-				k++;
-			}
-		}
-		printf(", OUTFILE: ");
-		k = 0;
-		if (current && current->outfile)
-		{
-			while (current->outfile[k])
-			{
-				printf("%s ", current->outfile[k]);
-				k++;
-			}
-		}
-		printf("\nBUILTINS: %d, HEREDOC: %s", current->builtin, current->hdoc_delimeter);
-		printf(", APPENDRE: ");
-		k = 0;
-		if (current && current->append_re)
-		{
-			while (current->append_re[k])
-			{
-				printf("%s ", current->append_re[k]);
-				k++;
-			}
-		}
-		printf("\n");
-		j++;
-		current = current->next;
 	}
 }
 
@@ -137,7 +83,9 @@ void	add_to_arr(char ***arr, char *str)
 	int	size;
 
 	size = get_arr_size(*arr);
-	*arr = (char **)ft_realloc(*arr, size * sizeof(char *), (size + 2) * sizeof(char *));
+	*arr = (char **)ft_realloc(*arr, size * sizeof(char *), (size + 2)
+			* sizeof(char *));
 	(*arr)[size] = ft_strdup(str);
 	(*arr)[size + 1] = NULL;
 }
+

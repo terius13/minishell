@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 14:01:16 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 20:34:05 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,73 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 	}
 }
 
-void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
+void do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
-	int	pid;
-	int	exit_status;
+    int pid;
+    int exit_status;
+    struct sigaction ignore, orig_sigint, orig_sigquit;
 
-	if (illegal_builtins((*cmds)))
-		return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
-	here_doc((*cmds), env, status);
-	pid = fork();
-	if (pid < 0)
-		perror("fork error");
-	if (pid == 0)
-	{
-		execute_child_single_cmd(cmds, env, status);
-	}
-	wait(&exit_status);
-	if (WIFEXITED(exit_status))
-		status->exit_status = WEXITSTATUS(exit_status);
+    if (illegal_builtins((*cmds)))
+        return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
+
+    here_doc((*cmds), env, status);
+    pid = fork();
+    if (pid < 0)
+    {
+        perror("fork error");
+        return;
+    }
+    if (pid == 0) // Child process
+    {
+        // Restore default signal handling in the child process
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+
+        execute_child_single_cmd(cmds, env, status);
+    }
+    else // Parent process
+    {
+        // Save the original signal handler for SIGINT and SIGQUIT
+        sigaction(SIGINT, NULL, &orig_sigint);
+        sigaction(SIGQUIT, NULL, &orig_sigquit);
+
+        // Ignore SIGINT and SIGQUIT in the parent while waiting for the child
+        ignore.sa_handler = SIG_IGN;
+        sigemptyset(&ignore.sa_mask);
+        ignore.sa_flags = 0;
+        sigaction(SIGINT, &ignore, NULL);
+        sigaction(SIGQUIT, &ignore, NULL);
+
+        waitpid(pid, &exit_status, 0);
+
+        // Restore the original signal handler for SIGINT and SIGQUIT in the parent
+        sigaction(SIGINT, &orig_sigint, NULL);
+        sigaction(SIGQUIT, &orig_sigquit, NULL);
+
+        if (WIFEXITED(exit_status))
+        {
+            status->exit_status = WEXITSTATUS(exit_status);
+        }
+        else if (WIFSIGNALED(exit_status))
+        {
+            // If the child was terminated by SIGINT or SIGQUIT, print appropriate message
+            if (WTERMSIG(exit_status) == SIGINT)
+            {
+                ft_putstr_fd("\n", STDOUT_FILENO);
+            }
+            else if (WTERMSIG(exit_status) == SIGQUIT)
+            {
+                ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+            }
+            status->exit_status = 128 + WTERMSIG(exit_status);
+        }
+    }
 }
 
 void	execute_child_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int	stat;
-	
+
 	do_redirection((*cmds), status);
 	if ((*cmds)->builtin)
 		execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
@@ -103,4 +146,3 @@ void	execute_child_pipeline(t_pipeline *pipeline, t_cmd *current, int i)
 		execute_cmd(current, pipeline->env, pipeline->status);
 	free_n_exit_child(pipeline);
 }
-
