@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 19:02:36 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 14:03:25 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	if (access("./heredoc.tmp", F_OK) != -1)
 	{
 		if (unlink("./heredoc.tmp") == -1)
-		{
     		perror("unlink");
-		}
 	}
 }
 

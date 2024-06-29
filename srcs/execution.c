@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 18:00:46 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 14:01:16 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int	pid;
-	int	stat;
 	int	exit_status;
 
 	if (illegal_builtins((*cmds)))
@@ -70,21 +69,28 @@ void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 		perror("fork error");
 	if (pid == 0)
 	{
-		do_redirection((*cmds), status);
-		if ((*cmds)->builtin)
-			execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
-		else if ((*cmds)->cmd_arr[0])
-			execute_cmd((*cmds), env, status);
-		stat = status->exit_status;
-		free_all_and_exit(cmds, env, status);
-		exit(stat);
+		execute_child_single_cmd(cmds, env, status);
 	}
 	wait(&exit_status);
 	if (WIFEXITED(exit_status))
 		status->exit_status = WEXITSTATUS(exit_status);
 }
 
-void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
+void	execute_child_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
+{
+	int	stat;
+	
+	do_redirection((*cmds), status);
+	if ((*cmds)->builtin)
+		execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
+	else if ((*cmds)->cmd_arr[0])
+		execute_cmd((*cmds), env, status);
+	stat = status->exit_status;
+	free_all_and_exit(cmds, env, status);
+	exit(stat);
+}
+
+void	execute_child_pipeline(t_pipeline *pipeline, t_cmd *current, int i)
 {
 	init_dup(pipeline->num_cmds, i, pipeline->pipe_ends);
 	do_redirection(current, pipeline->status);
@@ -97,3 +103,4 @@ void	execute_child_process(t_pipeline *pipeline, t_cmd *current, int i)
 		execute_cmd(current, pipeline->env, pipeline->status);
 	free_n_exit_child(pipeline);
 }
+
