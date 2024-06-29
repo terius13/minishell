@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 21:50:32 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/29 21:52:04 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void							here_doc(t_cmd *current, t_env **env,
 
 // heredoc_signal.c
 void    			here_doc_handler(int siggy);
-int					here_doc_set_up(struct sigaction *old_quit, struct sigaction *old_ign);
+int					here_doc_set_up(struct sigaction *old_quit);
 
 // heredoc_env_var.c
 char							*replace_env_var_heredoc(char **line,
