@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 21:37:30 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/29 21:47:18 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	execute_child_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int	stat;
 
-
 	do_redirection((*cmds), status);
 	if ((*cmds)->builtin)
 		execute_builtins(cmds, (*cmds)->cmd_arr, env, status);
@@ -132,4 +131,3 @@ void	execute_child_pipeline(t_pipeline *pipeline, t_cmd *current, int i)
 		execute_cmd(current, pipeline->env, pipeline->status);
 	free_n_exit_child(pipeline);
 }
-

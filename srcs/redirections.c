@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:46:24 by ting              #+#    #+#             */
-/*   Updated: 2024/06/27 15:59:38 by asyed            ###   ########.fr       */
+/*   Updated: 2024/06/29 16:57:25 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	handle_infile(t_cmd *cmd, t_ms_state *stat)
 	if (last_fd != -1)
 	{
 		if (dup2(last_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 infile");
 			return (print_error("dup2 infile"), 1);
-		}
 		close(last_fd);
 	}
 	return (0);
@@ -69,13 +66,9 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 	while (cmd->outfile[i])
 	{
 		if (is_append_re(cmd->outfile[i], cmd->append_re))
-		{
 			fd = open(cmd->outfile[i], O_RDWR | O_CREAT | O_APPEND, 0777);
-		}
 		else
-		{
 			fd = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		}
 		if (fd == -1)
 			return (stat->exit_status = 1,
 				print_error("No such file or directory"), 1);
@@ -84,15 +77,9 @@ int	handle_outfile(t_cmd *cmd, t_ms_state *stat)
 		last_fd = fd;
 		i++;
 	}
-	if (last_fd != -1)
-	{
-		if (dup2(last_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 outfile");
-			return (print_error("dup2 outfile"), 1);
-		}
-		close(last_fd);
-	}
+	if (dup2(last_fd, STDOUT_FILENO) == -1)
+		return (print_error("dup2 outfile"), 1);
+	close(last_fd);
 	return (0);
 }
 

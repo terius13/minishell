@@ -6,7 +6,11 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:48:39 by ting              #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/29 21:24:55 by asyed            ###   ########.fr       */
+=======
+/*   Updated: 2024/06/29 21:41:32 by ting             ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +35,7 @@ int here_doc_set_up(struct sigaction *old_quit, struct sigaction *old_ign)
     struct sigaction    here_doc;
     struct sigaction    do_nothing;
     
-    here_doc.sa_handler = here_doc_handler;
+    here_doc.sa_handler = heredoc_sig_handler;
     sigemptyset(&here_doc.sa_mask);
     here_doc.sa_flags = 0;
     if (sigaction(SIGINT, &here_doc, old_quit) == -1)

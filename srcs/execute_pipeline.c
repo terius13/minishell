@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 14:01:46 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 15:02:32 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	parent_wait(t_ms_state *status, int num_cmds)
 
 void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
-	t_pipeline *pipeline;
-	t_cmd *current;
-	int i;
-	int pid;
+	t_pipeline	*pipeline;
+	t_cmd		*current;
+	int			i;
+	int			pid;
 
 	pipeline = init_pipeline(cmds, env, status);
 	current = *cmds;

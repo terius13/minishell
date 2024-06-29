@@ -6,7 +6,11 @@
 #    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/06/29 14:31:26 by asyed            ###   ########.fr        #
+=======
+#    Updated: 2024/06/29 15:01:13 by ting             ###   ########.fr        #
+>>>>>>> main
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +33,12 @@ SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
 		redirections.c init_status_envdup.c \
 		execution_utils.c signals.c \
 		pipe.c execute_pipeline.c \
+<<<<<<< HEAD
 		heredoc.c heredoc_signal.c child_signal.c\
+=======
+		heredoc.c heredoc_signal.c \
+		heredoc_env_var.c
+>>>>>>> main
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 
