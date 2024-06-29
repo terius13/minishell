@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 19:28:24 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 14:01:46 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 			return (perror("fork error"), free_pipe_ends(pipeline->pipe_ends,
 					pipeline->num_cmds));
 		if (pid == 0)
-			execute_child_process(pipeline, current, i);
+			execute_child_pipeline(pipeline, current, i);
 		current = current->next;
 		i++;
 	}

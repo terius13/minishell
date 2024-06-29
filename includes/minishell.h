@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 18:49:41 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 14:01:25 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,8 @@ void				free_n_exit_child(t_pipeline *pipeline);
 void				execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status);
 void				do_single_cmd(t_cmd **cmds, t_env **env,
 						t_ms_state *status);
-void				execute_child_process(t_pipeline *pipeline, t_cmd *current, int i);
+void				execute_child_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status);
+void				execute_child_pipeline(t_pipeline *pipeline, t_cmd *current, int i);
 
 
 // execution_utils.c

@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/28 19:08:41 by ting             ###   ########.fr       */
+/*   Updated: 2024/06/29 14:02:24 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ char *env_var_heredoc(char *line, t_env **env, t_ms_state *stat)
                 while (ft_isalnum(*end) || *end == '_')
                     end++;
             var_name = ft_substr(line + 1, 0, end - line - 1);
-			printf("Variable name: %s\n", var_name); 
 			var_value = get_env_value(var_name, &free_flag, env, stat);
-            printf("Variable value: %s\n", var_value);  
             if (var_value)
                 temp_result = ft_strjoin(result, var_value);
             else
@@ -97,7 +95,7 @@ void    here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
         if (g_reset_cancel == 2)
             break;
         write(1, "> ", 2);
-        line = get_next_line(0);  // 0 is the file descriptor for standard input
+        line = get_next_line(0);
         if (g_reset_cancel == 2)
         {
             free (line);
