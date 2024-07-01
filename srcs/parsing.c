@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 15:05:25 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/01 14:24:48 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	check_builtins(t_cmd **cmds)
 		current = current->next;
 	}
 }
-
+//Type 1:string, type 2:'|', type 3:'<'
+//Type 4:'>', Type 5:'<<', type 6:'>>'
 int	handle_redirection(t_lexer **curr_l, t_cmd *cmd)
 {
 	if ((*curr_l)->type == 3)
@@ -67,6 +68,7 @@ int	handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd)
 		{
 			*curr_l = (*curr_l)->next;
 			cmd->hdoc_delimeter = ft_strdup((*curr_l)->str);
+			add_to_arr(&cmd->infile, ".hdc.tmp");
 		}
 		else
 			return (print_error("syntax error"), 1);

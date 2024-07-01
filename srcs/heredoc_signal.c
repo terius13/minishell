@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:48:39 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 21:53:37 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/01 14:40:27 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 extern volatile sig_atomic_t	g_reset_cancel;
 
+
 void    here_doc_handler(int siggy)
 {
     (void)siggy;
@@ -22,7 +23,7 @@ void    here_doc_handler(int siggy)
     g_reset_cancel = 2;
     // if (isatty(STDIN_FILENO))
     ft_putstr_fd("\n", STDOUT_FILENO);
-    ft_putstr_fd("here_doc handler activate\n", STDOUT_FILENO);
+    // ft_putstr_fd("here_doc handler activate\n", STDOUT_FILENO);
 }
 
 int here_doc_set_up(struct sigaction *old_quit)

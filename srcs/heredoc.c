@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 21:53:09 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/01 14:45:13 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,24 @@ void	heredoc_loop(t_cmd *current, t_env **env, t_ms_state *stat, int fd)
 void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 {
 	int					fd;
-	char				*file;
 	struct sigaction	old_sa;
+	int					i;
 
+	i = 0;
 	if (!current->hdoc_delimeter)
 		return ;
-	file = "./heredoc.tmp";
-	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	while (current->infile[i])
+	{
+		if (ft_strcmp(current->infile[i], ".hdc.tmp") == 0)
+			break;
+		i++;
+	}
+	fd = open(current->infile[i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	if (fd == -1)
+    {
+        perror("open");
+        return;
+    }
 	if (here_doc_set_up(&old_sa) != 0)
 		return ;
 	heredoc_loop(current, env, stat, fd);
@@ -91,7 +102,4 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
-	if (!current->infile)
-		current->infile = ft_calloc(2, sizeof(char *));
-	add_to_arr(&(current->infile), file);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:24 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/29 20:59:27 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/01 14:23:10 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void    child_set_up()
         perror("child_ctrl_c");
         exit (EXIT_FAILURE);
     }
-    ft_putstr_fd("child set_up activate\n", STDOUT_FILENO);
+    // ft_putstr_fd("child set_up activate\n", STDOUT_FILENO);
     
     dump.sa_handler = SIG_DFL;
 	sigemptyset(&dump.sa_mask);
@@ -76,5 +76,5 @@ void    child_set_up()
 		perror("Ctrl-\\");
 		exit (EXIT_FAILURE);
 	}
-    ft_putstr_fd("dump child set_up activate\n", STDOUT_FILENO);
+    // ft_putstr_fd("dump child set_up activate\n", STDOUT_FILENO);
 }
