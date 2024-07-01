@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:24 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/01 14:23:10 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/01 17:07:10 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void    ignore_signal(void)
     sigaction(SIGINT, &ignore, NULL);
     sigaction(SIGQUIT, &ignore, NULL);
 }
+
 void    child_set_up()
 {
     struct sigaction    child;
@@ -78,3 +79,5 @@ void    child_set_up()
 	}
     // ft_putstr_fd("dump child set_up activate\n", STDOUT_FILENO);
 }
+
+
