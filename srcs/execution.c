@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 21:47:18 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/01 15:57:11 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,12 @@ void do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 	// save_original_signal(&ori_sigint, &ori_sigquit);
 	// // Ignore SIGINT and SIGQUIT in the parent while waiting for the child
 	// ignore_signal();
-    if (illegal_builtins((*cmds)))
+
+	if (illegal_builtins((*cmds)))
         return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
-    here_doc((*cmds), env, status);
-	// restore_original_signal(&ori_sigint, &ori_sigquit);
+	
+	here_doc((*cmds), env, status);
+
     pid = fork();
     if (pid < 0)
     {
