@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 17:41:20 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 11:16:10 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 	}
     here_doc((*cmds), env, status);
 	// restore_original_signal(&ori_sigint, &ori_sigquit);
+	if (g_reset_cancel == 2)
+		return;
     pid = fork();
     if (pid < 0)
     {

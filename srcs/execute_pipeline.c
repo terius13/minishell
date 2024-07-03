@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 17:41:15 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 11:18:47 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
     while (current)
     {
         here_doc(current, env, status);
+        if (g_reset_cancel == 2)
+		    break;
         pid = fork();
         if (pid < 0)
         {

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 14:45:13 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 11:20:02 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern volatile sig_atomic_t	g_reset_cancel;
 
 char	*trim_whitespace(char *str)
 {
@@ -56,15 +58,30 @@ void	heredoc_loop(t_cmd *current, t_env **env, t_ms_state *stat, int fd)
 	while (1)
 	{
 		write(1, "> ", 2);
+		// line = readline("> ");
 		line = get_next_line(0);
 		if (g_reset_cancel == 2)
-			break ;
-		if (!line)
 		{
-			printf("shell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n",
-				current->hdoc_delimeter);
-			break ;
+			free(line);
+			return ;
 		}
+		if (!line)
+        {
+            printf("\nshell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n",
+                   current->hdoc_delimeter);
+            break;
+        }
+		// if (g_reset_cancel == 2)
+		// {
+		// 	free(line);
+		// 	break ;
+		// }
+		// if (!line)
+		// {
+		// 	printf("\nshell@st42:$ warning: here-document delimited by end-of-file (wanted `%s')\n",
+		// 		current->hdoc_delimeter);
+		// 	break ;
+		// }
 		expanded_line = env_var_heredoc(line, env, stat);
         free(line);
         if (write_to_heredoc_file(current, expanded_line, fd))
@@ -72,15 +89,35 @@ void	heredoc_loop(t_cmd *current, t_env **env, t_ms_state *stat, int fd)
 	}
 }
 
+// static void print_signal_handler(int signum, const char *name)
+// {
+//     struct sigaction sa;
+//     sigaction(signum, NULL, &sa);
+//     if (sa.sa_handler == SIG_DFL)
+//         printf("%s handler is SIG_DFL\n", name);
+//     else if (sa.sa_handler == SIG_IGN)
+//         printf("%s handler is SIG_IGN\n", name);
+//     else
+//         printf("%s handler is custom\n", name);
+// }
+
 void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 {
 	int					fd;
 	struct sigaction	old_sa;
+	struct sigaction	old_ign;
 	int					i;
 
 	i = 0;
 	if (!current->hdoc_delimeter)
 		return ;
+	// file = "./heredoc.tmp";
+	// fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	// Save the original signal handler for SIGINT and SIGQUIT
+	save_original_signal(&old_sa, &old_ign);
+	// Ignore SIGINT and SIGQUIT in the parent while waiting for the child
+	// ignore_signal();
+	here_doc_set_up();
 	while (current->infile[i])
 	{
 		if (ft_strcmp(current->infile[i], ".hdc.tmp") == 0)
@@ -93,13 +130,8 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
         perror("open");
         return;
     }
-	if (here_doc_set_up(&old_sa) != 0)
-		return ;
+	here_doc_set_up();
 	heredoc_loop(current, env, stat, fd);
-	if (sigaction(SIGINT, &old_sa, NULL) == -1)
-	{
-		perror("sigaction");
-		exit(EXIT_FAILURE);
-	}
+	restore_original_signal(&old_sa, &old_ign);
 	close(fd);
 }
