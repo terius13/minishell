@@ -6,7 +6,7 @@
 /*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:26:40 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/03 17:12:18 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/03 18:53:54 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 			}
 			current = current->next;
 		}
-		ft_add_env_back_node(env_list, ft_new_env_node("OLDPWD", old_pwd));
+		ft_add_env_back_node(env_list, ft_new_env_node(ft_strdup("OLDPWD"), ft_strdup(old_pwd)));
 	}
 
 	int	builtin_cd(char **args, t_env **env_list)
