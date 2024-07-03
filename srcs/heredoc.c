@@ -6,11 +6,13 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 10:09:40 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/03 11:20:02 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern volatile sig_atomic_t	g_reset_cancel;
 
 char	*trim_whitespace(char *str)
 {
@@ -87,17 +89,17 @@ void	heredoc_loop(t_cmd *current, t_env **env, t_ms_state *stat, int fd)
 	}
 }
 
-static void print_signal_handler(int signum, const char *name)
-{
-    struct sigaction sa;
-    sigaction(signum, NULL, &sa);
-    if (sa.sa_handler == SIG_DFL)
-        printf("%s handler is SIG_DFL\n", name);
-    else if (sa.sa_handler == SIG_IGN)
-        printf("%s handler is SIG_IGN\n", name);
-    else
-        printf("%s handler is custom\n", name);
-}
+// static void print_signal_handler(int signum, const char *name)
+// {
+//     struct sigaction sa;
+//     sigaction(signum, NULL, &sa);
+//     if (sa.sa_handler == SIG_DFL)
+//         printf("%s handler is SIG_DFL\n", name);
+//     else if (sa.sa_handler == SIG_IGN)
+//         printf("%s handler is SIG_IGN\n", name);
+//     else
+//         printf("%s handler is custom\n", name);
+// }
 
 void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 {
@@ -111,20 +113,11 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 		return ;
 	// file = "./heredoc.tmp";
 	// fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-
-    printf("Before here_doc_set_up:\n");
-    print_signal_handler(SIGINT, "SIGINT");
-    print_signal_handler(SIGQUIT, "SIGQUIT");
 	// Save the original signal handler for SIGINT and SIGQUIT
 	save_original_signal(&old_sa, &old_ign);
 	// Ignore SIGINT and SIGQUIT in the parent while waiting for the child
 	// ignore_signal();
 	here_doc_set_up();
-
-    printf("After here_doc_set_up:\n");
-    print_signal_handler(SIGINT, "SIGINT");
-    print_signal_handler(SIGQUIT, "SIGQUIT");
-
 	while (current->infile[i])
 	{
 		if (ft_strcmp(current->infile[i], ".hdc.tmp") == 0)
@@ -140,10 +133,5 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 	here_doc_set_up();
 	heredoc_loop(current, env, stat, fd);
 	restore_original_signal(&old_sa, &old_ign);
-
-    printf("After restore:\n");
-    print_signal_handler(SIGINT, "SIGINT");
-    print_signal_handler(SIGQUIT, "SIGQUIT");
-	
 	close(fd);
 }
