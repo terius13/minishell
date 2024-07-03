@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:04:57 by ting              #+#    #+#             */
-/*   Updated: 2024/06/24 19:06:10 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 15:57:34 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*find_path(char *cmd, t_env **env)
 	int		i;
 
 	path_in_env = find_env(env, "PATH");
+	if (path_in_env == NULL)
+		return (NULL);
 	path_segments = ft_split(path_in_env, ':');
 	i = 0;
 	while (path_segments[i])

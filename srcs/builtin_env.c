@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/20 11:36:27 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/03 11:47:40 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		builtin_env(t_env **env_list, char **args)
 	if (ac > 1)
 	{
 		print_error("No such file or directory");
-		return (1);
+		return (127);
 	}
 	current = *env_list;
 	while (current)
