@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:24 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/01 15:45:17 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/03 10:04:01 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void    ignore_signal(void)
     sigaction(SIGINT, &ignore, NULL);
     sigaction(SIGQUIT, &ignore, NULL);
 }
+
 void    child_set_up()
 {
     struct sigaction    child;
@@ -66,7 +67,7 @@ void    child_set_up()
         perror("child_ctrl_c");
         exit (EXIT_FAILURE);
     }
-    ft_putstr_fd("child set_up activate\n", STDOUT_FILENO);
+    // ft_putstr_fd("child set_up activate\n", STDOUT_FILENO);
     
     dump.sa_handler = SIG_DFL;
 	sigemptyset(&dump.sa_mask);
@@ -76,5 +77,7 @@ void    child_set_up()
 		perror("Ctrl-\\");
 		exit (EXIT_FAILURE);
 	}
-    ft_putstr_fd("dump child set_up activate\n", STDOUT_FILENO);
+    // ft_putstr_fd("dump child set_up activate\n", STDOUT_FILENO);
 }
+
+

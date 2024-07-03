@@ -6,7 +6,7 @@
 /*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 17:25:14 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/03 10:09:40 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,15 @@ static void print_signal_handler(int signum, const char *name)
 void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 {
 	int					fd;
-	char				*file;
 	struct sigaction	old_sa;
 	struct sigaction	old_ign;
+	int					i;
 
+	i = 0;
 	if (!current->hdoc_delimeter)
 		return ;
-	file = "./heredoc.tmp";
-	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	// file = "./heredoc.tmp";
+	// fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 
     printf("Before here_doc_set_up:\n");
     print_signal_handler(SIGINT, "SIGINT");
@@ -124,6 +125,19 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
     print_signal_handler(SIGINT, "SIGINT");
     print_signal_handler(SIGQUIT, "SIGQUIT");
 
+	while (current->infile[i])
+	{
+		if (ft_strcmp(current->infile[i], ".hdc.tmp") == 0)
+			break;
+		i++;
+	}
+	fd = open(current->infile[i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	if (fd == -1)
+    {
+        perror("open");
+        return;
+    }
+	here_doc_set_up();
 	heredoc_loop(current, env, stat, fd);
 	restore_original_signal(&old_sa, &old_ign);
 
@@ -132,7 +146,4 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
     print_signal_handler(SIGQUIT, "SIGQUIT");
 	
 	close(fd);
-	if (!current->infile)
-		current->infile = ft_calloc(2, sizeof(char *));
-	add_to_arr(&(current->infile), file);
 }

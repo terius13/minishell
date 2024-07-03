@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/29 21:50:37 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/01 15:01:59 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	cancel_handler(int siggy)
 {	
 	(void)siggy;
 	
-	ft_putstr_fd("cancel handler activate\n", STDOUT_FILENO);
+	// ft_putstr_fd("cancel handler activate\n", STDOUT_FILENO);
 	if (isatty(STDIN_FILENO))
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
