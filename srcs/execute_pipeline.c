@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 16:45:41 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 18:18:17 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,9 @@ void	run_command_pipeline(t_pipeline *pipeline, t_env **env,
 void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	t_pipeline			*pipeline;
-	t_cmd				*current;
 	struct sigaction	ori_sigint;
 	struct sigaction	ori_sigquit;
 
-	current = *cmds;
 	pipeline = init_pipeline(cmds, env, status);
 	save_original_signal(&ori_sigint, &ori_sigquit);
 	run_command_pipeline(pipeline, env, status);
