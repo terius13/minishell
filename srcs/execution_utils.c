@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:04:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 15:57:34 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 16:39:08 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,15 @@ char	*find_path(char *cmd, t_env **env)
 		i++;
 	}
 	return (free_array(path_segments), NULL);
+}
+int	illegal_builtins(t_cmd *current)
+{
+	if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")
+			|| !ft_strcmp(current->cmd_arr[0], "export")
+			|| !ft_strcmp(current->cmd_arr[0], "unset")
+			|| !ft_strcmp(current->cmd_arr[0], "exit")))
+	{
+		return (1);
+	}
+	return (0);
 }
