@@ -3,105 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:26:40 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/28 17:54:32 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 18:53:54 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+	#include "../includes/minishell.h"
 
-static void	update_old(t_env **env_list)
-{
-	t_env 	*current;
-	char	*old_pwd;
-	
-	current = *env_list;
-	old_pwd = find_env(env_list, "PWD");
-
-	while (current != NULL)
+	static void	update_old(t_env **env_list)
 	{
-		if (ft_strcmp(current->key, "OLDPWD") == 0)
+		t_env 	*current;
+		char	*old_pwd;
+		
+		current = *env_list;
+		old_pwd = find_env(env_list, "PWD");
+
+		while (current != NULL)
 		{
-			free(current->value);
-			current->value = ft_strdup(old_pwd);
-			return ;
+			if (ft_strcmp(current->key, "OLDPWD") == 0)
+			{
+				if (current->value != NULL)
+				{
+					free(current->value);
+					current->value = NULL;
+				}
+				current->value = ft_strdup(old_pwd);
+				return ;
+			}
+			current = current->next;
 		}
-		current = current->next;
+		ft_add_env_back_node(env_list, ft_new_env_node(ft_strdup("OLDPWD"), ft_strdup(old_pwd)));
 	}
-	ft_add_env_back_node(env_list, ft_new_env_node("OLDPWD", old_pwd));
-}
 
-int	builtin_cd(char **args, t_env **env_list)
-{
-	int		ac;
-	char	*home;
-
-	ac = 0;
-	while (args[ac])
-		ac++;
-	if (args[1] == NULL)
+	int	builtin_cd(char **args, t_env **env_list)
 	{
-		home = find_env(env_list, "HOME");
-		if (chdir(home) != 0)
+		int		ac;
+		char	*home;
+
+		ac = 0;
+		while (args[ac])
+			ac++;
+		if (args[1] == NULL)
 		{
-			print_error("No such file or directory");
+			home = find_env(env_list, "HOME");
+			if (chdir(home) != 0)
+			{
+				print_error("No such file or directory");
+				return (1);
+			}
+		}
+		else if (ac > 2)
+		{
+			//printf(C "shell@st42:$ " RST);
+			print_error("Too many arguments");
 			return (1);
 		}
-	}
-	else if (ac > 2)
-	{
-		//printf(C "shell@st42:$ " RST);
-		print_error("Too many arguments");
-		return (1);
-	}
-	else
-	{
-		if (chdir(args[1]) != 0)
+		else
 		{
-			print_error("No such file or directory");
-			return (1);
+			if (chdir(args[1]) != 0)
+			{
+				print_error("No such file or directory");
+				return (1);
+			}
 		}
+		update_old(env_list);
+		update_pwd(env_list);
+		return (0);
 	}
-	update_old(env_list);
-	update_pwd(env_list);
-	return (0);
-}
-void	update_pwd(t_env **env_list)
-{
-	char	cwd[4086];
-	t_env	*current;
-
-	current = *env_list;
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	void	update_pwd(t_env **env_list)
 	{
-		perror("update pwd");
-		return ;
-	}
-	while (current != NULL)
-	{
-		if (ft_strcmp(current->key, "PWD") == 0)
+		char	cwd[4086];
+		t_env	*current;
+
+		current = *env_list;
+
+		if (getcwd(cwd, sizeof(cwd)) == NULL)
 		{
-			free(current->value);
-			current->value = ft_strdup(cwd);
+			perror("update pwd");
 			return ;
 		}
-		current = current->next;
-	}	
-}
-
-int	builtin_pwd(void)
-{
-	char cwd[4086];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-	{
-		perror("pwd");
-		return (1);
+		while (current != NULL)
+		{
+			if (ft_strcmp(current->key, "PWD") == 0)
+			{
+				if (current->value != NULL)
+				{
+					free(current->value);
+					current->value = NULL;
+				}
+				current->value = ft_strdup(cwd);
+				return ;
+			}
+			current = current->next;
+		}	
 	}
-	return (0);	
-}
+
+	int	builtin_pwd(void)
+	{
+		char cwd[4086];
+
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+			printf("%s\n", cwd);
+		else
+		{
+			perror("pwd");
+			return (1);
+		}
+		return (0);	
+	}

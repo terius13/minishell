@@ -15,3 +15,16 @@
    ...
    ...
 }
+
+{
+   <readline_internal_allocation>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:realloc
+   fun:xrealloc
+   fun:rl_extend_line_buffer
+   fun:rl_insert_text
+   fun:rl_bracketed_paste_begin
+   ...
+}
