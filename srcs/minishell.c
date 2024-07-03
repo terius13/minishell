@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 18:16:35 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/03 16:52:47 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,62 +24,49 @@ void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	if (access("./heredoc.tmp", F_OK) != -1)
 	{
 		if (unlink("./heredoc.tmp") == -1)
-    		perror("unlink");
+			perror("unlink");
 	}
 }
 
-void    minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
+void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
-    int         i;
-    char        *line;
-    struct sigaction old_sa;
+	int					i;
+	char				*line;
+	struct sigaction	old_sa;
 
-    while (1)
-    {
-        if (g_reset_cancel == 1)
-        {
-            status->exit_status = 130;
-            g_reset_cancel = 0;
-            continue;
-        }
-        else if (g_reset_cancel == 2)
-        {
-            status->exit_status = 130;
-            g_reset_cancel = 0;
-            continue;
-        }
-        else if (g_reset_cancel == 3)
-        {
-            status->exit_status = 130;
-            g_reset_cancel = 0;
-            continue;
-        }
-        // Save the old signal handler
-        if (sigaction(SIGINT, NULL, &old_sa) == -1)
-        {
-            perror("sigaction");
-            exit(EXIT_FAILURE);
-        }
-        line = readline(C "shell@st42:$ " RST);
-        if (sigaction(SIGINT, &old_sa, NULL) == -1)
-        {
-            perror("sigaction");
-            exit(EXIT_FAILURE);
-        }
-        if (line == NULL)
-            sigexit_handler(cmds, env_dup, status);
-        i = 0;
-        skip_wp(line, &i);
-        if (line[i] == '\0')
-            continue;
-        add_history(line);
-        if (lexer_and_parse(cmds, line, env_dup, status))
-        {
-            free_cmds(cmds);
-            continue;
-        }
-        execution(cmds, env_dup, status);
-    }
+	while (1)
+	{
+		if (g_reset_cancel == 1 || g_reset_cancel == 2 || g_reset_cancel == 3)
+		{
+			status->exit_status = 130;
+			g_reset_cancel = 0;
+			continue ;
+		}
+		if (sigaction(SIGINT, NULL, &old_sa) == -1)
+		{
+			perror("sigaction");
+			exit(EXIT_FAILURE);
+		}
+		line = readline(C "shell@st42:$ " RST);
+		if (sigaction(SIGINT, &old_sa, NULL) == -1)
+		{
+			perror("sigaction");
+			exit(EXIT_FAILURE);
+		}
+		if (line == NULL)
+			sigexit_handler(cmds, env_dup, status);
+		i = 0;
+		skip_wp(line, &i);
+		if (line[i] == '\0')
+			continue ;
+		add_history(line);
+		if (lexer_and_parse(cmds, line, env_dup, status))
+		{
+			free_cmds(cmds);
+			continue ;
+		}
+		execution(cmds, env_dup, status);
+	}
 }
 
 int	main(int ac, char **av, char **env)

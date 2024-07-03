@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:51:16 by ting              #+#    #+#             */
-/*   Updated: 2024/06/29 15:06:16 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/03 16:36:10 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,25 @@ void	init_pipes(int **pipe_ends, int num_cmds)
 		}
 		i++;
 	}
+}
+
+void	init_dup(t_pipeline *pipeline, t_cmd *current)
+{
+	int		i;
+	t_cmd	*cmd_iter;
+
+	i = 0;
+	cmd_iter = *(pipeline->cmds);
+	while (cmd_iter && cmd_iter != current)
+	{
+		i++;
+		cmd_iter = cmd_iter->next;
+	}
+	if (i > 0)
+		dup2(pipeline->pipe_ends[i - 1][0], STDIN_FILENO);
+	if (i < pipeline->num_cmds - 1)
+		dup2(pipeline->pipe_ends[i][1], STDOUT_FILENO);
+	close_pipe_ends(pipeline->pipe_ends, pipeline->num_cmds);
 }
 
 void	free_pipe_ends(int **pipe_ends, int num_cmds)
