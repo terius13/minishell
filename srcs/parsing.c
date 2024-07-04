@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 14:24:48 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 11:50:07 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	check_builtins(t_cmd **cmds)
 		current = current->next;
 	}
 }
-//Type 1:string, type 2:'|', type 3:'<'
-//Type 4:'>', Type 5:'<<', type 6:'>>'
+
+// Type 1:string, type 2:'|', type 3:'<'
+// Type 4:'>', Type 5:'<<', type 6:'>>'
 int	handle_redirection(t_lexer **curr_l, t_cmd *cmd)
 {
 	if ((*curr_l)->type == 3)

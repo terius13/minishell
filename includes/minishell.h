@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 16:44:30 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 14:46:12 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # include <stdlib.h>
 // for standard input/output and memory management
 # include <fcntl.h>
-# include <signal.h>    //for sigaction
-# include <string.h>    //for string manipulation
+# include <signal.h> //for sigaction
+# include <string.h> //for string manipulation
+# include <sys/ioctl.h>
 # include <sys/types.h> //for process management
 # include <sys/wait.h>  //for process management
-# include <sys/ioctl.h>
 # include <unistd.h>    //POSIX API functions
 
 # define G "\001\033[32m\002"
@@ -84,6 +84,17 @@ typedef struct s_pipeline
 t_ms_state						*init_status(void);
 t_env							**init_envdup(t_ms_state *status, char **env);
 
+//-------------------MINISHELL-------------------
+
+// minishell.c
+void							print_error(char *str);
+char							*readline_and_signal(t_cmd **cmds,
+									t_env **env_dup, t_ms_state *status);
+void							execution(t_cmd **cmds, t_env **env_dup,
+									t_ms_state *status);
+void							minishell_loop(t_cmd **cmds, t_env **env_dup,
+									t_ms_state *status);
+
 //--------------------SIGNALS----------------------
 
 // signals.c
@@ -99,9 +110,6 @@ void							extract_stats(t_ms_state *extraction);
 // builtins.c
 void							execute_builtins(t_cmd **cmds, char **args,
 									t_env **env_dup, t_ms_state *status);
-
-// print_error_msg.c
-void							print_error(char *str);
 
 // builtin_echo.c
 int								builtin_echo(char **args);
@@ -130,7 +138,6 @@ char							*find_env(t_env **env_list, char *to_find);
 void							create_copy(t_env **env_list, char *env);
 int								builtin_env(t_env **env_list, char **args);
 void							print_env_var(void *env_list);
-t_env							**env_error(char *message);
 t_env							**init_env_copy(char **env);
 
 // builtin_exit.c
@@ -162,7 +169,6 @@ t_lexer							*new_lexer(char *str);
 void							lexer_add_back(t_lexer **lexer, t_lexer *new);
 void							del_lexer(t_lexer **lexer, t_lexer *to_del);
 int								is_special_char(char c);
-void	print_lexer(t_lexer **lexer); // to delete later
 
 // expand_env_var.c
 void							replace_env_var(t_lexer *lexer, int var_start,
@@ -192,7 +198,6 @@ int								handle_append_or_heredoc(t_lexer **curr_l,
 // parsing_utils.c
 t_cmd							*new_cmd(char **arr);
 void							cmd_add_back(t_cmd **cmds, t_cmd *new);
-void							print_parse(t_cmd **cmds);
 int								cal_arg_count(t_lexer *curr_l);
 int								get_arr_size(char **arr);
 void							add_to_arr(char ***arr, char *str);
@@ -203,8 +208,10 @@ void							add_to_arr(char ***arr, char *str);
 t_pipeline						*init_pipeline(t_cmd **cmds, t_env **env,
 									t_ms_state *status);
 void							parent_wait(t_ms_state *status);
-void							execute_child_pipeline(t_pipeline *pipeline, t_cmd *current);
-void							run_command_pipeline(t_pipeline *pipeline, t_env **env, t_ms_state *status);
+void							execute_child_pipeline(t_pipeline *pipeline,
+									t_cmd *current);
+void							run_command_pipeline(t_pipeline *pipeline,
+									t_env **env, t_ms_state *status);
 void							execute_pipeline(t_cmd **cmds, t_env **env,
 									t_ms_state *status);
 
@@ -214,7 +221,7 @@ void							execute_cmd(t_cmd *cmd, t_env **env,
 									t_ms_state *status);
 void							do_single_cmd(t_cmd **cmds, t_env **env,
 									t_ms_state *status);
-void	single_cmd_parent(int pid, t_ms_state *status);
+void							single_cmd_parent(int pid, t_ms_state *status);
 void							execute_child_single_cmd(t_cmd **cmds,
 									t_env **env, t_ms_state *status);
 
@@ -249,8 +256,8 @@ void							here_doc(t_cmd *current, t_env **env,
 									t_ms_state *stat);
 
 // heredoc_signal.c
-void    			here_doc_handler(int siggy);
-void					here_doc_set_up(void);
+void							here_doc_handler(int siggy);
+void							here_doc_set_up(void);
 
 // heredoc_env_var.c
 char							*replace_env_var_heredoc(char **line,
@@ -260,11 +267,13 @@ char							*env_var_heredoc(char *line, t_env **env,
 									t_ms_state *stat);
 
 // child_signal.c
-void    			child_handler(int siggy);
-void 				child_set_up(void);
-void    			save_original_signal(struct sigaction *ori_sigint, struct sigaction *ori_sigquit);
-void    			ignore_signal(void);
-void    			restore_original_signal(struct sigaction *ori_sigint, struct sigaction *ori_sigquit);
+void							child_handler(int siggy);
+void							child_set_up(void);
+void							save_original_signal(struct sigaction *ori_sigint,
+									struct sigaction *ori_sigquit);
+void							ignore_signal(void);
+void							restore_original_signal(struct sigaction *ori_sigint,
+									struct sigaction *ori_sigquit);
 
 //--------------------FREEING--------------------
 

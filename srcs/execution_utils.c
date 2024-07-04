@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:04:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 16:39:08 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 10:38:52 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*join_key_value(const char *key, const char *value)
 	int		len;
 	char	*result;
 
-	len = ft_strlen(key) + ft_strlen(value) + 2; // +2 for '=' and '\0'
+	len = ft_strlen(key) + ft_strlen(value) + 2;
 	result = (char *)malloc(len * sizeof(char));
 	if (result)
 	{
@@ -100,6 +100,7 @@ char	*find_path(char *cmd, t_env **env)
 	}
 	return (free_array(path_segments), NULL);
 }
+
 int	illegal_builtins(t_cmd *current)
 {
 	if (current->builtin && (!ft_strcmp(current->cmd_arr[0], "cd")

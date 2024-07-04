@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:19:28 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 16:03:16 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/04 14:47:20 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_strchr(const char *s, int c)
 
 	i = 0;
 	string = (char *)s;
-	cc = (char) c;
+	cc = (char)c;
 	if (!string)
 		return (NULL);
 	while (string[i] != cc)
@@ -74,5 +74,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (&string[i]);
 }
-
-

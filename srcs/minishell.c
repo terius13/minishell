@@ -6,13 +6,18 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 16:52:47 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 16:39:58 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 volatile sig_atomic_t	g_reset_cancel = 0;
+
+void	print_error(char *str)
+{
+	printf("shell@st42: %s\n", str);
+}
 
 void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
@@ -21,18 +26,32 @@ void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	else
 		do_single_cmd(cmds, env_dup, status);
 	free_cmds(cmds);
-	if (access("./heredoc.tmp", F_OK) != -1)
+	if (access(".hdc.tmp", F_OK) != -1)
 	{
-		if (unlink("./heredoc.tmp") == -1)
+		if (unlink(".hdc.tmp") == -1)
 			perror("unlink");
 	}
 }
 
-void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
+char	*readline_and_signal(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
-	int					i;
 	char				*line;
 	struct sigaction	old_sa;
+
+	if (sigaction(SIGINT, NULL, &old_sa) == -1)
+		exit(EXIT_FAILURE);
+	line = readline(C "shell@st42:$ " RST);
+	if (sigaction(SIGINT, &old_sa, NULL) == -1)
+		exit(EXIT_FAILURE);
+	if (line == NULL)
+		sigexit_handler(cmds, env_dup, status);
+	return (line);
+}
+
+void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
+{
+	int		i;
+	char	*line;
 
 	while (1)
 	{
@@ -42,19 +61,7 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 			g_reset_cancel = 0;
 			continue ;
 		}
-		if (sigaction(SIGINT, NULL, &old_sa) == -1)
-		{
-			perror("sigaction");
-			exit(EXIT_FAILURE);
-		}
-		line = readline(C "shell@st42:$ " RST);
-		if (sigaction(SIGINT, &old_sa, NULL) == -1)
-		{
-			perror("sigaction");
-			exit(EXIT_FAILURE);
-		}
-		if (line == NULL)
-			sigexit_handler(cmds, env_dup, status);
+		line = readline_and_signal(cmds, env_dup, status);
 		i = 0;
 		skip_wp(line, &i);
 		if (line[i] == '\0')
@@ -67,22 +74,4 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 		}
 		execution(cmds, env_dup, status);
 	}
-}
-
-int	main(int ac, char **av, char **env)
-{
-	t_cmd		**cmds;
-	t_env		**env_dup;
-	t_ms_state	*status;
-
-	(void)ac;
-	(void)av;
-	status = init_status();
-	if (signal_handlers_setup(status) != 0)
-		return (1);
-	env_dup = init_envdup(status, env);
-	cmds = (t_cmd **)malloc(sizeof(t_cmd *));
-	*cmds = NULL;
-	minishell_loop(cmds, env_dup, status);
-	return (0);
 }

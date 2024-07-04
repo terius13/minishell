@@ -6,16 +6,15 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/03 11:47:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 14:37:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 char	*find_env(t_env **env_list, char *to_find)
-
 {
-	t_env *current;
+	t_env	*current;
 
 	current = *env_list;
 	while (current != NULL)
@@ -27,10 +26,10 @@ char	*find_env(t_env **env_list, char *to_find)
 	return (NULL);
 }
 
-int		builtin_env(t_env **env_list, char **args)
+int	builtin_env(t_env **env_list, char **args)
 {
 	t_env	*current;
-	int ac;
+	int		ac;
 
 	ac = 0;
 	while (args[ac])
@@ -44,20 +43,12 @@ int		builtin_env(t_env **env_list, char **args)
 	while (current)
 	{
 		printf("%s=%s\n", current->key, current->value);
-		current = current ->next;
+		current = current->next;
 	}
 	return (0);
 }
 
-t_env	**env_error(char *message)
-
-{
-	perror (message);
-	return (NULL);
-}
-
 void	create_copy(t_env **env_list, char *env)
-
 {
 	char	**split;
 	char	*key;
@@ -66,26 +57,17 @@ void	create_copy(t_env **env_list, char *env)
 
 	split = ft_split(env, '=');
 	if (split == NULL || split[0] == NULL)
-	{
-		env_error("ft_split");
 		return ;
-	}
 	key = ft_strdup(split[0]);
 	if (split[1] != NULL)
 		value = ft_strdup(split[1]);
 	else
 		value = NULL;
 	if (key == NULL || (split[1] != NULL && value == NULL))
-	{
-		env_error("ft_strdup");
 		return ;
-	}
 	new_node = ft_new_env_node(key, value);
 	if (new_node == NULL)
-	{
-		env_error("ft_lstnew_ms");
 		return ;
-	}
 	ft_add_env_back_node(env_list, new_node);
 	free_array(split);
 }

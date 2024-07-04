@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:05:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/27 17:01:37 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/04 14:38:46 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		check_negative(char **args)
+int	check_negative(char **args)
 {
 	int	i;
 
@@ -22,8 +22,7 @@ int		check_negative(char **args)
 	return (i);
 }
 
-void	not_numeric(t_cmd	**cmds, t_env	**env, t_ms_state *status)
-
+void	not_numeric(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
 	int	exit_stats;
 
@@ -37,7 +36,7 @@ void	not_numeric(t_cmd	**cmds, t_env	**env, t_ms_state *status)
 
 int	too_many_args(char **args)
 {
-	int ac;
+	int	ac;
 
 	ac = 0;
 	while (args[ac])
@@ -53,12 +52,12 @@ int	too_many_args(char **args)
 int	confirmed_exit_status(char **args)
 {
 	int	av;
-	int exit_stats;
+	int	exit_stats;
 
 	if (args[1] != NULL)
 	{
 		av = ft_atoi(args[1]);
-		exit_stats = av & 0xFF; // process only lower 8 bits
+		exit_stats = av & 0xFF;
 	}
 	else
 	{
@@ -67,8 +66,7 @@ int	confirmed_exit_status(char **args)
 	return (exit_stats);
 }
 
-int	builtin_exit(t_cmd	**cmds, t_env	**env, char **args, t_ms_state *status)
-
+int	builtin_exit(t_cmd **cmds, t_env **env, char **args, t_ms_state *status)
 {
 	int	exit_stats;
 	int	i;

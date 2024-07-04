@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/01 15:01:59 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 11:57:33 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ extern volatile sig_atomic_t	g_reset_cancel;
 
 t_ms_state	**set_stats(void)
 {
-	static t_ms_state *stats = NULL;
+	static t_ms_state	*stats = NULL;
+
 	return (&stats);
 }
 
 void	extract_stats(t_ms_state *extraction)
 {
-	t_ms_state **extract;
+	t_ms_state	**extract;
+
 	extract = set_stats();
 	*extract = extraction;
 }
@@ -30,19 +32,17 @@ void	extract_stats(t_ms_state *extraction)
 void	sigexit_handler(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
 	int	exit_stats;
-	
+
 	exit_stats = status->exit_status;
-	ft_putendl_fd("exit", STDOUT_FILENO); // Handle Ctrl + D
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	rl_clear_history();
 	free_all_and_exit(cmds, env_dup, status);
-	exit(exit_stats); // EOF, Ctrl + D
+	exit(exit_stats);
 }
 
 void	cancel_handler(int siggy)
-{	
+{
 	(void)siggy;
-	
-	// ft_putstr_fd("cancel handler activate\n", STDOUT_FILENO);
 	if (isatty(STDIN_FILENO))
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
@@ -77,7 +77,3 @@ int	signal_handlers_setup(t_ms_state *status)
 	}
 	return (0);
 }
-
-
-
-

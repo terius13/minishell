@@ -6,14 +6,14 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:53:54 by ting              #+#    #+#             */
-/*   Updated: 2024/06/06 18:17:38 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 11:24:15 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//Type 1:string, type 2:'|', type 3:'<'
-//Type 4:'>', Type 5:'<<', type 6:'>>'
+// Type 1:string, type 2:'|', type 3:'<'
+// Type 4:'>', Type 5:'<<', type 6:'>>'
 t_lexer	*new_lexer(char *str)
 {
 	t_lexer	*new;
@@ -40,8 +40,6 @@ t_lexer	*new_lexer(char *str)
 	return (new);
 }
 
-// add the splited lexer words to t_lexer
-// set the next and prev
 void	lexer_add_back(t_lexer **lexer, t_lexer *new)
 {
 	t_lexer	*current;
@@ -64,32 +62,20 @@ void	lexer_add_back(t_lexer **lexer, t_lexer *new)
 		new->next = NULL;
 	}
 }
+
 void	del_lexer(t_lexer **lexer, t_lexer *to_del)
 {
-    if (to_del->prev)
-        to_del->prev->next = to_del->next;
-    else
-        *lexer = to_del->next;
-    if (to_del->next)
-        to_del->next->prev = to_del->prev;
-    free(to_del->str);
-    free(to_del);
-}
-int is_special_char(char c)
-{
-    return (c == '<' || c == '>' || c == '|');
+	if (to_del->prev)
+		to_del->prev->next = to_del->next;
+	else
+		*lexer = to_del->next;
+	if (to_del->next)
+		to_del->next->prev = to_del->prev;
+	free(to_del->str);
+	free(to_del);
 }
 
-// delete this function later only for testing
-void	print_lexer(t_lexer **lexer)
+int	is_special_char(char c)
 {
-	t_lexer	*current;
-
-	current = *lexer;
-	while (current)
-	{
-		printf(G "Token: %s " RST, current->str);
-		printf(M "Type: %d\n" RST, current->type);
-		current = current->next;
-	}
+	return (c == '<' || c == '>' || c == '|');
 }

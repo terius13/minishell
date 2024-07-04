@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:33:55 by ting              #+#    #+#             */
-/*   Updated: 2024/07/01 13:57:29 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 11:47:03 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,59 +87,4 @@ void	add_to_arr(char ***arr, char *str)
 			* sizeof(char *));
 	(*arr)[size] = ft_strdup(str);
 	(*arr)[size + 1] = NULL;
-}
-
-void    print_parse(t_cmd **cmds)
-{
-    t_cmd   *current;
-    int     i;
-    int     j;
-    int     k;
-
-    current = *cmds;
-    j = 0;
-    while (current)
-    {
-        i = 0;
-        while (current->cmd_arr[i])
-        {
-            printf("Pos[%d]:%s\n", i, current->cmd_arr[i]);
-            i++;
-        }
-        printf("Cmd[%d]:\n", j);
-        printf("INFILE: ");
-        k = 0;
-        if (current && current->infile)
-        {
-            while (current->infile[k])
-            {
-                printf("%s ", current->infile[k]);
-                k++;
-            }
-        }
-        printf(", OUTFILE: ");
-        k = 0;
-        if (current && current->outfile)
-        {
-            while (current->outfile[k])
-            {
-                printf("%s ", current->outfile[k]);
-                k++;
-            }
-        }
-        printf("\nBUILTINS: %d, HEREDOC: %s", current->builtin, current->hdoc_delimeter);
-        printf(", APPENDRE: ");
-        k = 0;
-        if (current && current->append_re)
-        {
-            while (current->append_re[k])
-            {
-                printf("%s ", current->append_re[k]);
-                k++;
-            }
-        }
-        printf("\n");
-        j++;
-        current = current->next;
-    }
 }

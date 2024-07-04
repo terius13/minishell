@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_env_node_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 10:46:41 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/03 18:53:34 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/04 14:44:15 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,3 @@ void	ft_add_env_back_node(t_env **lst, t_env *new)
 	}
 	current->next = new;
 }
-

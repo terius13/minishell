@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:23:39 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/15 17:13:26 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/04 14:43:56 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ void	free_unset_node(t_env *del)
 		free(del);
 	}
 }
-int		builtin_unset(char **args, t_env **env_list)
+
+int	builtin_unset(char **args, t_env **env_list)
 {
 	t_env	*tmp;
 	t_env	*prev;
 	int		i;
 
-	i = 1;
-	while (args[i])
+	i = 0;
+	while (args[++i])
 	{
 		tmp = *env_list;
 		prev = NULL;
@@ -48,7 +49,6 @@ int		builtin_unset(char **args, t_env **env_list)
 			prev = tmp;
 			tmp = tmp->next;
 		}
-		i++;
 	}
 	return (0);
 }

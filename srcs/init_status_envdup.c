@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_status_envdup.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:23:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/19 19:02:42 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/04 11:18:39 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_ms_state	*init_status()
+t_ms_state	*init_status(void)
 
 {
 	t_ms_state	*status;
@@ -20,7 +20,7 @@ t_ms_state	*init_status()
 	status = (t_ms_state *)malloc(sizeof(t_ms_state));
 	if (status == NULL)
 	{
-		perror ("status");
+		perror("status");
 		exit(1);
 	}
 	status->exit_status = 0;

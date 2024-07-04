@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 11:16:27 by ting              #+#    #+#             */
-/*   Updated: 2024/06/25 14:46:44 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 10:41:44 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	cal_var_len(char *str)
 		i++;
 	return (i);
 }
-char	*get_env_value(char *var, int *free_flag, t_env **env_dup, t_ms_state *stat)
+
+char	*get_env_value(char *var, int *free_flag, t_env **env_dup,
+		t_ms_state *stat)
 {
 	char	*value;
 
@@ -101,13 +103,13 @@ void	check_env_var(t_lexer *lexer, t_env **env_dup, t_ms_state *stat)
 		while (current->str[i])
 		{
 			if (current->str[i] == '\'' && quote == '\0')
-				quote = '\''; // Entering single quote mode
+				quote = '\'';
 			else if (current->str[i] == '\'' && quote == '\'')
-				quote = '\0'; // Exiting single quote mode
+				quote = '\0';
 			else if (current->str[i] == '"' && quote == '\0')
-				quote = '"'; // Entering double quote mode
+				quote = '"';
 			else if (current->str[i] == '"' && quote == '"')
-				quote = '\0'; // Exiting double quote mode
+				quote = '\0';
 			if (current->str[i] == '$' && current->str[i + 1] && quote != '\'')
 				i = expand_env_var(lexer, i + 1, env_dup, stat);
 			else

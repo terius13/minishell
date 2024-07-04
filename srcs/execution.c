@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 09:29:40 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 10:36:35 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,24 @@ void	single_cmd_parent(int pid, t_ms_state *status)
 	}
 }
 
-
-void do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
+void	do_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
-    int pid;
+	int	pid;
 
-    if (illegal_builtins((*cmds)))
-        return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
-    here_doc((*cmds), env, status);
+	if (illegal_builtins((*cmds)))
+		return (execute_builtins(cmds, (*cmds)->cmd_arr, env, status));
+	here_doc((*cmds), env, status);
 	if (g_reset_cancel == 2)
-		return;
-    pid = fork();
-    if (pid < 0)
-        return(perror("fork error"));
-    if (pid == 0)
-    {
+		return ;
+	pid = fork();
+	if (pid < 0)
+		return (perror("fork error"));
+	if (pid == 0)
+	{
 		child_set_up();
-        execute_child_single_cmd(cmds, env, status);
-    }
-    else
+		execute_child_single_cmd(cmds, env, status);
+	}
+	else
 		single_cmd_parent(pid, status);
 }
 
@@ -101,5 +100,3 @@ void	execute_child_single_cmd(t_cmd **cmds, t_env **env, t_ms_state *status)
 	free_all_and_exit(cmds, env, status);
 	exit(stat);
 }
-
-

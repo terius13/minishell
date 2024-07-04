@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+         #
+#    By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 16:11:35 by ting              #+#    #+#              #
-#    Updated: 2024/06/29 21:51:38 by asyed            ###   ########.fr        #
+#    Updated: 2024/07/04 12:02:07 by ting             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,12 @@ SRCS = minishell.c builtins_env_node_utils.c builtin_env.c\
 		builtin_export.c builtin_unset.c builtin_cd_pwd.c\
 		parsing.c lexer.c lexer_utils.c remove_quotes.c\
 		expand_env_var.c parsing_utils.c \
-		free.c print_error_msg.c execution.c \
+		free.c execution.c \
 		redirections.c init_status_envdup.c \
 		execution_utils.c signals.c \
 		pipe.c execute_pipeline.c \
 		heredoc.c heredoc_signal.c child_signal.c\
-		heredoc_env_var.c
+		heredoc_env_var.c main.c \
 
 OBJS = $(addprefix $(SRCSPATH), $(SRCS:.c=.o))
 

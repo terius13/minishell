@@ -6,13 +6,11 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 18:18:17 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 10:35:31 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 t_pipeline	*init_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 {
@@ -59,7 +57,8 @@ void	execute_child_pipeline(t_pipeline *pipeline, t_cmd *current)
 	if (illegal_builtins(current))
 		free_n_exit_child(pipeline);
 	if (current->builtin)
-		execute_builtins(&current, current->cmd_arr, pipeline->env, pipeline->status);
+		execute_builtins(&current, current->cmd_arr, pipeline->env,
+			pipeline->status);
 	else if (current->cmd_arr[0])
 		execute_cmd(current, pipeline->env, pipeline->status);
 	free_n_exit_child(pipeline);

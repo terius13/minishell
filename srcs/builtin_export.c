@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:08:20 by asyed             #+#    #+#             */
-/*   Updated: 2024/06/15 17:47:20 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/04 14:39:37 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	export_error_check(char *args)
 		return (1);
 	if (args[0] == '=' || ((isalpha(args[0]) == 0) && args[0] != '_'))
 	{
-		//printf(C "shell@st42:$ " RST);
 		print_error("Not a valid identifier");
 		return (-1);
 	}
@@ -39,7 +38,6 @@ int	export_error_check(char *args)
 			return (i + 1);
 		if ((isalnum(args[i]) == 0) && args[i] != '_')
 		{
-			//printf(C "shell@st42:$ " RST);
 			print_error("Not a valid identifier");
 			return (-1);
 		}
@@ -47,7 +45,6 @@ int	export_error_check(char *args)
 	}
 	return (0);
 }
-
 
 void	assign_key_value(char *args, int equal, char **key, char **value)
 {
@@ -90,9 +87,10 @@ int	handle_export(char *args, t_env **env_list)
 		ft_add_env_back_node(env_list, ft_new_env_node(key, value));
 	return (0);
 }
+
 int	builtin_export(char **args, t_env **env_list, int exit_status)
 {
-	int		i;
+	int	i;
 
 	i = 1;
 	while (args[i])
