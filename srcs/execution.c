@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/03 16:47:16 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/04 09:26:16 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	single_cmd_parent(int pid, t_ms_state *status)
 	struct sigaction	ori_sigint;
 	struct sigaction	ori_sigquit;
 	int					exit_status;
-	
+
 	save_original_signal(&ori_sigint, &ori_sigquit);
 	ignore_signal();
 	waitpid(pid, &exit_status, 0);
