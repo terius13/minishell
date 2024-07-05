@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 19:38:00 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 20:02:46 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ int	handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd)
 	return (0);
 }
 
+int	handle_pipe(t_lexer **curr_l)
+{
+	if ((*curr_l)->type == 2)
+	{
+		if ((!(*curr_l)->prev || (*curr_l)->prev->type != 1)
+			|| (!(*curr_l)->next || (*curr_l)->next->type != 1))
+		{
+			return (print_error("syntax error"), 1);
+		}
+	}
+	return (0);
+}
+
 int	handle_lexer(t_lexer **curr_l, t_cmd **cmd, char **arr)
 {
 	int	i;
@@ -87,27 +100,13 @@ int	handle_lexer(t_lexer **curr_l, t_cmd **cmd, char **arr)
 			arr[i++] = ft_strdup((*curr_l)->str);
 		*curr_l = (*curr_l)->next;
 	}
+	if (*curr_l && (*curr_l)->type == 2)
+	{
+		if (handle_pipe(curr_l))
+			return (free_array(arr), free(*cmd), 1);
+	}
 	return (0);
 }
-
-int	handle_pipe(t_lexer **curr_l)
-{
-    if ((*curr_l)->prev && (*curr_l)->prev->type == 1
-		&& (*curr_l)->next && (*curr_l)->next->type == 1)
-    {
-        *curr_l = (*curr_l)->next;
-        return (0);
-    }
-    else if ((*curr_l)->next && (*curr_l)->next->type == 2)
-    {
-        return (print_error("syntax error: consecutive pipes"), 1);
-    }
-    else
-    {
-        return (print_error("syntax error"), 1);
-    }
-}
-
 
 int	parsing(t_lexer **lexer, t_cmd **cmds)
 {
