@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:39:14 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/04 14:06:26 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 17:39:57 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	builtin_echo(char **args)
 			printf("%s", args[i]);
 			if (args[i + 1])
 				printf(" ");
-			i++;
 		}
 	}
 	else
