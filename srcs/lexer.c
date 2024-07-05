@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 20:00:16 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/05 20:49:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,30 +85,30 @@ int	tokenizer(t_lexer **lexer, char *str)
 	return (0);
 }
 
-int	lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup, t_ms_state *stat)
+int lexer_and_parse(t_cmd **cmds, char *str, t_env **env_dup, t_ms_state *stat)
 {
-	t_lexer	**lexer;
-	t_lexer	*current;
-	t_lexer	*next;
+    t_lexer **lexer;
+    t_lexer *current;
+    t_lexer *next;
 
-	lexer = (t_lexer **)malloc(sizeof(t_lexer *));
-	*lexer = NULL;
-	if (tokenizer(lexer, str))
-		return (free_lexer(lexer), free(lexer), 1);
-	current = *lexer;
-	while (current)
-	{
-		next = current->next;
-		if (current->type == 1)
-		{
-			check_env_var(current, env_dup, stat);
-			if (remove_quotes(current) == 1)
-				del_lexer(lexer, current);
-		}
-		current = next;
-	}
-	if (parsing(lexer, cmds))
-		return (free_lexer(lexer), free(lexer), 1);
-	check_builtins(cmds);
-	return (free_lexer(lexer), free(lexer), 0);
+    lexer = (t_lexer **)malloc(sizeof(t_lexer *));
+    *lexer = NULL;
+    if (tokenizer(lexer, str))
+        return (free_lexer(lexer), free(lexer), 1);
+    current = *lexer;
+    while (current)
+    {
+        next = current->next;
+        if (current->type == 1)
+        {
+            check_env_var(current, env_dup, stat);
+            if (remove_quotes(current) == 1)
+                del_lexer(lexer, current);
+        }
+        current = next;
+    }
+    if (*lexer == NULL || parsing(lexer, cmds))
+        return (free_lexer(lexer), free(lexer), 1);
+    check_builtins(cmds);
+    return (free_lexer(lexer), free(lexer), 0);
 }
