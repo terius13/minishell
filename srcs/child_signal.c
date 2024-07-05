@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:24 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/04 14:45:53 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:22:33 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ extern volatile sig_atomic_t	g_reset_cancel;
 void	child_handler(int siggy)
 {
 	(void)siggy;
-	ft_putstr_fd("\n", STDOUT_FILENO);
 	g_reset_cancel = 3;
 }
 

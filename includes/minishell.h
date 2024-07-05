@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 13:44:23 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:18:31 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 # include <sys/types.h> //for process management
 # include <sys/wait.h>  //for process management
 # include <unistd.h>    //POSIX API functions
+# include <termios.h>
 
 # define G "\001\033[32m\002"
-# define M "\001033[35m\002"
+# define R "\001\033[31m\002"
 # define C "\001\033[36m\002"
 # define RST "\001\033[0m\002"
 # define MALLOC_ERROR 1

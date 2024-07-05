@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 10:35:31 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:22:49 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,21 @@ void	parent_wait(t_ms_state *status)
 		else if (WIFSIGNALED(exit_status))
 		{
 			if (WTERMSIG(exit_status) == SIGINT)
-				ft_putstr_fd("\n", STDOUT_FILENO);
+			{
+				status->exit_status = 130;
+				g_reset_cancel = 3;
+			}
 			else if (WTERMSIG(exit_status) == SIGQUIT)
+			{
 				ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
-			status->exit_status = 128 + WTERMSIG(exit_status);
+				status->exit_status = 128 + WTERMSIG(exit_status);
+			}
 		}
+	}
+	if (g_reset_cancel == 3)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		g_reset_cancel = 0;
 	}
 }
 
@@ -98,8 +108,8 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 
 	pipeline = init_pipeline(cmds, env, status);
 	save_original_signal(&ori_sigint, &ori_sigquit);
-	run_command_pipeline(pipeline, env, status);
 	ignore_signal();
+	run_command_pipeline(pipeline, env, status);
 	close_pipe_ends(pipeline->pipe_ends, pipeline->num_cmds);
 	parent_wait(status);
 	restore_original_signal(&ori_sigint, &ori_sigquit);

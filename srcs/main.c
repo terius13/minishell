@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 11:31:41 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 11:49:51 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:18:37 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ int	main(int ac, char **av, char **env)
 	t_env		**env_dup;
 	t_ms_state	*status;
 
-	(void)ac;
 	(void)av;
+	if (ac != 1)
+	{
+		printf(R "Sorry, shell@st42$ does not accept arguments! :p\n" RST);
+		exit(1);
+	}
 	status = init_status();
 	if (signal_handlers_setup(status) != 0)
 		return (1);
