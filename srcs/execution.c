@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 15:10:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 16:49:46 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 18:23:53 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	execute_cmd(t_cmd *cmd, t_env **env, t_ms_state *status)
 	}
 	else
 	{
-		printf("%s: command not found\n", cmd->cmd_arr[0]);
+		ft_putstr_fd(cmd->cmd_arr[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		status->exit_status = 127;
 	}
 }

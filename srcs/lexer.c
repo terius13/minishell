@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 08:51:48 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 16:49:24 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 18:45:33 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	quotes_token(char *str, int i)
 		i++;
 	else if (str[i] != quote)
 	{
-		perror("close quote missing");
+		print_error("syntax error");
 		return (-1);
 	}
 	return (i);

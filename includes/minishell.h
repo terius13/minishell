@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 15:54:31 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/05 19:21:18 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ t_lexer			*new_lexer(char *str);
 void			lexer_add_back(t_lexer **lexer, t_lexer *new);
 void			del_lexer(t_lexer **lexer, t_lexer *to_del);
 int				is_special_char(char c);
+void			check_builtins(t_cmd **cmds);
 
 // expand_env_var.c
 void			replace_env_var(t_lexer *lexer, int var_start, int var_len,
@@ -183,11 +184,11 @@ char			*detect_quotes(char *old_str, char *new_str);
 int				remove_quotes(t_lexer *lexer);
 
 // parsing.c
-void			check_builtins(t_cmd **cmds);
 int				parsing(t_lexer **lexer, t_cmd **cmds);
 int				handle_lexer(t_lexer **curr_l, t_cmd **cmd, char **arr);
 int				handle_redirection(t_lexer **curr_l, t_cmd *cmd);
 int				handle_append_or_heredoc(t_lexer **curr_l, t_cmd *cmd);
+int				handle_pipe(t_lexer **curr_l);
 
 // parsing_utils.c
 t_cmd			*new_cmd(char **arr);

@@ -6,33 +6,11 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:22:50 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 11:50:07 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 19:38:00 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	check_builtins(t_cmd **cmds)
-{
-	t_cmd	*current;
-
-	current = *cmds;
-	while (current)
-	{
-		if (current->cmd_arr && current->cmd_arr[0]
-			&& (!ft_strcmp(current->cmd_arr[0], "echo")
-				|| !ft_strcmp(current->cmd_arr[0], "cd")
-				|| !ft_strcmp(current->cmd_arr[0], "pwd")
-				|| !ft_strcmp(current->cmd_arr[0], "export")
-				|| !ft_strcmp(current->cmd_arr[0], "unset")
-				|| !ft_strcmp(current->cmd_arr[0], "env")
-				|| !ft_strcmp(current->cmd_arr[0], "exit")))
-		{
-			current->builtin = 1;
-		}
-		current = current->next;
-	}
-}
 
 // Type 1:string, type 2:'|', type 3:'<'
 // Type 4:'>', Type 5:'<<', type 6:'>>'
@@ -111,6 +89,25 @@ int	handle_lexer(t_lexer **curr_l, t_cmd **cmd, char **arr)
 	}
 	return (0);
 }
+
+int	handle_pipe(t_lexer **curr_l)
+{
+    if ((*curr_l)->prev && (*curr_l)->prev->type == 1
+		&& (*curr_l)->next && (*curr_l)->next->type == 1)
+    {
+        *curr_l = (*curr_l)->next;
+        return (0);
+    }
+    else if ((*curr_l)->next && (*curr_l)->next->type == 2)
+    {
+        return (print_error("syntax error: consecutive pipes"), 1);
+    }
+    else
+    {
+        return (print_error("syntax error"), 1);
+    }
+}
+
 
 int	parsing(t_lexer **lexer, t_cmd **cmds)
 {

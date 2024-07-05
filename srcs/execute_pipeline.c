@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 15:22:49 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 18:24:03 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,30 @@ t_pipeline	*init_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 
 void	parent_wait(t_ms_state *status)
 {
-	int	exit_status;
+	int quit_found;
 
-	while (waitpid(-1, &exit_status, 0) > 0)
+	quit_found = 0;
+	while (waitpid(-1, &status->exit_status, 0) > 0)
 	{
-		if (WIFEXITED(exit_status))
-			status->exit_status = WEXITSTATUS(exit_status);
-		else if (WIFSIGNALED(exit_status))
+		if (WIFEXITED(status->exit_status))
+			status->exit_status = WEXITSTATUS(status->exit_status);
+		else if (WIFSIGNALED(status->exit_status))
 		{
-			if (WTERMSIG(exit_status) == SIGINT)
+			if (WTERMSIG(status->exit_status) == SIGINT)
 			{
 				status->exit_status = 130;
 				g_reset_cancel = 3;
 			}
-			else if (WTERMSIG(exit_status) == SIGQUIT)
+			else if (WTERMSIG(status->exit_status) == SIGQUIT)
 			{
-				ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
-				status->exit_status = 128 + WTERMSIG(exit_status);
+				if (!quit_found)
+				{
+					ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+					quit_found = 1;
+				}
+				status->exit_status = 128 + WTERMSIG(status->exit_status);
 			}
 		}
-	}
-	if (g_reset_cancel == 3)
-	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		g_reset_cancel = 0;
 	}
 }
 
@@ -112,6 +112,11 @@ void	execute_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 	run_command_pipeline(pipeline, env, status);
 	close_pipe_ends(pipeline->pipe_ends, pipeline->num_cmds);
 	parent_wait(status);
+	if (g_reset_cancel == 3)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		g_reset_cancel = 0;
+	}
 	restore_original_signal(&ori_sigint, &ori_sigquit);
 	free_pipe_ends(pipeline->pipe_ends, pipeline->num_cmds);
 	free(pipeline);
