@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 15:18:31 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:54:31 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # define MALLOC_ERROR 1
 
 extern volatile sig_atomic_t	g_reset_cancel;
-
 typedef struct s_ms_state
 {
 	int							exit_status;
@@ -93,6 +92,7 @@ void			print_error(char *str);
 char			*readline_and_signal(t_cmd **cmds, t_env **env_dup,
 					t_ms_state *status);
 void			execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status);
+int				update_exitreset_status(t_ms_state *status);
 void			minishell_loop(t_cmd **cmds, t_env **env_dup,
 					t_ms_state *status);
 

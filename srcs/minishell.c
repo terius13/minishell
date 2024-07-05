@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 16:39:58 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:54:35 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,17 @@ char	*readline_and_signal(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 	return (line);
 }
 
+int	update_exitreset_status(t_ms_state *status)
+{
+	if (g_reset_cancel == 1 || g_reset_cancel == 2 || g_reset_cancel == 3)
+	{
+		status->exit_status = 130;
+		g_reset_cancel = 0;
+		return (1);
+	}
+	return (0);
+}
+
 void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
 	int		i;
@@ -55,13 +66,10 @@ void	minishell_loop(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 
 	while (1)
 	{
-		if (g_reset_cancel == 1 || g_reset_cancel == 2 || g_reset_cancel == 3)
-		{
-			status->exit_status = 130;
-			g_reset_cancel = 0;
+		if (update_exitreset_status(status))
 			continue ;
-		}
 		line = readline_and_signal(cmds, env_dup, status);
+		update_exitreset_status(status);
 		i = 0;
 		skip_wp(line, &i);
 		if (line[i] == '\0')

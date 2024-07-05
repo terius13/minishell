@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_status_envdup.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:23:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/04 11:18:39 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:36:23 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 t_ms_state	*init_status(void)
-
 {
 	t_ms_state	*status;
 
@@ -28,7 +27,6 @@ t_ms_state	*init_status(void)
 }
 
 t_env	**init_envdup(t_ms_state *status, char **env)
-
 {
 	t_env	**env_dup;
 
