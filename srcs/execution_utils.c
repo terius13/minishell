@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:04:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 10:38:52 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 17:15:34 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*find_path(char *cmd, t_env **env)
 	char	*cmd_path;
 	int		i;
 
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
 	path_in_env = find_env(env, "PATH");
 	if (path_in_env == NULL)
 		return (NULL);
@@ -89,13 +91,10 @@ char	*find_path(char *cmd, t_env **env)
 	{
 		path = ft_strjoin(path_segments[i], "/");
 		cmd_path = ft_strjoin(path, cmd);
-		if (access(cmd_path, X_OK) != 0)
-		{
-			free(path);
-			free(cmd_path);
-		}
-		else
+		if (access(cmd_path, X_OK) == 0)
 			return (free_array(path_segments), free(path), cmd_path);
+		free(path);
+		free(cmd_path);
 		i++;
 	}
 	return (free_array(path_segments), NULL);
