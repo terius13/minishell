@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   child_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:24 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/05 15:22:33 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:33:29 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-extern volatile sig_atomic_t	g_reset_cancel;
 
 void	child_handler(int siggy)
 {

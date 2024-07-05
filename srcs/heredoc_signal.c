@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:48:39 by ting              #+#    #+#             */
-/*   Updated: 2024/07/04 11:17:56 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:33:56 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-extern volatile sig_atomic_t	g_reset_cancel;
 
 void	here_doc_handler(int siggy)
 {

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 20:34:26 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/04 11:57:33 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 15:35:59 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-extern volatile sig_atomic_t	g_reset_cancel;
 
 t_ms_state	**set_stats(void)
 {
