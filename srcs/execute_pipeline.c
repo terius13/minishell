@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
+/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:22:57 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 18:24:03 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/05 20:02:59 by asyed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_pipeline	*init_pipeline(t_cmd **cmds, t_env **env, t_ms_state *status)
 
 void	parent_wait(t_ms_state *status)
 {
-	int quit_found;
+	int	quit_found;
 
 	quit_found = 0;
 	while (waitpid(-1, &status->exit_status, 0) > 0)
