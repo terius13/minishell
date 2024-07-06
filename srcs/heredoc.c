@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyed <asyed@student.42singapore.sg>       +#+  +:+       +#+        */
+/*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:00:15 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 15:34:07 by asyed            ###   ########.fr       */
+/*   Updated: 2024/07/06 12:29:17 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	here_doc(t_cmd *current, t_env **env, t_ms_state *stat)
 	fd = open(current->infile[i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	if (fd == -1)
 		return (perror("open"));
-	here_doc_set_up();
 	heredoc_loop(current, env, stat, fd);
 	restore_original_signal(&old_sa, &old_ign);
 	close(fd);
