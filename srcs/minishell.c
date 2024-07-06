@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:58:54 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 20:42:46 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/06 12:26:17 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	print_error(char *str)
 
 void	execution(t_cmd **cmds, t_env **env_dup, t_ms_state *status)
 {
+	update_underscoreequal(env_dup, cmds);
 	if ((*cmds)->next)
 		execute_pipeline(cmds, env_dup, status);
 	else

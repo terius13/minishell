@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:15:09 by asyed             #+#    #+#             */
-/*   Updated: 2024/07/04 14:37:09 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/06 12:26:09 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,35 @@ void	create_copy(t_env **env_list, char *env)
 		return ;
 	ft_add_env_back_node(env_list, new_node);
 	free_array(split);
+}
+
+void	update_underscoreequal(t_env **env_list, t_cmd **cmds)
+{
+	t_env	*current;
+	int		i;
+
+	i = 0;
+	current = *env_list;
+	while (current != NULL)
+	{
+		if (ft_strcmp(current->key, "_") == 0)
+		{
+			if (current->value != NULL)
+			{
+				free(current->value);
+				current->value = NULL;
+			}
+			while ((*cmds)->cmd_arr[i])
+				i++;
+			if (ft_strcmp("env", (*cmds)->cmd_arr[i - 1]) == 0)
+				current->value = ft_strjoin("usr/bin/", (*cmds)->cmd_arr[i
+						- 1]);
+			else
+				current->value = ft_strdup((*cmds)->cmd_arr[i - 1]);
+			return ;
+		}
+		current = current->next;
+	}
 }
 
 t_env	**init_env_copy(char **env)

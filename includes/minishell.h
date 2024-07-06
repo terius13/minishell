@@ -6,7 +6,7 @@
 /*   By: ting <ting@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:12:23 by ting              #+#    #+#             */
-/*   Updated: 2024/07/05 19:21:18 by ting             ###   ########.fr       */
+/*   Updated: 2024/07/06 11:42:47 by ting             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int				builtin_unset(char **args, t_env **env_list);
 char			*find_env(t_env **env_list, char *to_find);
 void			create_copy(t_env **env_list, char *env);
 int				builtin_env(t_env **env_list, char **args);
-void			print_env_var(void *env_list);
+void			update_underscoreequal(t_env **env_list, t_cmd **cmds);
 t_env			**init_env_copy(char **env);
 
 // builtin_exit.c
